@@ -1,0 +1,22 @@
+# Ignore sensitive config files
+db.php
+config.php
+.env
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore editor settings
+.vscode/
+.idea/
+
+# Ignore uploaded assets
+uploads/
+
+# Ignore logs
+*.log
+
+# Ignore large dependency folders (in case you add them later)
+node_modules/
+vendor/
