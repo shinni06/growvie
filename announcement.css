@@ -1,0 +1,120 @@
+/* Announcement Tab Styles */
+#content2 {
+    max-width: 900px;
+}
+
+#content2 h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+#content2 .subtext {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.create-announcement-btn {
+    background: #85C668;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s ease;
+}
+
+.create-announcement-btn:hover {
+    background: #c5d4c1;
+}
+
+.date-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.announcements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.announcement-card {
+    background: #ffffff;
+    padding: 20px 24px;
+    border-radius: 10px;
+    border: 1px solid #d8e3d5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.announcement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.announcement-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+}
+
+.announcement-time {
+    font-size: 13px;
+    color: #999;
+}
+
+.announcement-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.announcement-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.edit-action-btn {
+    background: #e8ede7;
+    color: #666;
+}
+
+.edit-action-btn:hover {
+    background: #d0dccf;
+}
+
+.delete-action-btn {
+    background: #e88b8b;
+    color: #ffffff;
+}
+
+.delete-action-btn:hover {
+    background: #d67676;
+}
