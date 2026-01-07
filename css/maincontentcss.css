@@ -5,6 +5,31 @@
     font-family: "Encode Sans Expanded", sans-serif;
 }
 
+/* 1) lock the page height and prevent body scroll */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 2) make the two-column layout fill the viewport and not scroll */
+.layout {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 3) sidebar stays full height (you already have height:100vh) */
+.sidebar {
+  height: 100vh;
+}
+
+/* 4) ONLY the main content scrolls */
+.main {
+  height: 100vh;
+  overflow-y: auto; /* you already have this */
+  scrollbar-gutter: stable;
+}
+
+
 body {
     background: #d4e3d0;
 }
@@ -15,7 +40,6 @@ body {
 }
 
 .container {
-  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -39,7 +63,7 @@ body {
     font-weight: 700;
     font-size: 18px;
     margin-bottom: 35px;
-        color: #000;
+    color: #000;
 }
 
 .logo img {
@@ -133,15 +157,34 @@ body {
     background: #d4e3d0;
 }
 
+/* maincontentcss.css */
 .hidden {
-    display: none;
+    display: none !important; /* Forces the element to stay hidden regardless of ID rules */
 }
 
-#content1 {
+/* THE FIX: Remove specific rows so they don't stretch to match the leaderboard */
+#content1, #content2 {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 25px;
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 5fr 2fr; 
+    align-items: start;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Container to stack everything on the left tightly */
+.dashboard-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Consistent spacing between cards/buttons */
+}
+
+/* Reset margins to let the Flex Gap handle the spacing */
+.dashboard-left-column h2 { margin: 0; }
+.dashboard-left-column h3 { margin: 10px 0 5px 0; }
+
+/* Keep leaderboard in column 2 */
+#content1 .leaderboard {
+    grid-column: 2 / 3;
 }
 
 #content1 h2 {
@@ -149,10 +192,6 @@ body {
 }
 
 #content1 .subtext {
-    grid-column: 1 / 2;
-}
-
-#content1 h3 {
     grid-column: 1 / 2;
 }
 
@@ -178,10 +217,11 @@ h2 {
     font-size: 28px;
     font-weight: 700;
     color: #000;
+    margin-bottom: 5px;
 }
 
 h3 {
-    margin: 0 0 20px 0;
+    margin: 0;
     font-size: 18px;
     font-weight: 700;
     color: #000;
@@ -195,7 +235,6 @@ h3 {
 
 .subtext {
     color: #888;
-    margin-bottom: 30px;
-    margin-top: 8px;
     font-size: 14px;
+    margin-bottom: 25px; /* Consistent gap after subtitle across all tabs */
 }

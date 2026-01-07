@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . "/backend/db.php";
+require_once __DIR__ . "/backend/modal.php";
+require_once __DIR__ . "/backend/dashboard.php";
+require_once __DIR__ . "/backend/questsubmission.php";
+
+handleCreateQuest($con);
+handleReviewAction($con);
+renderDashboardScripts();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,9 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growvie Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="css/maincontentcss.css">
+    <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/questsubmission.css">
     <link rel="stylesheet" href="css/announcement.css">
     <link rel="stylesheet" href="css/shopmanagement.css">
     <link rel="stylesheet" href="css/usermanagement.css">
@@ -15,61 +27,62 @@
     <link rel="stylesheet" href="css/analytics.css">    
 
     <script>
-        function tab(t){
+        /* final.php script replacement */
+        /* final.php script replacement */
+        function tab(t) {
+            // 1. Save the current tab choice to the browser's memory
+            localStorage.setItem('activeGrowvieTab', t);
+
+            // 2. Update Menu Item Active States
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
             });
-
             document.getElementById('tab' + t).classList.add('active');
-            
-            if(t == 1){
-                document.getElementById('content1').style.display = 'grid';
-                document.getElementById('content2').style.display = 'none';
-                document.getElementById('content3').style.display = 'none';
-                document.getElementById('content4').style.display = 'none';
-                document.getElementById('content5').style.display = 'none';
-                document.getElementById('content6').style.display = 'none';
-            }else if(t == 2){
-                document.getElementById('content1').style.display = 'none';
-                document.getElementById('content2').style.display = 'block';
-                document.getElementById('content3').style.display = 'none';
-                document.getElementById('content4').style.display = 'none';
-                document.getElementById('content5').style.display = 'none';
-                document.getElementById('content6').style.display = 'none';
-            }else if(t == 3){
-                document.getElementById('content1').style.display = 'none';
-                document.getElementById('content2').style.display = 'none';
-                document.getElementById('content3').style.display = 'block';
-                document.getElementById('content4').style.display = 'none';
-                document.getElementById('content5').style.display = 'none';
-                document.getElementById('content6').style.display = 'none';
-            }else if (t == 4){
-                document.getElementById('content1').style.display = 'none';
-                document.getElementById('content2').style.display = 'none';
-                document.getElementById('content3').style.display = 'none';
-                document.getElementById('content4').style.display = 'block';
-                document.getElementById('content5').style.display = 'none';
-                document.getElementById('content6').style.display = 'none';
-            }else if (t == 5){
-                document.getElementById('content1').style.display = 'none';
-                document.getElementById('content2').style.display = 'none';
-                document.getElementById('content3').style.display = 'none';
-                document.getElementById('content4').style.display = 'none';
-                document.getElementById('content5').style.display = 'block';
-                document.getElementById('content6').style.display = 'none';
-            }else{
-                document.getElementById('content1').style.display = 'none';
-                document.getElementById('content2').style.display = 'none';
-                document.getElementById('content3').style.display = 'none';
-                document.getElementById('content4').style.display = 'none';
-                document.getElementById('content5').style.display = 'none';
-                document.getElementById('content6').style.display = 'block';
+
+            // 3. Hide all content containers
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // 4. Show the selected tab
+            const targetContent = document.getElementById('content' + t);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
             }
         }
-        window.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('tab1').classList.add('active');
-        });
 
+        // Universal Auto-Loader
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 1. Get the last open tab from memory, or default to 1
+            const savedTab = localStorage.getItem('activeGrowvieTab') || 1;
+            tab(savedTab);
+
+            // 2. Automatically handle success modals based on ANY success parameter
+            const reviewSuccess = urlParams.get('review_success');
+            const questSuccess = urlParams.get('quest_success');
+
+            if (reviewSuccess || questSuccess) {
+                const modal = document.getElementById('successModal');
+                
+                if (reviewSuccess === 'approved') {
+                    modal.querySelector('h3').innerText = "Submission Approved!";
+                    modal.querySelector('p').innerHTML = "The evidence was verified and the user has been rewarded.";
+                } else if (reviewSuccess === 'rejected') {
+                    modal.querySelector('h3').innerText = "Submission Rejected";
+                    modal.querySelector('p').innerHTML = "The submission has been declined and removed.";
+                } else if (questSuccess) {
+                    modal.querySelector('h3').innerText = "Success!";
+                    modal.querySelector('p').innerHTML = "The operation was completed successfully.";
+                }
+                
+                modal.style.display = 'block';
+
+                // Clean up the URL so refresh doesn't trigger the modal again
+                window.history.replaceState({}, document.title, "final.php");
+            }
+        });
     </script>
 </head>
 
@@ -91,25 +104,30 @@
 
             <div class="menu-item" onclick="tab(2)" id="tab2">
                 <img src="assets/announcement.png" class="menu-icon">
-                Announcements
+                Quest Submissions
             </div>
 
             <div class="menu-item" onclick="tab(3)" id="tab3">
+                <img src="assets/announcement.png" class="menu-icon">
+                Announcements
+            </div>
+
+            <div class="menu-item" onclick="tab(4)" id="tab4">
                 <img src="assets/shop.png" class="menu-icon">
                 Shop Management
             </div>
 
-            <div class="menu-item" onclick="tab(4)" id="tab4">
+            <div class="menu-item" onclick="tab(5)" id="tab5">
                 <img src="assets/user.png" class="menu-icon">
                 User Management
             </div>
 
-            <div class="menu-item" onclick="tab(5)" id="tab5">
+            <div class="menu-item" onclick="tab(6)" id="tab6">
                 <img src="assets/partner.png" class="menu-icon">
                 Partner Organization
             </div>
 
-            <div class="menu-item" onclick="tab(6)" id="tab6">
+            <div class="menu-item" onclick="tab(7)" id="tab7">
                 <img src="assets/appanalytics.png" class="menu-icon">
                 App Analytics
             </div>
@@ -127,37 +145,50 @@
             
             <!-- DASHBOARD TAB -->
             <div class="content" id="content1">
-                <h2>Welcome back, Jamal</h2>
-                <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <div class="dashboard-left-column">
+                    <h2>Welcome back, Jamal</h2>
+                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                <h3>Daily Quests</h3>
+                    <h3>Active Quests</h3>
 
-                <button class="create-btn">+ Create a new quest</button>
-                    <!-- create questcard tab -->
+                    <button class="action-btn create" onclick="openCreateModal()">+ Create a new quest</button>
 
-                <div class="quests" id="quests-container">
-                    <!-- replace with actual questcard data -->
+                    <div class="quests" id="quests-container">
+                        <?php renderQuestCards($con); ?>
+                    </div>
+
+                    <h3 id="inactive-section-title">Inactive Quests</h3>
+
+                    <div class="quests">
+                        <?php renderInactiveQuestCards($con); ?>
+                    </div>
                 </div>
 
                 <aside class="leaderboard">
-                <h3>Daily Leaderboard</h3>
-                    <div class="leader-list">
-                        <!-- replace actual leaderboard data -->
-                        <div class="leader-item">
-                            <span class="rank">#1</span>
-                            <img src="https://i.pravatar.cc/40?img=4" class="avatar">
-                            <div>
-                                <p class="name">Jamal Chong</p>
-                                <p class="score">20 quests completed</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3>Daily Leaderboard</h3>
+                    <?php renderLeaderboard($con, 10); ?>
+                </aside>
+            </div>
 
+            <!-- Quest submission tab -->
+            <div class="content hidden" id="content2">
+                <div class="dashboard-left-column">
+                    <h2>Quest Submissions</h2>
+                    <p class="subtext">Review community tasks and approve/reject pending evidence.</p>
+                    
+                    <div class="review-container">
+                        <?php renderReviewTab($con); ?>
+                    </div>
+                </div>
+
+                <aside class="leaderboard">
+                    <h3>Approval Log</h3>
+                    <?php renderSubmissionHistory($con); ?>
                 </aside>
             </div>
 
             <!-- ANNOUNCEMENT TAB -->
-            <div class="content hidden" id="content2">
+            <div class="content hidden" id="content3">
                 <h2>Announcements</h2>
                 <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
@@ -176,8 +207,8 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
                         </p>
                         <div class="announcement-actions">
-                            <button class="action-btn edit-action-btn">Edit</button>
-                            <button class="action-btn delete-action-btn">Delete</button>
+                            <button class="action-btn edit">Edit</button>
+                            <button class="action-btn delete">Delete</button>
                         </div>
                     </div>
 
@@ -191,15 +222,15 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
                         </p>
                         <div class="announcement-actions">
-                            <button class="action-btn edit-action-btn">Edit</button>
-                            <button class="action-btn delete-action-btn">Delete</button>
+                            <button class="action-btn edit">Edit</button>
+                            <button class="action-btn delete">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!--Shop management tab-->
-            <div class="content hidden" id="content3"> 
+            <div class="content hidden" id="content4"> 
                 <h1>Shop Management</h1>
                 <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
@@ -234,7 +265,7 @@
             </div>
 
             <!--User management tab-->
-            <div class="content hidden" id="content4">
+            <div class="content hidden" id="content5">
                 <h1>User Management</h1>
                 <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
@@ -278,7 +309,7 @@
             </div>
 
             <!--Partner organizer tab-->
-            <div class="content hidden" id="content5">
+            <div class="content hidden" id="content6">
                 <div class="partner-warpper">
                     <h1>Partner Organization</h1>
                     <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -321,7 +352,7 @@
                 </div>
             </div>  
 
-            <div class="content hidden" id="content6">
+            <div class="content hidden" id="content7">
                 <div class="dashboard">
                     <div class="header">
                         <div>
@@ -405,5 +436,13 @@
 
         </main>
     </div>
+
+    <?php 
+        renderQuestModal(); 
+        renderSuccessModal();
+        renderDeactivateModal();
+        renderDeleteModal();
+    ?>  
+
 </body>
 </html>
