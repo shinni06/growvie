@@ -1,9 +1,17 @@
+<?php
+require_once 'dbdummy.php';         //replace with database or maybe main       
+require_once 'announcement.php';      
+
+handleAnnouncementActions($con);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growvie Dashboard</title>
+    <script src="sidebartab.js"></script>
     <link rel="stylesheet" href="maincontentcss.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="announcement.css">
@@ -11,6 +19,9 @@
     <link rel="stylesheet" href="usermanagement.css">
     <link rel="stylesheet" href="partnermanagement.css">
     <link rel="stylesheet" href="analytics.css">
+
+
+
 </head>
 
 <body>
@@ -142,15 +153,20 @@
                     
                     <div class="form-group">
                         <label for="announcementContent">Announcement Content</label>
-                        <textarea id="announcementContent" class="form-textarea" rows="6" placeholder="Enter announcement content"></textarea>
+                        <textarea id="announcementContent" class="form-textarea" placeholder="Enter announcement content"></textarea>
                     </div>
 
                     <div class="popup-buttons">
-                        <button type="button" class="btn-close" onclick="closePopup()">Close</button>
-                        <button type="button" class="btn-post" onclick="postAnnouncement()">Post</button>
+                        <button type="button" class="btn-announcement-close" onclick="closePopup()">Close</button>
+                        <button type="button" class="btn-announcement-post" onclick="postAnnouncement()">Post</button>
                     </div>
                 </div>
             </div>
+
+            <div class="announcement-history">
+                <?php renderAnnouncements($con); ?>
+            </div>
+            <script src="announcement.js"></script>
         </div>
 
             <!--Shop management tab-->
@@ -358,7 +374,5 @@
         </main>
     </div>
 
-    <script src="sidebartab.js"></script>
-    <script src="announcement.js"></script>
 </body>
 </html>
