@@ -3,10 +3,13 @@ require_once __DIR__ . "/backend/db.php";
 require_once __DIR__ . "/backend/modal.php";
 require_once __DIR__ . "/backend/dashboard.php";
 require_once __DIR__ . "/backend/questsubmission.php";
+require_once __DIR__ . "/backend/usermanagement.php";
 
 handleCreateQuest($con);
 handleReviewAction($con);
+handleUserActions($con);
 renderDashboardScripts();
+renderUserManagementScripts();
 ?>
 
 <!DOCTYPE html>
@@ -27,59 +30,47 @@ renderDashboardScripts();
     <link rel="stylesheet" href="css/analytics.css">    
 
     <script>
-        /* final.php script replacement */
-        /* final.php script replacement */
+        // Simple Tab Switcher
         function tab(t) {
-            // 1. Save the current tab choice to the browser's memory
-            localStorage.setItem('activeGrowvieTab', t);
-
-            // 2. Update Menu Item Active States
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
+            localStorage.setItem('activeTab', t);
+            
+            // Toggle Active Menu Class
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
             document.getElementById('tab' + t).classList.add('active');
 
-            // 3. Hide all content containers
-            document.querySelectorAll('.content').forEach(content => {
-                content.classList.add('hidden');
-            });
-
-            // 4. Show the selected tab
-            const targetContent = document.getElementById('content' + t);
-            if (targetContent) {
-                targetContent.classList.remove('hidden');
-            }
+            // Toggle Content Visibility
+            document.querySelectorAll('.content').forEach(el => el.classList.add('hidden'));
+            const activeContent = document.getElementById('content' + t);
+            if(activeContent) activeContent.classList.remove('hidden');
         }
 
-        // Universal Auto-Loader
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
+        // Auto-Run on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Restore Tab
+            tab(localStorage.getItem('activeTab') || 1);
+
+            // 2. Handle URL Success Messages (Simplified)
+            const params = new URLSearchParams(window.location.search);
+            const modal = document.getElementById('successModal');
             
-            // 1. Get the last open tab from memory, or default to 1
-            const savedTab = localStorage.getItem('activeGrowvieTab') || 1;
-            tab(savedTab);
+            // Map URL actions to Title/Message
+            const messages = {
+                'approved':       ['Submission Approved!', 'Evidence verified. User rewarded.'],
+                'rejected':       ['Submission Rejected', 'Submission declined and removed.'],
+                'quest_success':  ['Success!', 'Operation completed successfully.'],
+                'status_updated': ['Status Updated', 'User account status toggled.'],
+                'user_deleted':   ['User Deleted', 'Account permanently removed.']
+            };
 
-            // 2. Automatically handle success modals based on ANY success parameter
-            const reviewSuccess = urlParams.get('review_success');
-            const questSuccess = urlParams.get('quest_success');
+            // Check if any param matches our keys
+            const action = params.get('review_success') || params.get('quest_success') ? 'quest_success' : params.get('action');
+            const match = messages[action] || messages[params.get('review_success')]; // specific check for review values
 
-            if (reviewSuccess || questSuccess) {
-                const modal = document.getElementById('successModal');
-                
-                if (reviewSuccess === 'approved') {
-                    modal.querySelector('h3').innerText = "Submission Approved!";
-                    modal.querySelector('p').innerHTML = "The evidence was verified and the user has been rewarded.";
-                } else if (reviewSuccess === 'rejected') {
-                    modal.querySelector('h3').innerText = "Submission Rejected";
-                    modal.querySelector('p').innerHTML = "The submission has been declined and removed.";
-                } else if (questSuccess) {
-                    modal.querySelector('h3').innerText = "Success!";
-                    modal.querySelector('p').innerHTML = "The operation was completed successfully.";
-                }
-                
+            if (match) {
+                modal.querySelector('h3').innerText = match[0];
+                modal.querySelector('p').innerText = match[1];
                 modal.style.display = 'block';
-
-                // Clean up the URL so refresh doesn't trigger the modal again
+                // Clean URL
                 window.history.replaceState({}, document.title, "final.php");
             }
         });
@@ -136,7 +127,7 @@ renderDashboardScripts();
         <!--logout-->
         <div class="logout">
             <img src="assets/logout.png" class="logout-icon">
-            Logout
+            Log Out
         </div>
         </nav>
 
@@ -267,47 +258,40 @@ renderDashboardScripts();
             <!--User management tab-->
             <div class="content hidden" id="content5">
                 <h1>User Management</h1>
-                <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p class="subtitle">Manage and monitor Growvie users, partners, and administrators.</p>
 
-                    <div class="top-row">
+                <div class="top-row">
+                    <div class="tabs">
+                        <?php $currentRole = $_GET['role'] ?? 'Player'; ?>
+                        <button class="tab <?php echo ($currentRole == 'Player') ? 'active' : ''; ?>" onclick="userTab('Player')">Users</button>
+                        <button class="tab <?php echo ($currentRole == 'Partner') ? 'active' : ''; ?>" onclick="userTab('Partner')">Partners</button>
+                    </div>
 
-                        <div class="tabs">
-                            <button class="tab active">Users</button>
-                            <button class="tab">Partners</button>
-                            <button class="tab">Admins</button>
-                        </div>
+                    <div class="top-actions">
+                        <?php if ($currentRole === 'Partner'): ?>
+                            <button class="action-btn green" onclick="openAddPartnerModal()">
+                                + Add Partner
+                            </button>
+                        <?php endif; ?>
 
                         <div class="search-filter">
-                            <input type="text" placeholder="Search for user...">
-
-                            <button class="filter-btn">🔍 Filter</button>
-                        </div>
-
-                    </div>
-
-                    <!-- User Cards (change with real data) -->
-                    <div class="user-card">
-                        <div class="left-section">
-                            <img src="https://i.imgur.com/9QFfF2G.png" alt="Profile">
-                            <div class="info">
-                                <h3>Jamal Chong <span>@jamalchong_123</span></h3>
-                                <p>🌱 Plant Name A - Growth Stage 2</p>
-                                <p>🏆 Completed <strong>3 quests</strong> today</p>
-                            </div>
-                        </div>
-
-                        <div class="right-section">
-                            <p class="last-active">Last active Saturday, 2:36PM</p>
-
-                            <div class="actions">
-                                <button class="details-btn">View details</button>
-                                <button class="suspend-btn">Suspend</button>
-                                <button class="delete-btn">Delete</button>
-                            </div>
+                            <input type="text" id="userSearchInput" placeholder="Search..." 
+                                value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+                                onkeypress="if(event.key === 'Enter') handleUserSearch()">
+                            <button class="filter-btn" onclick="handleUserSearch()">🔍 Search</button>
                         </div>
                     </div>
+                    
+                </div>
+
+                <div id="user-list-container">
+                    <?php 
+                        // Call the render function we built earlier
+                        renderUserManagement($con, $currentRole, $_GET['search'] ?? ''); 
+                    ?>
+                </div>
             </div>
-
+    
             <!--Partner organizer tab-->
             <div class="content hidden" id="content6">
                 <div class="partner-warpper">
@@ -442,6 +426,7 @@ renderDashboardScripts();
         renderSuccessModal();
         renderDeactivateModal();
         renderDeleteModal();
+        renderAddPartnerModal();
     ?>  
 
 </body>

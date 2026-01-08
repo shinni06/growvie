@@ -17,7 +17,7 @@ function renderQuestModal() {
                 <div class="emoji-selector-inline">
                     <input type="text" name="quest_emoji" id="form_emoji" value="✅" readonly required class="emoji-display-minimal">
                     
-                    <button type="button" class="action-btn edit" onclick="toggleEmojiPicker()">Change Icon</button>
+                    <button type="button" class="action-btn gray" onclick="toggleEmojiPicker()">Change Icon</button>
                 </div>
                 </div>
                 
@@ -58,7 +58,7 @@ function renderQuestModal() {
                 </div>
                 <label>Activation Date</label><input type="date" name="quest_date" id="form_date" required>
                 <div class="modal-footer">
-                    <button type="submit" name="submitQuest" id="submitBtn" class="action-btn submit">Save Quest</button>
+                    <button type="submit" name="submitQuest" id="submitBtn" class="action-btn green">Save Quest</button>
                 </div>
             </form>
         </div>
@@ -78,8 +78,8 @@ function renderDeactivateModal() {
             <form method="POST" action="final.php">
                 <input type="hidden" name="deactivate_id" id="deactivate_quest_id">
                 <div class="modal-footer">
-                    <button type="button" class="action-btn edit" onclick="document.getElementById('deactivateModal').style.display='none'">Cancel</button>
-                    <button type="submit" name="deactivateQuest" class="action-btn deactivate">Confirm Deactivation</button>
+                    <button type="button" class="action-btn gray" onclick="document.getElementById('deactivateModal').style.display='none'">Cancel</button>
+                    <button type="submit" name="deactivateQuest" class="action-btn red">Confirm Deactivation</button>
                 </div>
             </form>
         </div>
@@ -98,8 +98,8 @@ function renderDeleteModal() {
             <form method="POST" action="final.php">
                 <input type="hidden" name="delete_id" id="delete_quest_id">
                 <div class="modal-footer">
-                    <button type="button" class="action-btn edit" onclick="document.getElementById('deleteModal').style.display='none'">Cancel</button>
-                    <button type="submit" name="confirmDelete" class="action-btn cfmdelete">Yes, Delete</button>
+                    <button type="button" class="action-btn gray" onclick="document.getElementById('deleteModal').style.display='none'">Cancel</button>
+                    <button type="submit" name="confirmDelete" class="action-btn red">Yes, Delete</button>
                 </div>
             </form>
         </div>
@@ -117,10 +117,49 @@ function renderSuccessModal() {
             <h3>Success!</h3>
             <p>Your operation was completed successfully.</p>
             <div class="modal-footer">
-              <button class="action-btn submit" onclick="document.getElementById('successModal').style.display='none'">OK</button>
+              <button class="action-btn green" onclick="document.getElementById('successModal').style.display='none'">OK</button>
             </div>
         </div>
     </div>
     <?php
 }
+
+function renderAddPartnerModal() {
+    ?>
+    <div id="addPartnerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('addPartnerModal').style.display='none'">&times;</span>
+            <h3>Add New Partner Organization</h3>
+            
+            <form method="POST" action="final.php">
+                <label>Organization Name</label>
+                <input type="text" name="partner_name" required placeholder="e.g. Green Earth NGO">
+
+                <label>Username</label>
+                <input type="text" name="partner_username" required placeholder="e.g. green_earth">
+
+                <label>Email Address</label>
+                <input type="email" name="partner_email" required placeholder="contact@example.com">
+
+                <label>Password</label>
+                <input type="password" name="partner_password" required placeholder="Set a temporary password">
+
+                <label>Description</label>
+                <textarea name="partner_desc" rows="3" placeholder="Briefly describe the organization..."></textarea>
+
+                <div class="modal-footer">
+                    <button type="button" class="action-btn gray" onclick="document.getElementById('addPartnerModal').style.display='none'">Cancel</button>
+                    <button type="submit" name="addNewPartner" class="action-btn green">Add Partner</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openAddPartnerModal() {
+            document.getElementById('addPartnerModal').style.display = 'block';
+        }
+    </script>
+    <?php
+}
+
 ?>

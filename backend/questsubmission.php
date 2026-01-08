@@ -21,6 +21,7 @@ function handleReviewAction(mysqli $con) {
             $coins = $rewardData['eco_coin_reward'];
 
             // Update player account
+            // This correctly targets user_player for game stats
             mysqli_query($con, "UPDATE user_player SET eco_coins = eco_coins + $coins, 
                                 drops_progress = drops_progress + $drops, 
                                 total_quests_completed = total_quests_completed + 1 
@@ -35,12 +36,14 @@ function handleReviewAction(mysqli $con) {
 }
 
 function renderReviewTab(mysqli $con) {
-    // Fetches real user messages from quest_submission_description
-    $sql = "SELECT qs.*, q.quest_title, q.quest_description, q.category, u.username 
+    // UPDATED: Now joins user_player to check 'player_status' instead of 'user.status'
+    // This ensures that players 'Deleted' via User Management are correctly hidden here.
+    $sql = "SELECT qs.*, q.quest_title, q.quest_description, q.quest_emoji, q.category, u.username 
             FROM quest_submission qs 
             JOIN quest q ON qs.quest_id = q.quest_id
             JOIN user u ON qs.user_id = u.user_id 
-            WHERE qs.approval_status = 'Pending'";
+            JOIN user_player up ON u.user_id = up.user_id 
+            WHERE qs.approval_status = 'Pending' AND up.player_status != 'Deleted'";
     
     $res = mysqli_query($con, $sql);
     if (!$res || mysqli_num_rows($res) === 0) {
@@ -52,14 +55,17 @@ function renderReviewTab(mysqli $con) {
     while ($row = mysqli_fetch_assoc($res)) {
         $username = $row['username'];
         $display = ($index === 0) ? "flex" : "none";
-        $userPfp = (file_exists(__DIR__ . "/../images/pfp/" . $username . ".jpg")) ? "images/pfp/" . $username . ".jpg" : "images/pfp/null.jpg";
+        $userPfp = (file_exists(__DIR__ . "/../images/pfp/" . $username . ".jpg")) ? "images/pfp/" . $username . ".jpg" : "images/pfp/default_profile_picture.jpg";
         ?>
         <div class="review-card" id="review-card-<?php echo $index; ?>" style="display: <?php echo $display; ?>;">
-            <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.jpg" onerror="this.src='images/pfp/null.jpg'"></div>
+            <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.jpg" onerror="this.src='images/submission/null.jpg'"></div>
             
             <div class="review-details-side">
                 <div class="quest-info-block">
-                    <h3 class="review-quest-title">🎯 <?php echo htmlspecialchars($row['quest_title']); ?></h3>
+                    <h3 class="review-quest-title">
+                        <?php echo htmlspecialchars($row['quest_emoji']); ?> 
+                        <?php echo htmlspecialchars($row['quest_title']); ?>
+                    </h3>
                     <p class="review-quest-desc"><?php echo htmlspecialchars($row['quest_description']); ?></p>
                     <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
                 </div>
@@ -109,11 +115,14 @@ function renderReviewTab(mysqli $con) {
 }
 
 function renderSubmissionHistory($con) {
-    $query = "SELECT q.quest_title, u.username, qs.submitted_at 
+    // UPDATED: Now joins user_player to check 'player_status'
+    // This cleans up the history log by hiding activities from deleted players.
+    $query = "SELECT q.quest_title, q.quest_emoji, u.username, qs.submitted_at 
               FROM quest_submission qs 
               JOIN quest q ON qs.quest_id = q.quest_id 
               JOIN user u ON qs.user_id = u.user_id
-              WHERE qs.approval_status = 'Approved' 
+              JOIN user_player up ON u.user_id = up.user_id
+              WHERE qs.approval_status = 'Approved' AND up.player_status != 'Deleted'
               ORDER BY qs.submitted_at DESC";
     $result = mysqli_query($con, $query);
 
@@ -122,7 +131,7 @@ function renderSubmissionHistory($con) {
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="lb-row"> 
-                <div class="card-icon-small">🎯</div>
+                <div class="card-icon-small"><?php echo htmlspecialchars($row['quest_emoji']); ?></div>
                 <div class="lb-meta"> 
                     <div class="lb-name"><?php echo htmlspecialchars($row['quest_title']); ?></div>
                     <div class="lb-sub">by @<?php echo htmlspecialchars($row['username']); ?> • <?php echo date('d M Y', strtotime($row['submitted_at'])); ?></div>
