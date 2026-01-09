@@ -16,7 +16,8 @@
     border-radius: 16px;
     border: 1px solid #d8e3d5;
     width: 100%;
-    height: 500px; 
+    min-height: 500px;
+    height: auto;
     overflow: hidden;
     display: flex;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -24,7 +25,8 @@
 
 .review-image-side {
     width: 500px;
-    height: 500px;
+    min-height: 500px;
+    height: auto;
     flex-shrink: 0;
     background: #f5f5f5;
 }
@@ -37,40 +39,28 @@
 
 .review-details-side {
     flex: 1;
-    padding: 24px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     background: #fafafa;
+    height: 500px; 
+    box-sizing: border-box;
+    overflow: hidden; /* Pins the footer */
 }
 
-.review-details-side {
-    display: flex;
-    flex-direction: column; /* Already exists, but ensures stacking */
-    height: 100%;
+.review-content-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
 }
 
-.card-footer-wrapper {
-    margin-top: auto; /* Pushes the entire button block to the bottom */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-top: 20px;
+/* Custom scrollbar */
+.review-content-scrollable::-webkit-scrollbar {
+    width: 4px;
 }
-
-.review-details-side h3.review-quest-title {
-    margin-bottom: 10px;
-}   
-
-.category-pill {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    color: #3b5a2b;
-    background: #eef6ea;
-    border: 1px solid #d6e6cf;
-    border-radius: 999px;
-    padding: 6px 12px;
-    line-height: 1;
+.review-content-scrollable::-webkit-scrollbar-thumb {
+    background: #d8e3d5;
+    border-radius: 10px;
 }
 
 /* 5) User Info Row - FIXED SPACING */
@@ -89,13 +79,20 @@
     font-weight: 700;
     font-size: 14px;
     color: #333;
-    margin: 0 0 12px 0;
+    margin: 0 0 4px 0;
 }
 
 .submit-date {
     font-size: 11px;
     color: #888;
     margin: 0;
+}
+
+.italic-date {
+    font-style: italic;
+    margin-top: 15px;
+    text-align: right;
+    display: block;
 }
 
 /* 6) User Message Block */
@@ -118,8 +115,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 12px;
-    margin-bottom: 12px;
 }
 
 /* Added styles for the "Submission 1 of 1" text */
@@ -144,13 +139,28 @@
     cursor: not-allowed;
 }
 
-.review-actions {
+.card-footer-wrapper {
+    margin-top: auto;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 5px; /* Minimal gap between nav and actions */
+    padding-top: 12px;
 }
 
-.review-actions .action-btn {
-    flex: 1;
+.review-details-side h3.review-quest-title {
+    margin-bottom: 10px;
+}   
+
+.category-pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #3b5a2b;
+    background: #eef6ea;
+    border: 1px solid #d6e6cf;
+    border-radius: 999px;
+    padding: 6px 12px;
+    line-height: 1;
 }
 
 /* 8) Approval Log Icons */
@@ -161,9 +171,12 @@
     background: #f4f8f2;
     display: flex;
     align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        flex-shrink: 0;
-        border: 1px solid #d8e3d5;
-    }
-    
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    border: 1px solid #d8e3d5;
+}
+
+.message-info-block {
+    margin-top: 10px;
+}

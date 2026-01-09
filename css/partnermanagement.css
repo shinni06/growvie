@@ -16,8 +16,31 @@
 
 .username-at {
     font-size: 14px;
-    color: #888;
+    color: #999;
     margin-left: 5px;
+    font-weight: 500;
+}
+
+.partner-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.partner-submitter-gap {
+    margin-top: 8px;
+}
+
+.no-margin {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.partner-info-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    row-gap: 8px;
+    font-size: 13px;
 }
 
 /* Image */
@@ -44,24 +67,59 @@
 }
 
 /* History Status Badges */
+.partner-history-row {
+    padding: 12px 15px;
+}
+
+.history-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically centers the ID and the Badge */
+    width: 100%;
+    margin-bottom: 8px;
+    min-height: 20px;
+}
+
+.partner-history-row .lb-name {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.partner-history-row .status-badge {
+    /* Removed absolute positioning to allow standard flex alignment */
+}
+
+.history-info-grid {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    row-gap: 4px;
+}
+
 .status-badge {
-    padding: 6px 12px;
+    padding: 4px 10px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    text-align: center;
-    width: 100%;
+    display: inline-block;
+    border: 1px solid transparent;
+    line-height: 1;
 }
 
-.status-approved {
+.status-badge.approved {
     background: #eef6ea;
     color: #3b5a2b;
-    border: 1px solid #c1ccb5;
+    border-color: #d6e6cf;
 }
 
-.status-rejected {
-    background: #ffebeb;
-    color: #d32f2f;
-    border: 1px solid #ffcdd2;
+.status-badge.rejected {
+    background: #fff1f1;
+    color: #c9302c;
+    border-color: #f5c6cb;
+}
+
+.status-badge.suspended {
+    background: #fff9eb;
+    color: #856404;
+    border-color: #ffeeba;
 }

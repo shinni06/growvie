@@ -61,28 +61,34 @@ function renderReviewTab(mysqli $con) {
             <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.jpg" onerror="this.src='images/submission/null.jpg'"></div>
             
             <div class="review-details-side">
-                <div class="quest-info-block">
-                    <h3 class="item-title">
-                        <?php echo htmlspecialchars($row['quest_emoji']); ?> 
-                        <?php echo htmlspecialchars($row['quest_title']); ?>
-                    </h3>
-                    <p class="item-description"><?php echo htmlspecialchars($row['quest_description']); ?></p>
-                    <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
-                </div>
+                <div class="review-content-scrollable">
+                    <div class="quest-info-block">
+                        <h3 class="item-title">
+                            <?php echo htmlspecialchars($row['quest_emoji']); ?> 
+                            <?php echo htmlspecialchars($row['quest_title']); ?>
+                        </h3>
+                        <p class="item-description"><?php echo htmlspecialchars($row['quest_description']); ?></p>
+                        <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
+                    </div>
 
-                <div class="user-info-block" style="margin-top: 20px;">
-                    <div class="submitter-row">
-                        <img src="<?php echo $userPfp; ?>" class="lb-avatar">
-                        <div class="user-meta">
-                            <p class="user-handle">@<?php echo htmlspecialchars($username); ?></p>
-                            <p class="submit-date">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
+                    <div class="user-info-block content-section-gap">
+                        <div class="message-bubble">
+                            <div class="submitter-row">
+                                <img src="<?php echo $userPfp; ?>" class="lb-avatar">
+                                <div class="user-meta">
+                                    <p class="user-handle"><?php echo htmlspecialchars($username); ?></p>
+                                    <p class="submit-date">@<?php echo htmlspecialchars($username); ?></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="message-info-block" style="margin-top: 20px;">
-                    <h4 class="user-message-title">User Message</h4>
-                    <div class="message-bubble"><p class="item-description"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p></div>
+                    <div class="message-info-block content-section-gap">
+                        <div class="message-bubble">
+                            <p class="item-description no-margin"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p>
+                        </div>
+                        <p class="submit-date italic-date">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
+                    </div>
                 </div>
 
                 <div class="card-footer-wrapper">

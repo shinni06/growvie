@@ -311,9 +311,7 @@
 
 /* Divider Line */
 .partner-divider {
-    height: 1px;
-    background: #f0f0f0;
-    margin: 15px 0 15px 0;
+    display: none; /* Class retired in favor of .section-divider */
 }
 
 .meta-row {

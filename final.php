@@ -348,12 +348,12 @@ handleAnnouncementActions($con);
                     <div class="list-container">
                         <?php renderPartnerRequests($con); ?>
                     </div>
-
-                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Verification History</h3>
-                    <div class="list-container">
-                        <?php renderPartnerHistory($con); ?>
-                    </div>
                 </div>
+
+                <aside class="leaderboard">
+                    <h3>Verification History</h3>
+                    <?php renderPartnerHistory($con); ?>
+                </aside>
             </div>  
 
             <div class="content hidden" id="content7">
