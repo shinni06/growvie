@@ -38,24 +38,22 @@ function handleReviewAction(mysqli $con) {
 function renderReviewTab(mysqli $con) {
     // UPDATED: Now joins user_player to check 'player_status' instead of 'user.status'
     // This ensures that players 'Deleted' via User Management are correctly hidden here.
-    $sql = "SELECT qs.*, q.quest_title, q.quest_description, q.quest_emoji, q.category, u.username, up.player_tier 
+    $sql = "SELECT qs.*, q.quest_title, q.quest_description, q.quest_emoji, q.category, u.username 
             FROM quest_submission qs 
             JOIN quest q ON qs.quest_id = q.quest_id
             JOIN user u ON qs.user_id = u.user_id 
             JOIN user_player up ON u.user_id = up.user_id 
-            WHERE qs.approval_status = 'Pending' AND up.player_status != 'Deleted'
-            ORDER BY qs.submitted_at ASC";
+            WHERE qs.approval_status = 'Pending' AND up.player_status != 'Deleted'";
     
     $res = mysqli_query($con, $sql);
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<div class='empty-state'>🎉 No submissions pending approval!</div>";
+        echo "<div class='empty-submission-msg'>🎉 No submissions pending approval!</div>";
         return;
     }
 
     $index = 0;
     while ($row = mysqli_fetch_assoc($res)) {
         $username = $row['username'];
-        $tier = (int)($row['player_tier'] ?? 1);
         $display = ($index === 0) ? "flex" : "none";
         $userPfp = (file_exists(__DIR__ . "/../images/pfp/" . $username . ".jpg")) ? "images/pfp/" . $username . ".jpg" : "images/pfp/default_profile_picture.jpg";
         ?>
@@ -63,34 +61,28 @@ function renderReviewTab(mysqli $con) {
             <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.jpg" onerror="this.src='images/submission/null.jpg'"></div>
             
             <div class="review-details-side">
-                <div class="review-content-scrollable">
-                    <div class="quest-info-block">
-                        <h3 class="item-title title-spaced">
-                            <?php echo htmlspecialchars($row['quest_emoji']); ?> 
-                            <?php echo htmlspecialchars($row['quest_title']); ?>
-                        </h3>
-                        <p class="item-description"><?php echo htmlspecialchars($row['quest_description']); ?></p>
-                        <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
-                    </div>
+                <div class="quest-info-block">
+                    <h3 class="review-quest-title">
+                        <?php echo htmlspecialchars($row['quest_emoji']); ?> 
+                        <?php echo htmlspecialchars($row['quest_title']); ?>
+                    </h3>
+                    <p class="review-quest-desc"><?php echo htmlspecialchars($row['quest_description']); ?></p>
+                    <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
+                </div>
 
-                    <div class="user-info-block content-section-gap">
-                        <div class="message-bubble">
-                            <div class="submitter-row">
-                                <img src="<?php echo $userPfp; ?>" class="lb-avatar tier-border-<?php echo $tier; ?>">
-                                <div class="user-meta">
-                                    <p class="user-handle"><?php echo htmlspecialchars($username); ?></p>
-                                    <p class="submit-date">@<?php echo htmlspecialchars($username); ?></p>
-                                </div>
-                            </div>
+                <div class="user-info-block" style="margin-top: 20px;">
+                    <div class="submitter-row">
+                        <img src="<?php echo $userPfp; ?>" class="lb-avatar">
+                        <div class="user-meta">
+                            <p class="user-handle">@<?php echo htmlspecialchars($username); ?></p>
+                            <p class="submit-date">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="message-info-block content-section-gap">
-                        <div class="message-bubble">
-                            <p class="item-description no-margin"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p>
-                        </div>
-                        <p class="date-text" style="text-align: right; margin-top: 10px;">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
-                    </div>
+                <div class="message-info-block" style="margin-top: 20px;">
+                    <h4 class="user-message-title">User Message</h4>
+                    <div class="message-bubble"><p>"<?php echo htmlspecialchars($row['quest_submission_description']); ?>"</p></div>
                 </div>
 
                 <div class="card-footer-wrapper">
@@ -148,7 +140,7 @@ function renderSubmissionHistory($con) {
             <?php
         }
     } else {
-        echo '<p class="empty-state">No approved quests found.</p>';
+        echo '<p class="empty-msg">No approved quests found.</p>';
     }
     echo '</div>';
 }

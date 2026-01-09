@@ -90,11 +90,9 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             return;
         }
 
-        echo '<div class="list-container">';
         while ($u = mysqli_fetch_assoc($res)) {
             $isSuspended = (($u['player_status'] ?? 'Active') === 'Suspended');
             $cardClass = $isSuspended ? "user-card suspended" : "user-card";
-            $tier = (int)($u['player_tier'] ?? 1);
             
             // Image Fallback
             $userPfp = "images/pfp/" . $u['username'] . ".jpg";
@@ -102,10 +100,10 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             ?>
             <div class="<?php echo $cardClass; ?>">
                 <div class="left-section">
-                    <img src="<?php echo $displayPfp; ?>" alt="Profile" class="user-card-pfp tier-border-<?php echo $tier; ?>">
+                    <img src="<?php echo $displayPfp; ?>" alt="Profile" class="user-card-pfp">
                     <div class="info">
                         <div class="user-header">
-                            <h3 class="item-title"><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
+                            <h3><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
                             <span class="tier-badge">Tier <?php echo (int)($u['player_tier'] ?? 1); ?></span>
                         </div>
                         
@@ -124,12 +122,12 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
 
                 <div class="right-section">
                     <?php if ($isSuspended): ?>
-                        <div class="status-tag suspended top-right-info">Suspended</div>
+                        <div class="status-tag suspended">Suspended</div>
                     <?php else: ?>
-                        <p class="date-text top-right-info">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
+                        <p class="last-active">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
                     <?php endif; ?>
 
-                    <div class="item-actions bottom-right-info">
+                    <div class="actions">
                         <form method="POST" action="final.php?role=Player">
                             <input type="hidden" name="user_id" value="<?php echo $u['user_id']; ?>">
                             <?php if ($isSuspended): ?>
@@ -148,7 +146,6 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             </div>
             <?php
         }
-        echo '</div>';
     } 
     
     // --- PARTNER TAB LOGIC (UPDATED) ---
@@ -177,23 +174,31 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             
             // Description Fallback
             $description = !empty($p['description']) ? $p['description'] : "No description available.";
-            $status = !empty($p['partner_status']) ? $p['partner_status'] : "Active";
+            $status = !empty($p['status']) ? $p['status'] : "Active";
             ?>
             <div class="card-panel partner-card">
                 <div class="partner-header-row">
                     <img src="<?php echo $displayPfp; ?>" alt="Avatar" class="partner-pfp">
                     
                     <div class="partner-info">
-                        <h3 class="item-title"><?php echo htmlspecialchars($p['name']); ?></h3>
+                        <h3 class="p-name"><?php echo htmlspecialchars($p['name']); ?></h3>
                         <p class="p-username">@<?php echo htmlspecialchars($p['username']); ?></p>
-                        <p class="p-email"><?php echo htmlspecialchars($p['email']); ?></p>
+
+                        <div class="partner-info-grid">
+                            <span class="info-label">ID:</span>
+                            <span class="info-value"><?php echo htmlspecialchars($p['user_id']); ?></span>
+                            <span class="info-label">Email:</span>
+                            <span class="info-value"><?php echo htmlspecialchars($p['email']); ?></span>
+                        </div>
                     </div>
                     
                     <span class="status-tag <?php echo strtolower($status); ?>"><?php echo htmlspecialchars($status); ?></span>
                 </div>
 
+                <div class="partner-divider"></div>
+
                 <div class="partner-body">
-                    <p class="item-description"><?php echo htmlspecialchars($description); ?></p>
+                    <p class="partner-desc"><?php echo htmlspecialchars($description); ?></p>
                 </div>
             </div>
             <?php
@@ -229,7 +234,7 @@ function handleUserActions($con) {
         // Update partner table by joining with user table on email
         $query = "UPDATE partner p
                   INNER JOIN user u ON p.contact_email = u.email
-                  SET p.partner_status = IF(p.partner_status='Active', 'Inactive', 'Active')
+                  SET p.status = IF(p.status='Active', 'Inactive', 'Active')
                   WHERE u.user_id = '$id'";
                   
         mysqli_query($con, $query);
@@ -265,8 +270,8 @@ function handleUserActions($con) {
         $name = mysqli_real_escape_string($con, $_POST['partner_name']);
         $username = mysqli_real_escape_string($con, $_POST['partner_username']);
         $email = mysqli_real_escape_string($con, $_POST['partner_email']);
-        // Store password as plain text (school project requirement)
-        $pass = mysqli_real_escape_string($con, $_POST['partner_password']); 
+        // Hash password for security
+        $pass = password_hash($_POST['partner_password'], PASSWORD_DEFAULT); 
         $desc = mysqli_real_escape_string($con, $_POST['partner_desc']);
         $date = date('Y-m-d H:i:s');
 
@@ -276,7 +281,7 @@ function handleUserActions($con) {
         
         // 4. Insert into PARTNER table
         // Correctly including partner_id (POxxx) and organization_name
-        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, partner_status) 
+        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, status) 
                        VALUES ('$newPartnerId', '$name', '$email', '$desc', 'Active')";
 
         if (mysqli_query($con, $sqlUser) && mysqli_query($con, $sqlPartner)) {

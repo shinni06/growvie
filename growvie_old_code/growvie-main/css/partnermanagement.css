@@ -1,0 +1,65 @@
+/*Partener Orgainzer tab*/
+.partner-wrapper {
+    background: #dfe9d8;
+    margin: 20px;
+    padding: 40px;
+    border-radius: 16px;
+}
+
+/* Request Card */
+.request-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Image */
+.request-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Info Section */
+.request-info {
+    flex: 1;
+}
+
+/* Info grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    row-gap: 8px;
+    column-gap: 20px;
+    font-size: 14px;
+}
+
+/* History Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+}
+
+.status-approved {
+    background: #eef6ea;
+    color: #3b5a2b;
+    border: 1px solid #c1ccb5;
+}
+
+.status-rejected {
+    background: #ffebeb;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}

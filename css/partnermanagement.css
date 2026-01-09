@@ -48,7 +48,7 @@
 
 .review-card .partner-info-grid {
     display: grid;
-    grid-template-columns: 130px 1fr;
+    grid-template-columns: 100px 1fr;
     row-gap: 8px;
     font-size: 13px;
 }

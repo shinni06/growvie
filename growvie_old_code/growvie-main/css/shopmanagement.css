@@ -1,0 +1,115 @@
+/*Shopping management*/
+.tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tab {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #85C668;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+/* Add New Card */
+.add-card {
+    background: #e4eadf;
+    height: 300px;
+    border-radius: 12px;
+    border: 2px dashed #adb7a2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #7f8b74;
+}
+
+.add-card .plus {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* Product Cards */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    height: 285px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    width: 120px;
+    margin: 0 auto;
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.card p {
+    font-size: 13px;
+    color: #666;
+    margin: 5px 0 10px;
+}
+
+.bottom-row {
+    height: 35px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.price {
+    font-weight: 700;
+}
+
+.edit-btn {
+    padding: 6px 16px;
+    background: #d7dfd1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    padding: 6px 16px;
+    background: #f5c6cb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #721c24;
+}
+
+/* Helper classes */
+.input-note {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    color: #6c757d;
+}
+
+#shop-management-btn {
+    height: 35px;
+    padding: 0 20px;
+}

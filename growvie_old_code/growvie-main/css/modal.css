@@ -9,8 +9,8 @@
   top: 0;
   width: 100%; 
   height: 100%;
-  background-color: rgba(0,0,0,0.7); /* Darkened more */
-  backdrop-filter: none; /* Removed blur */
+  background-color: rgba(0,0,0,0.5); 
+  backdrop-filter: blur(2px);
 }
 
 /* Modal Box Container */
@@ -28,45 +28,6 @@
   margin-bottom: 20px; 
   font-weight: 700;
   color: #000;
-}
-
-.modal-content-small {
-    width: 400px;
-}
-
-.modal-title-warning {
-    color: #92400e !important;
-}
-
-.modal-title-danger {
-    color: #d9534f !important;
-}
-
-.modal-form-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.modal-form-row label {
-    margin: 0; /* Reset margins for flex alignment */
-    flex-shrink: 0;
-}
-
-.modal-spacer-small {
-    margin-bottom: 15px;
-}
-
-.flex-end {
-    align-items: flex-end;
-}
-
-.gap-10 {
-    gap: 10px;
-}
-
-.flex-1 {
-    flex: 1;
 }
 
 /* Form Elements */
@@ -115,15 +76,7 @@
 .modal-subtext {
     color: #666;
     font-size: 14px;
-    margin-bottom: 25px;
-    line-height: 1.5;
-}
-
-.form-error {
-    color: #d9534f;
-    font-size: 12px;
-    font-weight: 600;
-    margin-top: 5px;
+    margin-bottom: 30px;
 }
 
 .emoji-grid {
@@ -154,6 +107,7 @@
     display: flex;
     align-items: center;
     gap: 15px; /* Spacing between icon and button */
+    margin-bottom: 15px;
 }
 
 /* Strips default input styling for the emoji */

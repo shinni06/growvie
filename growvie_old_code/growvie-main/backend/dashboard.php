@@ -28,10 +28,10 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
-                    <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
+                    <div class="quest-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="quest-desc"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
-                    <div class="item-actions">
+                    <div class="quest-actions-row">
                         <button type="button" class="action-btn edit" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($q)); ?>)">Edit</button>
                         <button type="button" class="action-btn deactivate" onclick="openDeactivateModal('<?php echo $q['quest_id']; ?>', '<?php echo addslashes($q['quest_title']); ?>')">Deactivate</button>
                         <button type="button" class="action-btn delete" onclick="openDeleteModal('<?php echo $q['quest_id']; ?>', '<?php echo addslashes($q['quest_title']); ?>')">Delete</button>
@@ -39,11 +39,11 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges top-right-info">
+                <div class="reward-badges">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="date-text bottom-right-info">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
+                <span class="quest-sub">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
             </div>
         </div>
         <?php
@@ -55,7 +55,7 @@ function renderInactiveQuestCards(mysqli $con) {
     $res = mysqli_query($con, $sql);
 
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<p class='empty-state'>No inactive quests found.</p>";
+        echo "<p class='modal-subtext'>No inactive quests found.</p>";
         return;
     }
 
@@ -72,10 +72,10 @@ function renderInactiveQuestCards(mysqli $con) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
-                    <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
+                    <div class="quest-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="quest-desc"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
-                    <div class="item-actions">
+                    <div class="quest-actions-row">
                         <form method="POST" action="final.php">
                             <input type="hidden" name="activate_id" value="<?php echo $q['quest_id']; ?>">
                             <button type="submit" name="activateQuest" class="action-btn activate">Activate</button>
@@ -84,11 +84,11 @@ function renderInactiveQuestCards(mysqli $con) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges top-right-info">
+                <div class="reward-badges">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="date-text bottom-right-info"><?php echo $statusLabel; ?></span>
+                <span class="quest-sub"><?php echo $statusLabel; ?></span>
             </div>
         </div>
         <?php
@@ -98,25 +98,25 @@ function renderInactiveQuestCards(mysqli $con) {
 /**
  * RESTORED: Renders the leaderboard with tiered ranking colors.
  */
-function renderLeaderboard(mysqli $con) {
-    $sql = "SELECT u.username, up.total_quests_completed, up.player_tier 
+function renderLeaderboard(mysqli $con, int $limit = 10) {
+    $sql = "SELECT u.username, up.total_quests_completed 
             FROM user u 
             JOIN user_player up ON u.user_id = up.user_id 
-            ORDER BY up.total_quests_completed DESC";
+            ORDER BY up.total_quests_completed DESC 
+            LIMIT $limit";
     $res = mysqli_query($con, $sql);
     
     echo "<div class='lb-list'>";
     $rank = 1;
     while($row = mysqli_fetch_assoc($res)) {
         $rankClass = ($rank <= 3) ? "rank-top-" . $rank : "";
-        $tier = (int)($row['player_tier'] ?? 1);
         $userPfp = "images/pfp/" . $row['username'] . ".jpg";
-        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.jpg";
+        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/null.jpg";
 
         echo "
         <div class='lb-row {$rankClass}'>
             <div class='lb-rank'>$rank</div>
-            <img src='{$displayPfp}' class='lb-avatar tier-border-{$tier}'>
+            <img src='{$displayPfp}' class='lb-avatar'>
             <div class='lb-meta'>
                 <div class='lb-name'>" . htmlspecialchars($row['username']) . "</div>
                 <div class='lb-sub'>" . $row['total_quests_completed'] . " quests completed</div>
@@ -233,17 +233,7 @@ function renderDashboardScripts() {
             document.getElementById('deactivateModal').style.display = 'block';
         }
         function openDeleteModal(id, title) {
-            const input = document.getElementById('delete_quest_id');
-            const btn = document.querySelector('#deleteModal button[type="submit"]');
-            
-            if(input) {
-                input.value = id;
-                input.name = "delete_id"; // Reset to default for Quests
-            }
-            if(btn) {
-                btn.name = "confirmDelete"; // Reset to default for Quests
-            }
-            
+            document.getElementById('delete_quest_id').value = id;
             document.getElementById('deleteQuestTitle').innerText = title;
             document.getElementById('deleteModal').style.display = 'block';
         }

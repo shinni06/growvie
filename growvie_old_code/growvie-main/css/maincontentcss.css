@@ -1,0 +1,314 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Encode Sans Expanded", sans-serif;
+}
+
+/* 1) lock the page height and prevent body scroll */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 2) make the two-column layout fill the viewport and not scroll */
+.layout {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 3) sidebar stays full height (you already have height:100vh) */
+.sidebar {
+  height: 100vh;
+}
+
+/* 4) ONLY the main content scrolls */
+.main {
+  height: 100vh;
+  overflow-y: auto; /* you already have this */
+  scrollbar-gutter: stable;
+}
+
+
+body {
+    background: #d4e3d0;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/*sidebar*/
+
+.sidebar {
+    width: 220px;
+    background: #ffffff;
+    height: 100vh;
+    border-right: 1px solid #e3e3e3;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 35px;
+    color: #000;
+}
+
+.logo img {
+    width: 40px;
+    height: auto;
+}
+        
+/*sidebar-menu*/
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-item {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #000000;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;           
+    transition: 0.2s ease;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.menu-item img.menu-icon {
+    width: 30px;        
+    height: 30px;
+    object-fit: contain;
+    opacity: 0.7;
+}
+
+.menu-item.active {
+    background: #A7EF89;
+    color: #000000;
+    font-weight: 700;
+}
+
+.menu-item.active img.menu-icon {
+    filter: brightness(1) invert(0);
+    opacity: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+.menu-item:hover {
+    background: #f0f0f0;
+    color: #000;
+}
+
+.logout {
+    margin-top: auto;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.2s ease;
+    font-weight: 500;
+}
+
+.logout:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.logout-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    opacity: 0.6;
+}
+
+.logout:hover .logout-icon {
+    opacity: 0.9;
+}
+
+/*main content*/
+.main {
+    padding: 35px 40px;
+    overflow-y: auto;
+    background: #d4e3d0;
+}
+
+/* maincontentcss.css */
+
+.hidden {
+    display: none !important; /* Forces the element to stay hidden regardless of ID rules */
+}
+
+/* THE FIX: Remove specific rows so they don't stretch to match the leaderboard */
+#content1, #content2 {
+    display: grid;
+    grid-template-columns: 5fr 2fr; 
+    align-items: start;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Container to stack everything on the left tightly */
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+/* Keep leaderboard in column 2 */
+#content1 .leaderboard {
+    grid-column: 2 / 3;
+}
+
+#content1 h2 {
+    grid-column: 1 / 2;
+}
+
+#content1 .subtext {
+    grid-column: 1 / 2;
+}
+
+#content1 .create-btn {
+    grid-column: 1 / 2;
+}
+
+#content1 .quests {
+    grid-column: 1 / 2;
+}
+
+#content1 .leaderboard {
+    grid-column: 2 / 3;
+    grid-row: 1 / -1;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.subtitle {
+    margin-top: 6px;
+    color: #6f6f6f;
+    margin-bottom: 25px;
+}
+
+.subtext {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 25px; /* Consistent gap after subtitle across all tabs */
+}
+
+/* GLOBAL TAB STYLES (Moved from User Management) */
+.tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tab {
+    height: 40px; /* Standardized height */
+    padding: 0 26px;
+    border: none;
+    border-radius: 8px; /* Square/slightly rounded as per request to match user mgmt */
+    background: #d0d8c7;
+    color: #444;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab:hover {
+    background: #c1ccb5;
+}
+
+.tab.active {
+    background: #8ccf73;
+    color: white;
+}
+
+/* GLOBAL BUTTON STYLES (Standardized Edit/Action Buttons) */
+.action-btn {
+    height: 40px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Standard Edit Button Style */
+.edit-btn {
+    padding: 6px 16px;
+    background: #d7dfd1;
+    color: #444;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+    height: 36px; /* Slightly smaller for card contexts */
+}
+
+.edit-btn:hover {
+    background: #c1ccb5;
+}
+
+/* Generalized Info Grid Classes */
+.info-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+}
+
+.info-value {
+    font-size: 12px;
+    color: #777;
+    word-break: break-all;
+}

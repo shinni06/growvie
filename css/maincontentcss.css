@@ -271,11 +271,12 @@ aside .subtext {
 /* GLOBAL TAB STYLES (Moved from User Management) */
 .tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
 }
 
 .tab {
-    height: 40px; /* Standardized height */
+    height: 35px; /* Standardized height */
     padding: 0 26px;
     border: none;
     border-radius: 8px; /* Square/slightly rounded as per request to match user mgmt */
@@ -300,7 +301,7 @@ aside .subtext {
 
 /* GLOBAL BUTTON STYLES (Standardized Edit/Action Buttons) */
 .action-btn {
-    height: 40px;
+    height: 35px;
     padding: 0 20px;
     border: none;
     border-radius: 8px;
@@ -324,7 +325,7 @@ aside .subtext {
     font-size: 13px;
     font-weight: 600;
     transition: background 0.2s;
-    height: 36px; /* Slightly smaller for card contexts */
+    height: 35px; /* Slightly smaller for card contexts */
 }
 
 .edit-btn:hover {
@@ -388,6 +389,7 @@ aside .subtext {
     padding: 24px;
     border-radius: 12px;
     border: 1px solid #d8e3d5;
+    margin-bottom: 15px;
 }
 
 .list-container {
@@ -493,7 +495,7 @@ aside .subtext {
     }
     
     /* Shop Management - 3 columns */
-    .grid {
+    .shop-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
     }
@@ -634,12 +636,12 @@ aside .subtext {
     }
     
     /* Shop Management - 2 columns */
-    .grid {
+    .shop-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
     
-    .card,
+    .shop-card,
     .add-card {
         height: 280px;
     }
@@ -755,12 +757,6 @@ aside .subtext {
     
     .announcement-actions button {
         width: 100%;
-    }
-    
-    /* Tabs */
-    .tabs {
-        flex-wrap: wrap;
-        gap: 10px;
     }
     
     .tab {
@@ -891,7 +887,7 @@ aside .subtext {
     }
     
     /* Shop Management - 1 column */
-    .grid {
+    .shop-grid {
         grid-template-columns: 1fr;
     }
     
