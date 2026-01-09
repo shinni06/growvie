@@ -69,31 +69,21 @@ function renderAnnouncements(mysqli $con) {
 
     $res = mysqli_query($con, $sql);
 
-    $currentDate = "";
-
     while ($a = mysqli_fetch_assoc($res)) {
-
-        $displayDate = date("d F Y", strtotime($a['announce_schedule_date']));
-
-        if ($currentDate !== $displayDate) {
-            echo "<h4 class='announcement-date'>$displayDate</h4>";
-            $currentDate = $displayDate;
-        }
-
         ?>
         <div class="announcement-card">
             <div class="announcement-header">
-                <strong><?php echo htmlspecialchars($a['announce_title']); ?></strong>
+                <h3 class="item-title"><?php echo htmlspecialchars($a['announce_title']); ?></h3>
                 <span class="time"> 
                     <?php echo date("d F Y", strtotime($a['announce_created_at'])); ?>
                 </span>
             </div>
 
-            <p><?php echo htmlspecialchars($a['announce_body']); ?></p>
+            <p class="item-description"><?php echo htmlspecialchars($a['announce_body']); ?></p>
 
-            <div class="announcement-actions">
-                <button class="btn-announcement-edit" onclick='openEditAnnouncement(<?php echo json_encode($a); ?>)'>Edit</button>
-                <button class="btn-announcement-delete" onclick="openDeleteAnnouncement('<?php echo $a['announcement_id']; ?>','<?php echo addslashes($a['announce_title']); ?>')">Delete</button>
+            <div class="item-actions align-right">
+                <button class="action-btn edit" onclick='openEditAnnouncement(<?php echo json_encode($a); ?>)'>Edit</button>
+                <button class="action-btn delete" onclick="openDeleteAnnouncement('<?php echo $a['announcement_id']; ?>','<?php echo addslashes($a['announce_title']); ?>')">Delete</button>
             </div>
         </div>
         <?php

@@ -104,14 +104,9 @@
    SHARED / PLAYER CARD STYLES
    =========================== */
 .user-card {
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    margin-bottom: 15px;
-    border: 1px solid #d8e3d5;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -147,13 +142,6 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 6px;
-}
-
-.info h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0;
-    color: #2c3e50;
 }
 
 .info h3 span {
@@ -219,11 +207,6 @@
     margin-top: 5px;
 }
 
-.actions {
-    display: flex;
-    gap: 8px;
-}
-
 /* --- Status Tags --- */
 .status-tag {
     display: inline-block;
@@ -276,10 +259,6 @@
 }
 
 .partner-card {
-    background: #fff;
-    border: 1px solid #d8e3d5;
-    border-radius: 12px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     transition: 0.2s ease;
@@ -348,17 +327,6 @@
     flex: 1;
 }
 
-.partner-desc {
-    font-size: 13px;
-    color: #4b5563;
-    line-height: 1.5;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
 /* --- Partner ID/Email Alignment Grid --- */
 
 .partner-info-grid {
@@ -366,8 +334,6 @@
     display: grid;
 
     grid-template-columns: 60px 1fr; /* 60px for labels, rest for values */
-
-    row-gap: 4px;
 
     align-items: baseline;
 

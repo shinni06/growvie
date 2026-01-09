@@ -90,6 +90,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             return;
         }
 
+        echo '<div class="list-container">';
         while ($u = mysqli_fetch_assoc($res)) {
             $isSuspended = (($u['player_status'] ?? 'Active') === 'Suspended');
             $cardClass = $isSuspended ? "user-card suspended" : "user-card";
@@ -103,7 +104,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                     <img src="<?php echo $displayPfp; ?>" alt="Profile" class="user-card-pfp">
                     <div class="info">
                         <div class="user-header">
-                            <h3><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
+                            <h3 class="item-title"><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
                             <span class="tier-badge">Tier <?php echo (int)($u['player_tier'] ?? 1); ?></span>
                         </div>
                         
@@ -127,7 +128,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                         <p class="last-active">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
                     <?php endif; ?>
 
-                    <div class="actions">
+                    <div class="item-actions">
                         <form method="POST" action="final.php?role=Player">
                             <input type="hidden" name="user_id" value="<?php echo $u['user_id']; ?>">
                             <?php if ($isSuspended): ?>
@@ -146,6 +147,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             </div>
             <?php
         }
+        echo '</div>';
     } 
     
     // --- PARTNER TAB LOGIC (UPDATED) ---
@@ -181,7 +183,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                     <img src="<?php echo $displayPfp; ?>" alt="Avatar" class="partner-pfp">
                     
                     <div class="partner-info">
-                        <h3 class="p-name"><?php echo htmlspecialchars($p['name']); ?></h3>
+                        <h3 class="item-title"><?php echo htmlspecialchars($p['name']); ?></h3>
                         <p class="p-username">@<?php echo htmlspecialchars($p['username']); ?></p>
 
                         <div class="partner-info-grid">
@@ -198,7 +200,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                 <div class="partner-divider"></div>
 
                 <div class="partner-body">
-                    <p class="partner-desc"><?php echo htmlspecialchars($description); ?></p>
+                    <p class="item-description"><?php echo htmlspecialchars($description); ?></p>
                 </div>
             </div>
             <?php

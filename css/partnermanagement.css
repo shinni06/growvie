@@ -8,14 +8,16 @@
 
 /* Request Card */
 .request-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.username-at {
+    font-size: 14px;
+    color: #888;
+    margin-left: 5px;
 }
 
 /* Image */

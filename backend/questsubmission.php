@@ -62,11 +62,11 @@ function renderReviewTab(mysqli $con) {
             
             <div class="review-details-side">
                 <div class="quest-info-block">
-                    <h3 class="review-quest-title">
+                    <h3 class="item-title">
                         <?php echo htmlspecialchars($row['quest_emoji']); ?> 
                         <?php echo htmlspecialchars($row['quest_title']); ?>
                     </h3>
-                    <p class="review-quest-desc"><?php echo htmlspecialchars($row['quest_description']); ?></p>
+                    <p class="item-description"><?php echo htmlspecialchars($row['quest_description']); ?></p>
                     <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
                 </div>
 
@@ -82,7 +82,7 @@ function renderReviewTab(mysqli $con) {
 
                 <div class="message-info-block" style="margin-top: 20px;">
                     <h4 class="user-message-title">User Message</h4>
-                    <div class="message-bubble"><p>"<?php echo htmlspecialchars($row['quest_submission_description']); ?>"</p></div>
+                    <div class="message-bubble"><p class="item-description"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p></div>
                 </div>
 
                 <div class="card-footer-wrapper">

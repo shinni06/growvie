@@ -153,11 +153,11 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
             echo "
             <div class='card' id='card-{$itemId}'>
                 <img src='{$imgSrc}' alt='{$name}'>
-                <h3>{$name}</h3>
-                <p>{$desc}</p>
+                <h3 class='item-title'>{$name}</h3>
+                <p class='item-description'>{$desc}</p>
                 <div class='bottom-row'>
                     <span class='price'>{$displayPrice}</span>
-                    <div class='review-actions';'>
+                    <div class='item-actions'>
                         <button class='action-btn edit' id='shop-management-btn' onclick=\"openShopItemModal('edit', '{$itemId}', '{$jsName}', '{$jsDesc}', '{$price}', '{$jsCat}')\">Edit</button>
                         <button class='action-btn delete' id='shop-management-btn' onclick=\"openShopDeleteModal('{$itemId}', '{$jsName}')\">Delete</button>
                     </div>
@@ -235,8 +235,8 @@ function renderShopSection($con) {
                                     <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>">
                                 </div>
                                 <div class="card-details">
-                                    <h3><?php echo htmlspecialchars($item['item_name']); ?></h3>
-                                    <p class="desc"><?php echo htmlspecialchars($item['item_desc']); ?></p>
+                                    <h3 class="item-title"><?php echo htmlspecialchars($item['item_name']); ?></h3>
+                                    <p class="item-description"><?php echo htmlspecialchars($item['item_desc']); ?></p>
                                     <div class="bottom-row">
                                         <span class="price">
                                             <?php if ($cat == 'In App Purchases'): ?>

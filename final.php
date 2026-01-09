@@ -6,12 +6,14 @@ require_once __DIR__ . "/backend/questsubmission.php";
 require_once __DIR__ . "/backend/usermanagement.php";
 require_once __DIR__ . "/backend/shopmanagement.php";
 require_once __DIR__ . "/backend/partnermanagement.php"; // Add this line
+require_once __DIR__ . "/backend/announcement/announcement.php";
 
 handleCreateQuest($con);
 handleReviewAction($con);
 handleUserActions($con);
 handleShopActions($con);
 handlePartnerActions($con);
+handleAnnouncementActions($con);
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +39,7 @@ handlePartnerActions($con);
     <link rel="stylesheet" href="css/usermanagement.css">
     <link rel="stylesheet" href="css/partnermanagement.css">
     <link rel="stylesheet" href="css/analytics.css">    
+    <script src="backend/announcement/announcement.js"></script>
 
     <script>
         // Simple Tab Switcher
@@ -72,11 +75,19 @@ handlePartnerActions($con);
                 'shop_item_added': ['Item Added', 'New shop item created successfully.'],
                 'shop_item_updated': ['Item Updated', 'Shop item details updated.'],
                 'shop_item_deleted': ['Item Deleted', 'Shop item removed permanently.'],
-                'partner_updated': ['Request Processed', 'The tree planting verification has been updated.']
+                'partner_updated': ['Request Processed', 'The tree planting verification has been updated.'],
+                'announcement_created': ['Announcement Posted', 'The announcement has been successfully created.'],
+                'announcement_updated': ['Announcement Updated', 'The announcement has been successfully updated.'],
+                'announcement_deleted': ['Announcement Deleted', 'The announcement has been removed.']
             };
 
             // Check if any param matches our keys
-            const action = params.get('review_success') || params.get('quest_success') ? 'quest_success' : params.get('action');
+            let action = params.get('action');
+            if (params.get('review_success')) action = 'quest_success';
+            if (params.get('quest_success')) action = 'quest_success';
+            if (params.get('announcement_success') === 'true') action = 'announcement_created';
+            if (params.get('announcement_success') === 'deleted') action = 'announcement_deleted';
+
             const match = messages[action] || messages[params.get('review_success')]; // specific check for review values
 
             if (match) {
@@ -164,13 +175,13 @@ handlePartnerActions($con);
 
                     <button class="action-btn create" onclick="openCreateModal()">+ Create a new quest</button>
 
-                    <div class="quests" id="quests-container">
+                    <div class="list-container" id="quests-container">
                         <?php renderQuestCards($con); ?>
                     </div>
 
                     <h3 id="inactive-section-title">Inactive Quests</h3>
 
-                    <div class="quests">
+                    <div class="list-container">
                         <?php renderInactiveQuestCards($con); ?>
                     </div>
                 </div>
@@ -201,45 +212,64 @@ handlePartnerActions($con);
             <!-- ANNOUNCEMENT TAB -->
             <div class="content hidden" id="content3">
                 <div class="main-content-container">
-                                    <h2>Announcements</h2>
-                                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    
-                                    <button class="action-btn create">+ Create a new announcement</button>
-                    
-                                    <div class="date-header">27 November 2025</div>
-                                        <div class="announcements-list">
-                        <!-- Announcement Card 1 -->
-                        <div class="announcement-card">
-                            <div class="announcement-header">
-                                <h3 class="announcement-title">Announcement Title</h3>
-                                <span class="announcement-time">11:38PM</span>
-                            </div>
-                            <p class="announcement-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
-                            </p>
-                            <div class="announcement-actions">
-                                <button class="action-btn edit">Edit</button>
-                                <button class="action-btn delete">Delete</button>
-                            </div>
-                        </div>
+                    <h2>Announcements</h2>
+                    <p class="subtext">Manage system-wide announcements.</p>
+    
+                    <button type="button" class="action-btn create" onclick="openPopup()">+ Create a new announcement</button>
+    
+                    <div id="announcementPopup" class="modal">
+                        <div class="modal-content">
+                            <h3>Scheduled Date</h3>
+                            
+                            <div class="announcement-date-container">
+                                <div class="announcement-date-input">
+                                    <input type="number" id="day" min="1" max="31" placeholder="Day">
+                                </div>
 
-                        <!-- Announcement Card 2 -->
-                        <div class="announcement-card">
-                            <div class="announcement-header">
-                                <h3 class="announcement-title">Announcement Title</h3>
-                                <span class="announcement-time">11:38PM</span>
+                                <div class="announcement-date-input">
+                                    <select id="month">
+                                        <option value="" disabled selected hidden>Month</option>
+                                        <option value="January">January</option>
+                                        <option value="February">February</option>
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
+                                    </select>
+                                </div>
+
+                                <div class="announcement-date-input">
+                                    <input type="number" id="year" min="2024" max="2030" placeholder="Year">
+                                </div>
                             </div>
-                            <p class="announcement-content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
-                            </p>
-                            <div class="announcement-actions">
-                                <button class="action-btn edit">Edit</button>
-                                <button class="action-btn delete">Delete</button>
+
+                            <div class="form-group">
+                                <label for="announcementTitle">Announcement Title</label>
+                                <input type="text" id="announcementTitle" class="announcement-form-input" placeholder="Enter announcement title">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcementContent">Announcement Content</label>
+                                <textarea id="announcementContent" class="announcement-textarea" placeholder="Enter announcement content"></textarea>
+                            </div>
+
+                            <div class="modal-footer announcement-modal-footer">
+                                <button type="button" class="action-btn gray" onclick="closePopup()">Close</button>
+                                <button type="button" class="action-btn green" onclick="postAnnouncement()">Post</button>
                             </div>
                         </div>
                     </div>
+
+                    <div class="list-container">
+                        <?php renderAnnouncements($con); ?>
+                    </div>
                 </div>
-                
             </div>
 
             <!--Shop management tab-->
@@ -315,10 +345,14 @@ handlePartnerActions($con);
                     <h2>Partner Organization</h2>
                     <p class="subtext">Manage real-world tree planting verification requests.</p>
 
-                    <?php renderPartnerRequests($con); ?>
+                    <div class="list-container">
+                        <?php renderPartnerRequests($con); ?>
+                    </div>
 
                     <h3 style="margin-top: 40px; margin-bottom: 20px;">Verification History</h3>
-                    <?php renderPartnerHistory($con); ?>
+                    <div class="list-container">
+                        <?php renderPartnerHistory($con); ?>
+                    </div>
                 </div>
             </div>  
 

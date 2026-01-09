@@ -73,11 +73,11 @@ function renderPartnerRequests($con) {
                 
                 <div class='request-info'>
                     <div class='info-grid'>
+                        <span class='info-label'>User</span>
+                        <span class='info-value'>$fullname <span class='username-at'>@$username</span></span>
+
                         <span class='info-label'>Request ID</span>
                         <span class='info-value'>$treeId</span>
-
-                        <span class='info-label'>User</span>
-                        <span class='info-value'>$fullname @$username</span>
 
                         <span class='info-label'>Report Date</span>
                         <span class='info-value'>$date</span>
@@ -93,10 +93,10 @@ function renderPartnerRequests($con) {
                     </div>
                 </div>
 
-                <form method='POST' action='final.php' class='actions' style='display:flex; flex-direction:column; gap:8px;'>
+                <form method='POST' action='final.php' class='item-actions'>
                     <input type='hidden' name='real_tree_id' value='$treeId'>
-                    <button type='submit' name='partnerAction' value='Reject' class='action-btn cfmdelete' style='width:100px;'>Reject</button>
-                    <button type='submit' name='partnerAction' value='Approve' class='action-btn submit' style='width:100px;'>Approve</button>
+                    <button type='submit' name='partnerAction' value='Reject' class='action-btn cfmdelete'>Reject</button>
+                    <button type='submit' name='partnerAction' value='Approve' class='action-btn submit'>Approve</button>
                 </form>
             </div>";
         }
@@ -143,11 +143,12 @@ function renderPartnerHistory($con) {
                 <img src='$imgPath' onerror=\"this.src='$fallback'\" alt='Tree Evidence'>
                 
                 <div class='request-info'>
-                    <h3>$treeId</h3>
-
                     <div class='info-grid'>
                         <span class='info-label'>User</span>
-                        <span class='info-value'>$fullname @$username</span>
+                        <span class='info-value'>$fullname <span class='username-at'>@$username</span></span>
+
+                        <span class='info-label'>Request ID</span>
+                        <span class='info-value'>$treeId</span>
 
                         <span class='info-label'>Report Date</span>
                         <span class='info-value'>$date</span>
@@ -163,7 +164,7 @@ function renderPartnerHistory($con) {
                     </div>
                 </div>
 
-                <div class='actions' style='display:flex; justify-content:center; width:100px;'>
+                <div class='item-actions align-right'>
                     <span class='status-badge $statusClass'>$status</span>
                 </div>
             </div>";
