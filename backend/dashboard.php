@@ -39,11 +39,11 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges">
+                <div class="reward-badges top-right-info">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="quest-sub">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
+                <span class="date-text bottom-right-info">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
             </div>
         </div>
         <?php
@@ -84,11 +84,11 @@ function renderInactiveQuestCards(mysqli $con) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges">
+                <div class="reward-badges top-right-info">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="quest-sub"><?php echo $statusLabel; ?></span>
+                <span class="date-text bottom-right-info"><?php echo $statusLabel; ?></span>
             </div>
         </div>
         <?php
@@ -98,12 +98,11 @@ function renderInactiveQuestCards(mysqli $con) {
 /**
  * RESTORED: Renders the leaderboard with tiered ranking colors.
  */
-function renderLeaderboard(mysqli $con, int $limit = 10) {
+function renderLeaderboard(mysqli $con) {
     $sql = "SELECT u.username, up.total_quests_completed 
             FROM user u 
             JOIN user_player up ON u.user_id = up.user_id 
-            ORDER BY up.total_quests_completed DESC 
-            LIMIT $limit";
+            ORDER BY up.total_quests_completed DESC";
     $res = mysqli_query($con, $sql);
     
     echo "<div class='lb-list'>";

@@ -10,8 +10,10 @@
 /* Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(11, 1fr);
     gap: 20px;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Cards */
@@ -19,39 +21,50 @@
     background: white;
     border-radius: 14px;
     padding: 20px;
+    position: relative;
 }
 
-.small {
-    height: 140px;
+.small, .medium, .large {
+    grid-column: span 1;
+    height: 300px;
 }
 
-.medium {
-    height: 220px;
+.short-card {
+    height: 160px;
 }
 
-.large {
-    grid-column: span 2;
-    height: 260px;
+/* Span Helpers (11-Column System) */
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-11 { grid-column: span 11; }
+
+.wide-card {
+    grid-column: span 4; 
 }
 
 .label {
     color: #777;
-    font-size: 14px;
+    font-size: 12px;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 700;
 }
 
 .card h2 {
-    font-size: 30px;
+    font-size: 34px;
     margin: 10px 0;
 }
 
 .card h2 small {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     margin-left: 6px;
 }
 
 .trend {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .trend.up {
@@ -60,6 +73,24 @@
 
 .trend.down {
     color: #d85c5c;
+}
+
+.trend-text {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+}
+
+.trend-icon {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.trend-details {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Chart placeholder */
@@ -79,20 +110,14 @@
 /* Progress bar */
 .progress-bar {
     background: #e3e3e3;
-    height: 28px;
+    height: 12px;
     border-radius: 14px;
     overflow: hidden;
-    margin: 15px 0;
 }
 
 .progress {
     background: #8ecf73;
     height: 100%;
-    color: white;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .progress-info {
@@ -108,13 +133,17 @@
 /* Donut chart */
 .donut-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 .donut {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     background: conic-gradient(
         #8ecf73 0% 45%,
@@ -125,7 +154,9 @@
 
 .legend {
     list-style: none;
-    font-size: 14px;
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
 }
 
 .legend li {

@@ -55,7 +55,7 @@ function renderPartnerRequests($con) {
             LEFT JOIN partner p ON r.partner_id = p.partner_id
             LEFT JOIN user up ON p.contact_email = up.email
             WHERE r.request_status = 'Pending'
-            ORDER BY r.date_reported DESC";
+            ORDER BY r.date_reported ASC";
     
     $res = mysqli_query($con, $sql);
 
@@ -98,7 +98,7 @@ function renderPartnerRequests($con) {
                 <div class="review-content-scrollable">
                     <div class="partner-header-top title-spaced">
                         <h3 class="item-title"><?php echo $treeId; ?></h3>
-                        <p class="submit-date">Reported on <?php echo $date; ?></p>
+                        <p class="date-text top-right-info">Reported on <?php echo $date; ?></p>
                     </div>
 
                     <div class="info-panel">
@@ -113,7 +113,7 @@ function renderPartnerRequests($con) {
                     </div>
 
                     <div class="info-panel">
-                        <span class="info-label">Verified by</span>
+                        <span class="info-label">Handled by</span>
                         <div class="submitter-row partner-submitter-gap">
                             <img src="<?php echo $partnerAvatar; ?>" class="partner-avatar-square">
                             <div class="user-meta">

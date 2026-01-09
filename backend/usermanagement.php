@@ -123,12 +123,12 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
 
                 <div class="right-section">
                     <?php if ($isSuspended): ?>
-                        <div class="status-tag suspended">Suspended</div>
+                        <div class="status-tag suspended top-right-info">Suspended</div>
                     <?php else: ?>
-                        <p class="last-active">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
+                        <p class="date-text top-right-info">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
                     <?php endif; ?>
 
-                    <div class="item-actions">
+                    <div class="item-actions bottom-right-info">
                         <form method="POST" action="final.php?role=Player">
                             <input type="hidden" name="user_id" value="<?php echo $u['user_id']; ?>">
                             <?php if ($isSuspended): ?>

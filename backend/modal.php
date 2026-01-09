@@ -23,24 +23,24 @@ function renderQuestModal() {
                 <div id="emojiPicker" class="emoji-grid hidden">
                     <span onclick="selectEmoji('✅')">✅</span>
                     <span onclick="selectEmoji('🏷️')">🏷️</span>
+                    <span onclick="selectEmoji('📌')">📌</span>
+                    <span onclick="selectEmoji('🌍')">🌍</span>
+                    <span onclick="selectEmoji('❤️')">❤️</span>
+                    <span onclick="selectEmoji('🌱')">🌱</span>
+                    <span onclick="selectEmoji('🌊')">🌊</span>
+                    <span onclick="selectEmoji('⚡')">⚡</span>
                     <span onclick="selectEmoji('🥤')">🥤</span>
                     <span onclick="selectEmoji('🛍️')">🛍️</span>
                     <span onclick="selectEmoji('🍱')">🍱</span>
-                    <span onclick="selectEmoji('🚲')">🚲</span>
+                    <span onclick="selectEmoji('🥗')">🥗</span>
                     <span onclick="selectEmoji('🥕')">🥕</span>
                     <span onclick="selectEmoji('🏡')">🏡</span>
-                    <span onclick="selectEmoji('📄')">📄</span>
-                    <span onclick="selectEmoji('🔖')">🔖</span>
-                    <span onclick="selectEmoji('♻️')">♻️</span>
-                    <span onclick="selectEmoji('🌱')">🌱</span>
-                    <span onclick="selectEmoji('🌳')">🌳</span>
-                    <span onclick="selectEmoji('🌊')">🌊</span>
-                    <span onclick="selectEmoji('☀️')">☀️</span>
-                    <span onclick="selectEmoji('⚡')">⚡</span>
-                    <span onclick="selectEmoji('💡')">💡</span>
-                    <span onclick="selectEmoji('🧭')">🧭</span>
-                    <span onclick="selectEmoji('📌')">📌</span>
-                    <span onclick="selectEmoji('🌍')">🌍</span>
+                    <span onclick="selectEmoji('🚲')">🚲</span>
+                    <span onclick="selectEmoji('🚶')">🚶</span>
+                    <span onclick="selectEmoji('👕')">👕</span>
+                    <span onclick="selectEmoji('🛒')">🛒</span>
+                    <span onclick="selectEmoji('🚮')">🚮</span>
+                    <span onclick="selectEmoji('♻️')">♻️</span>                    
                 </div>
 
                 <label>Quest Title</label>

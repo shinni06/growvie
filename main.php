@@ -5,8 +5,9 @@ require_once __DIR__ . "/backend/dashboard.php";
 require_once __DIR__ . "/backend/questsubmission.php";
 require_once __DIR__ . "/backend/usermanagement.php";
 require_once __DIR__ . "/backend/shopmanagement.php";
-require_once __DIR__ . "/backend/partnermanagement.php"; // Add this line
+require_once __DIR__ . "/backend/partnermanagement.php";
 require_once __DIR__ . "/backend/announcement/announcement.php";
+require_once __DIR__ . "/backend/appanalytics.php";
 
 handleCreateQuest($con);
 handleReviewAction($con);
@@ -14,6 +15,8 @@ handleUserActions($con);
 handleShopActions($con);
 handlePartnerActions($con);
 handleAnnouncementActions($con);
+$analytics = getAnalyticsData($con);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +30,7 @@ handleAnnouncementActions($con);
         renderDashboardScripts();
         renderUserManagementScripts();
         renderShopScripts();
+        renderAnalyticsScripts($analytics);
     ?>
 
     <link rel="stylesheet" href="css/style.css">
@@ -40,6 +44,7 @@ handleAnnouncementActions($con);
     <link rel="stylesheet" href="css/partnermanagement.css">
     <link rel="stylesheet" href="css/analytics.css">    
     <script src="backend/announcement/announcement.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // Simple Tab Switcher
@@ -189,7 +194,7 @@ handleAnnouncementActions($con);
 
                 <aside class="leaderboard">
                     <h3>Daily Leaderboard</h3>
-                    <?php renderLeaderboard($con, 10); ?>
+                    <?php renderLeaderboard($con); ?>
                 </aside>
             </div>
 
@@ -361,87 +366,10 @@ handleAnnouncementActions($con);
 
             <div class="content hidden" id="content7">
                 <div class="main-content-container">
-                    <h2>App analytics</h2>
-                    <p class="subtext">Monitor your application performance and user growth.</p>
-
-                    <div class="top-row">
-                        <div class="tabs"></div>
-                        <div class="top-actions">
-                            <button class="action-btn green">+ Generate new report</button>
-                        </div>
-                    </div>
-
-                    <!--change with real data-->
-                        <div class="grid">
-                            <div class="card small">
-                                <span class="label">Total users</span>
-                                <h2>12,345</h2>
-                                <span class="trend up">▲ 15% increase since last week</span>
-                            </div>
-
-                            <div class="card small">
-                                <span class="label">Growvie plants planted</span>
-                                <h2>23,456</h2>
-                                <span class="trend down">▼ 8% decrease since last week</span>
-                            </div>
-
-                            <div class="card large">
-                                <span class="label">New user registration</span>
-                                <h2>1,234 <small>new users this month</small></h2>
-                                <div class="chart"></div>
-                                <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
-                            </div>
-
-                            <div class="card medium">
-                                <span class="label">Planting requests</span>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width:86%">86%</div>
-                                </div>
-
-                                <div class="progress-info">
-                                    <div>
-                                        <span>Completed</span>
-                                        <strong>20,400</strong>
-                                    </div>
-                                    <div>
-                                        <span>Pending</span>
-                                        <strong>3,056</strong>
-                                    </div>
-                                    <div class="total">
-                                        <span>Total</span>
-                                        <strong>23,456</strong>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card medium">
-                                <span class="label">Revenue earned</span>
-                                <h2>RM12,345</h2>
-                                <span class="trend up">▲ 15% increase since last week</span>
-
-                                <div class="donut-row">
-                                    <div class="donut"></div>
-
-                                    <ul class="legend">
-                                        <li><span></span> Plant Seeds</li>
-                                        <li><span></span> Power-ups</li>
-                                        <li><span></span> Profile Customization</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="card large">
-                                <span class="label">Quests completed</span>
-                                <h2>12,345 <small>quests completed this month</small></h2>
-                                <div class="chart"></div>
-                                <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <h2>App Analytics</h2>
+                    <p class="subtext">Performance overview based on real-time data.</p>
+                    <?php renderAnalyticsTab($analytics); ?>
                 </div>
-
             </div>
 
         </main>

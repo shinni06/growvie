@@ -43,7 +43,8 @@ function renderReviewTab(mysqli $con) {
             JOIN quest q ON qs.quest_id = q.quest_id
             JOIN user u ON qs.user_id = u.user_id 
             JOIN user_player up ON u.user_id = up.user_id 
-            WHERE qs.approval_status = 'Pending' AND up.player_status != 'Deleted'";
+            WHERE qs.approval_status = 'Pending' AND up.player_status != 'Deleted'
+            ORDER BY qs.submitted_at ASC";
     
     $res = mysqli_query($con, $sql);
     if (!$res || mysqli_num_rows($res) === 0) {
@@ -87,7 +88,7 @@ function renderReviewTab(mysqli $con) {
                         <div class="message-bubble">
                             <p class="item-description no-margin"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p>
                         </div>
-                        <p class="submit-date italic-date">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
+                        <p class="date-text" style="text-align: right; margin-top: 10px;">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
                     </div>
                 </div>
 
