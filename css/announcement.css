@@ -1,26 +1,4 @@
 /* Announcement Tab Styles */
-.create-announcement-btn {
-    background: #85C668;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 25px;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: 0.2s ease;
-}
-
-.create-announcement-btn:hover {
-    background: #c5d4c1;
-}
-
 .date-header {
     font-size: 14px;
     font-weight: 700;

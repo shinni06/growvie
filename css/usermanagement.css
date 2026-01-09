@@ -30,16 +30,14 @@
     justify-content: space-between; /* Pushes Tabs to left, Actions to right */
     align-items: center;            /* Vertically centers everything */
     margin-bottom: 25px;
-    flex-wrap: nowrap;              /* Prevents wrapping to new lines */
-    gap: 20px;                      /* Adds breathing room between groups */
+    flex-wrap: nowrap;              /* Prevents wrapping to new lines */                 /* Adds breathing room between groups */
 }
 
 /* Container for Button + Search */
 .top-actions {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 15px;                      /* Space between Button and Search Bar */
+    justify-content: flex-end;                   /* Space between Button and Search Bar */
     flex: 1;                        /* Allows this group to take available space */
 }
 
@@ -112,7 +110,7 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    margin: 15px 0;
+    margin-bottom: 15px;
     border: 1px solid #d8e3d5;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -382,3 +380,7 @@
     color: #777; /* Matches user-card meta value color */
     word-break: break-all;
 }
+
+#userSearchInput {
+    margin-left: 15px;
+}s

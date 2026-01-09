@@ -95,8 +95,8 @@ function renderReviewTab(mysqli $con) {
                     </div>
                     <form method="POST" action="final.php" class="review-actions">
                         <input type="hidden" name="submission_id" value="<?php echo $row['submission_id']; ?>">
-                        <button type="submit" name="actionReview" value="Rejected" class="btn-review btn-reject">Reject</button>
-                        <button type="submit" name="actionReview" value="Approved" class="btn-review btn-approve">Approve</button>
+                        <button type="submit" name="actionReview" value="Rejected" class="action-btn large cfmdelete">Reject</button>
+                        <button type="submit" name="actionReview" value="Approved" class="action-btn large submit">Approve</button>
                     </form>
                 </div>
             </div>

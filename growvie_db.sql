@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 08, 2026 at 08:00 PM
+-- Generation Time: Jan 09, 2026 at 07:21 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -186,7 +186,7 @@ INSERT INTO `quest` (`quest_id`, `quest_title`, `quest_description`, `quest_emoj
 ('Q005', 'Repair & Reuse', 'Fix a small item (stitch clothes, glue a broken piece, etc.)', '♻️', 3, 40, 'Waste Reduction', 'USR001', 'Active', '2025-12-14'),
 ('Q006', 'new quest test!!!', 'ajhakshdlsj', '🎯', 50, 50, 'Community', 'USR001', 'Inactive', '2026-01-24'),
 ('Q007', 'test', 'qweqwe', '🎯', 0, 0, 'Community', 'USR001', 'Inactive', '2026-01-06'),
-('Q008', 'inactive quest test', 'zzHJAAAAAAAAAAA', '🎯', 69, 69, 'Community', 'USR001', 'Inactive', '2026-01-29');
+('Q008', 'inactive quest test', 'zzHJAAAAAAAAAAA', '🎯', 69, 69, 'Community', 'USR001', 'Active', '2026-01-29');
 
 -- --------------------------------------------------------
 
@@ -318,7 +318,6 @@ CREATE TABLE IF NOT EXISTS `shop_item` (
   `item_price` int NOT NULL,
   `item_category` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `item_availability` tinyint(1) NOT NULL,
-  `item_image_code` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -326,13 +325,13 @@ CREATE TABLE IF NOT EXISTS `shop_item` (
 -- Dumping data for table `shop_item`
 --
 
-INSERT INTO `shop_item` (`item_id`, `item_name`, `item_desc`, `item_price`, `item_category`, `item_availability`, `item_image_code`) VALUES
-('ITM001', 'Fern Seed Pack', 'Pack of fern seeds to grow a sprout', 1000, 'Plant Seeds', 1, 'plant_seeds.png'),
-('ITM002', 'Tulip Seed Pack', 'Pack of tulip seeds for blooming plants', 1500, 'Plant Seeds', 1, 'plant_seeds.png'),
-('ITM003', 'Water Booster', 'Instantly adds 5 water drops to a plant', 2000, 'Power Ups', 1, 'power_ups.png'),
-('ITM004', 'Double Coins', 'Earn double eco-coins for 1 hour', 2500, 'Power Ups', 1, 'power_ups.png'),
-('ITM005', 'Extra Drops Pack', 'Buy 10 extra water drops', 3000, 'In App Purchases', 1, 'in_app_purchases.png'),
-('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 50000, 'In App Purchases', 0, 'in_app_purchases.png');
+INSERT INTO `shop_item` (`item_id`, `item_name`, `item_desc`, `item_price`, `item_category`, `item_availability`) VALUES
+('ITM001', 'Fern Seed Pack', 'Pack of fern seeds to grow a sprout', 1000, 'Plant Seeds', 1),
+('ITM002', 'Tulip Seed Pack', 'Pack of tulip seeds for blooming plants', 1500, 'Plant Seeds', 1),
+('ITM003', 'Water Booster', 'Instantly adds 5 water drops to a plant', 2000, 'Power Ups', 1),
+('ITM004', 'Double Coins', 'Earn double eco-coins for 1 hour', 2500, 'Power Ups', 1),
+('ITM005', 'Extra Drops Pack', 'Buy 10 extra water drops', 3000, 'In App Purchases', 1),
+('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 50000, 'In App Purchases', 0);
 
 -- --------------------------------------------------------
 

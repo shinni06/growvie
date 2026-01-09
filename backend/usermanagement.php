@@ -150,10 +150,10 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
     
     // --- PARTNER TAB LOGIC (UPDATED) ---
     elseif ($role === 'Partner') {
-        $sql = "SELECT u.*, p.description, p.status 
+        $sql = "SELECT u.*, p.description, p.partner_status 
                 FROM user u 
                 LEFT JOIN partner p ON u.email = p.contact_email 
-                WHERE u.role = 'Partner' AND p.status != 'Deleted'";
+                WHERE u.role = 'Partner' AND p.partner_status != 'Deleted'";
 
         if (!empty($search)) {
             $sql .= " AND (u.name LIKE '%$search%' OR p.description LIKE '%$search%')";

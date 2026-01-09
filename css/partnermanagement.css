@@ -55,20 +55,6 @@
     font-weight: 600;
 }
 
-/* Actions */
-.actions {
-    display: flex;
-    gap: 12px;
-}
-
-.actions button {
-    padding: 10px 24px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-}
-
 /* Buttons */
 .reject {
     background: #d86a6a;

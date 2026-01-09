@@ -169,18 +169,11 @@
 
 .review-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 
-.btn-review {
+.review-actions .action-btn {
     flex: 1;
-    height: 44px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    transition: background 0.2s ease;
 }
 
 /* 8) Approval Log Icons */
@@ -191,26 +184,9 @@
     background: #f4f8f2;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    border: 1px solid #d8e3d5;
-}
-
-/* Pink-Red: Delete (Visible Alert Red) */
-.action-btn.reject { 
-    background: #ffdada; 
-    color: #b71c1c; 
-    border: 1px solid #b71c1c3b;
-}
-
-/* Solid Button Style to match "Yes, Delete" */
-.btn-approve {
-    background: #85C668; /* Solid Growvie Green */
-    color: white;
-}
-
-.btn-reject { 
-    background:#d9534f;
-    color: white;
-}
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        border: 1px solid #d8e3d5;
+    }
+    

@@ -99,7 +99,7 @@ function renderDeleteModal() {
                 <input type="hidden" name="delete_id" id="delete_quest_id">
                 <div class="modal-footer">
                     <button type="button" class="action-btn gray" onclick="document.getElementById('deleteModal').style.display='none'">Cancel</button>
-                    <button type="submit" name="confirmDelete" class="action-btn red">Yes, Delete</button>
+                    <button type="submit" name="confirmDelete" class="action-btn cfmdelete">Yes, Delete</button>
                 </div>
             </form>
         </div>
@@ -157,6 +157,81 @@ function renderAddPartnerModal() {
     <script>
         function openAddPartnerModal() {
             document.getElementById('addPartnerModal').style.display = 'block';
+        }
+    </script>
+    <?php
+}
+
+/**
+ * Renders the Modal HTML for Shop Items
+ */
+function renderShopModals() {
+    ?>
+    <div id="shopItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShopItemModal()">&times;</span>
+            <h3 id="shopModalTitle">Add New Item</h3>
+            
+            <form id="shopForm" method="POST" action="final.php" enctype="multipart/form-data">
+                <input type="hidden" name="item_id" id="edit_item_id">
+                <input type="hidden" name="redirect_category" id="shop_redirect_category">
+                
+                <label>Item Name</label>
+                <input type="text" name="item_name" id="shop_item_name" required>
+                
+                <label>Description</label>
+                <textarea name="item_desc" id="shop_item_desc" rows="3" required></textarea>
+                
+                <label>Category</label>
+                <select name="item_category" id="shop_item_category">
+                    <option value="Plant Seeds">Plant Seeds</option>
+                    <option value="Power Ups">Power Ups</option>
+                    <option value="In App Purchases">In App Purchases</option>
+                </select>
+                
+                <label>Price</label>
+                <input type="number" name="item_price" id="shop_item_price" required>
+                
+                <label>Image (Upload)</label>
+                <input type="file" name="item_image" id="shop_item_image" accept="image/*">
+                <p class="input-note">Leave empty to keep existing image (for edits).</p>
+
+                <div class="modal-footer">
+                    <button type="button" class="action-btn gray" onclick="closeShopItemModal()">Cancel</button>
+                    <button type="submit" name="addShopItem" id="shopSubmitBtn" class="action-btn green">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Shop Item Modal -->
+    <div id="deleteShopModal" class="modal">
+        <div class="modal-content" style="width: 400px;">
+            <h3 style="color: #d9534f;">Delete Item</h3>
+            <p class="modal-subtext">
+                Are you sure you want to delete <strong id="del_shop_item_name"></strong>? This cannot be undone.
+            </p>
+            <form method="POST" action="final.php">
+                <input type="hidden" name="item_id" id="del_shop_item_id">
+                <input type="hidden" name="redirect_category" id="del_redirect_category">
+                <div class="modal-footer">
+                    <button type="button" class="action-btn gray" onclick="document.getElementById('deleteShopModal').style.display='none'">Cancel</button>
+                    <button type="submit" name="deleteShopItem" class="action-btn cfmdelete">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openShopDeleteModal(id, name) {
+            document.getElementById('del_shop_item_id').value = id;
+            document.getElementById('del_shop_item_name').innerText = name;
+            
+            // Set Redirect Category
+            const urlParams = new URLSearchParams(window.location.search);
+            document.getElementById('del_redirect_category').value = urlParams.get('shop_category') || 'seeds';
+
+            document.getElementById('deleteShopModal').style.display = 'block';
         }
     </script>
     <?php

@@ -4,12 +4,12 @@ require_once __DIR__ . "/backend/modal.php";
 require_once __DIR__ . "/backend/dashboard.php";
 require_once __DIR__ . "/backend/questsubmission.php";
 require_once __DIR__ . "/backend/usermanagement.php";
+require_once __DIR__ . "/backend/shopmanagement.php"; // Add this line
 
 handleCreateQuest($con);
 handleReviewAction($con);
 handleUserActions($con);
-renderDashboardScripts();
-renderUserManagementScripts();
+handleShopActions($con);
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +18,13 @@ renderUserManagementScripts();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growvie Dashboard</title>
+
+    <?php
+        renderDashboardScripts();
+        renderUserManagementScripts();
+        renderShopScripts();
+    ?>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/maincontentcss.css">
     <link rel="stylesheet" href="css/modal.css">
@@ -59,7 +66,10 @@ renderUserManagementScripts();
                 'rejected':       ['Submission Rejected', 'Submission declined and removed.'],
                 'quest_success':  ['Success!', 'Operation completed successfully.'],
                 'status_updated': ['Status Updated', 'User account status toggled.'],
-                'user_deleted':   ['User Deleted', 'Account permanently removed.']
+                'user_deleted':   ['User Deleted', 'Account permanently removed.'],
+                'shop_item_added': ['Item Added', 'New shop item created successfully.'],
+                'shop_item_updated': ['Item Updated', 'Shop item details updated.'],
+                'shop_item_deleted': ['Item Deleted', 'Shop item removed permanently.']
             };
 
             // Check if any param matches our keys
@@ -70,8 +80,15 @@ renderUserManagementScripts();
                 modal.querySelector('h3').innerText = match[0];
                 modal.querySelector('p').innerText = match[1];
                 modal.style.display = 'block';
-                // Clean URL
-                window.history.replaceState({}, document.title, "final.php");
+                
+                // Clean URL but preserve important params
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.delete('action');
+                newUrl.searchParams.delete('review_success');
+                newUrl.searchParams.delete('quest_success');
+                // We keep 'shop_category', 'role', 'search', 'tab' etc.
+                
+                window.history.replaceState({}, document.title, newUrl.toString());
             }
         });
     </script>
@@ -136,7 +153,7 @@ renderUserManagementScripts();
             
             <!-- DASHBOARD TAB -->
             <div class="content" id="content1">
-                <div class="dashboard-left-column">
+                <div class="main-content-container">
                     <h2>Welcome back, Jamal</h2>
                     <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
@@ -163,7 +180,7 @@ renderUserManagementScripts();
 
             <!-- Quest submission tab -->
             <div class="content hidden" id="content2">
-                <div class="dashboard-left-column">
+                <div class="main-content-container">
                     <h2>Quest Submissions</h2>
                     <p class="subtext">Review community tasks and approve/reject pending evidence.</p>
                     
@@ -180,123 +197,120 @@ renderUserManagementScripts();
 
             <!-- ANNOUNCEMENT TAB -->
             <div class="content hidden" id="content3">
-                <h2>Announcements</h2>
-                <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-                <button class="create-announcement-btn">+ Create a new announcement</button>
-
-                <div class="date-header">27 November 2025</div>
-
-                <div class="announcements-list">
-                    <!-- Announcement Card 1 -->
-                    <div class="announcement-card">
-                        <div class="announcement-header">
-                            <h3 class="announcement-title">Announcement Title</h3>
-                            <span class="announcement-time">11:38PM</span>
-                        </div>
-                        <p class="announcement-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
-                        </p>
-                        <div class="announcement-actions">
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Delete</button>
-                        </div>
-                    </div>
-
-                    <!-- Announcement Card 2 -->
-                    <div class="announcement-card">
-                        <div class="announcement-header">
-                            <h3 class="announcement-title">Announcement Title</h3>
-                            <span class="announcement-time">11:38PM</span>
-                        </div>
-                        <p class="announcement-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
-                        </p>
-                        <div class="announcement-actions">
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--Shop management tab-->
-            <div class="content hidden" id="content4"> 
-                <h1>Shop Management</h1>
-                <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-
-                    <div class="tabs">
-                        <button class="tab">Plant Seeds</button>
-                        <button class="tab">Power-Ups</button>
-                        <button class="tab">Profile Customization</button>
-                        <button class="tab">In-App Purchases</button>
-                    </div>
-
-                    <div class="grid">
-
-                        <!-- Add New Seed -->
-                        <div class="card add-card">
-                            <span class="plus">+</span>
-                            <p>Add new <br> plant seed</p>
+                <div class="main-content-container">
+                                    <h2>Announcements</h2>
+                                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    
+                                    <button class="action-btn create">+ Create a new announcement</button>
+                    
+                                    <div class="date-header">27 November 2025</div>
+                                        <div class="announcements-list">
+                        <!-- Announcement Card 1 -->
+                        <div class="announcement-card">
+                            <div class="announcement-header">
+                                <h3 class="announcement-title">Announcement Title</h3>
+                                <span class="announcement-time">11:38PM</span>
+                            </div>
+                            <p class="announcement-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
+                            </p>
+                            <div class="announcement-actions">
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </div>
                         </div>
 
-                        <!-- Product Card (change to real data) -->
-                        <div class="card">
-                            <img src="https://i.imgur.com/3g7nmJC.png" alt="Seeds">
-                            <h3>Plant Name A Seeds</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-                            <div class="bottom-row">
-                                <span class="price">🌕 1,000</span>
-                                <button class="edit-btn">Edit</button>
+                        <!-- Announcement Card 2 -->
+                        <div class="announcement-card">
+                            <div class="announcement-header">
+                                <h3 class="announcement-title">Announcement Title</h3>
+                                <span class="announcement-time">11:38PM</span>
+                            </div>
+                            <p class="announcement-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi leo, faucibus sed lobortis bibendum, vehicula eget ante. In finibus ligula sit amet arcu eleifend, a porta sem aliquam. Nunc laoreet scelerisque semper. Aenean venenatis felis nibh, et luctus nibh mollis quis. Vestibulum sit amet lobortis tellus. Praesent finibus pretium lectus, at imperdiet erat. Maecenas interdum lacus at eros lacinia, quis facilisis dolor faucibus. Duis iaculis congue lacus, at condimentum massa suscipit id. Nulla bibendum, odio at aliquet semper, felis risus tincidunt arcu, eget sodales mi ex et dolor. Aliquam mattis ultrices orci a cursus. Donec fermentum viverra leo.
+                            </p>
+                            <div class="announcement-actions">
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
                             </div>
                         </div>
                     </div>
+                </div>
+                
+            </div>
+
+            <!--Shop management tab-->
+            <div class="content hidden" id="content4">
+                <div class="main-content-container">
+                    <h2>Shop Management</h2>
+                    <p class="subtext">Manage shop items, power-ups, and in-app purchases.</p>
+                
+                    <div class="top-row">
+                        <div class="tabs">
+                            <?php $currentShopTab = $_GET['shop_category'] ?? 'seeds'; ?>
+                            <button class="tab <?php echo ($currentShopTab == 'seeds') ? 'active' : ''; ?>" 
+                                    onclick="shopTab('seeds')">Plant Seeds</button>
+                            <button class="tab <?php echo ($currentShopTab == 'powerups') ? 'active' : ''; ?>" 
+                                    onclick="shopTab('powerups')">Power-Ups</button>
+                            <button class="tab <?php echo ($currentShopTab == 'iap') ? 'active' : ''; ?>" 
+                                    onclick="shopTab('iap')">In-App Purchases</button>
+                        </div>
+
+                        <div class="top-actions">
+                            <button class="action-btn green" onclick="openShopItemModal('add')">
+                                + Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <?php renderShopManagement($con, $currentShopTab); ?>
+                </div>
             </div>
 
             <!--User management tab-->
             <div class="content hidden" id="content5">
-                <h1>User Management</h1>
-                <p class="subtitle">Manage and monitor Growvie users, partners, and administrators.</p>
+                <div class="main-content-container">
+                    <h2>User Management</h2>
+                    <p class="subtext">Manage and monitor Growvie users, partners, and administrators.</p>
 
-                <div class="top-row">
-                    <div class="tabs">
-                        <?php $currentRole = $_GET['role'] ?? 'Player'; ?>
-                        <button class="tab <?php echo ($currentRole == 'Player') ? 'active' : ''; ?>" onclick="userTab('Player')">Users</button>
-                        <button class="tab <?php echo ($currentRole == 'Partner') ? 'active' : ''; ?>" onclick="userTab('Partner')">Partners</button>
-                    </div>
-
-                    <div class="top-actions">
-                        <?php if ($currentRole === 'Partner'): ?>
-                            <button class="action-btn green" onclick="openAddPartnerModal()">
-                                + Add Partner
-                            </button>
-                        <?php endif; ?>
-
-                        <div class="search-filter">
-                            <input type="text" id="userSearchInput" placeholder="Search..." 
-                                value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
-                                onkeypress="if(event.key === 'Enter') handleUserSearch()">
-                            <button class="filter-btn" onclick="handleUserSearch()">🔍 Search</button>
+                    <div class="top-row">
+                        <div class="tabs">
+                            <?php $currentRole = $_GET['role'] ?? 'Player'; ?>
+                            <button class="tab <?php echo ($currentRole == 'Player') ? 'active' : ''; ?>" onclick="userTab('Player')">Users</button>
+                            <button class="tab <?php echo ($currentRole == 'Partner') ? 'active' : ''; ?>" onclick="userTab('Partner')">Partners</button>
                         </div>
-                    </div>
-                    
-                </div>
 
-                <div id="user-list-container">
-                    <?php 
-                        // Call the render function we built earlier
-                        renderUserManagement($con, $currentRole, $_GET['search'] ?? ''); 
-                    ?>
+                        <div class="top-actions">
+                            <?php if ($currentRole === 'Partner'): ?>
+                                <button class="action-btn green" onclick="openAddPartnerModal()">
+                                    + Add Partner
+                                </button>
+                            <?php endif; ?>
+
+                            <div class="search-filter">
+                                <input type="text" id="userSearchInput" placeholder="Search..." 
+                                    value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+                                    onkeypress="if(event.key === 'Enter') handleUserSearch()">
+                                <button class="filter-btn" onclick="handleUserSearch()">🔍 Search</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div id="user-list-container">
+                        <?php 
+                            // Call the render function we built earlier
+                            renderUserManagement($con, $currentRole, $_GET['search'] ?? ''); 
+                        ?>
+                    </div>
                 </div>
             </div>
     
             <!--Partner organizer tab-->
             <div class="content hidden" id="content6">
-                <div class="partner-warpper">
-                    <h1>Partner Organization</h1>
-                    <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <div class="main-content-container">
+                    <h2>Partner Organization</h2>
+                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
                     <!-- Request Card (change with real data) -->
                     <div class="request-card">
@@ -329,93 +343,93 @@ renderUserManagementScripts();
                         </div>
 
                         <div class="actions">
-                            <button class="reject">Reject</button>
-                            <button class="approve">Approve</button>
+                            <button class="action-btn reject">Reject</button>
+                            <button class="action-btn approve">Approve</button>
                         </div>
                     </div>
                 </div>
             </div>  
 
             <div class="content hidden" id="content7">
-                <div class="dashboard">
+                <div class="main-content-container">
                     <div class="header">
-                        <div>
-                            <h1>Partner Management</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
+                        <h1>App analytics</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button class="generate-btn">+ Generate new report</button>
+                        <button class="generate-btn">+ Generate new report</button>
                     </div>
 
-                <!--change with real data-->
-                    <div class="grid">
-                        <div class="card small">
-                            <span class="label">Total users</span>
-                            <h2>12,345</h2>
-                            <span class="trend up">▲ 15% increase since last week</span>
-                        </div>
-
-                        <div class="card small">
-                            <span class="label">Growvie plants planted</span>
-                            <h2>23,456</h2>
-                            <span class="trend down">▼ 8% decrease since last week</span>
-                        </div>
-
-                        <div class="card large">
-                            <span class="label">New user registration</span>
-                            <h2>1,234 <small>new users this month</small></h2>
-                            <div class="chart"></div>
-                            <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
-                        </div>
-
-                        <div class="card medium">
-                            <span class="label">Planting requests</span>
-                            <div class="progress-bar">
-                                <div class="progress" style="width:86%">86%</div>
+                    <!--change with real data-->
+                        <div class="grid">
+                            <div class="card small">
+                                <span class="label">Total users</span>
+                                <h2>12,345</h2>
+                                <span class="trend up">▲ 15% increase since last week</span>
                             </div>
 
-                            <div class="progress-info">
-                                <div>
-                                    <span>Completed</span>
-                                    <strong>20,400</strong>
+                            <div class="card small">
+                                <span class="label">Growvie plants planted</span>
+                                <h2>23,456</h2>
+                                <span class="trend down">▼ 8% decrease since last week</span>
+                            </div>
+
+                            <div class="card large">
+                                <span class="label">New user registration</span>
+                                <h2>1,234 <small>new users this month</small></h2>
+                                <div class="chart"></div>
+                                <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
+                            </div>
+
+                            <div class="card medium">
+                                <span class="label">Planting requests</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width:86%">86%</div>
                                 </div>
-                                <div>
-                                    <span>Pending</span>
-                                    <strong>3,056</strong>
-                                </div>
-                                <div class="total">
-                                    <span>Total</span>
-                                    <strong>23,456</strong>
+
+                                <div class="progress-info">
+                                    <div>
+                                        <span>Completed</span>
+                                        <strong>20,400</strong>
+                                    </div>
+                                    <div>
+                                        <span>Pending</span>
+                                        <strong>3,056</strong>
+                                    </div>
+                                    <div class="total">
+                                        <span>Total</span>
+                                        <strong>23,456</strong>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="card medium">
-                            <span class="label">Revenue earned</span>
-                            <h2>RM12,345</h2>
-                            <span class="trend up">▲ 15% increase since last week</span>
+                            <div class="card medium">
+                                <span class="label">Revenue earned</span>
+                                <h2>RM12,345</h2>
+                                <span class="trend up">▲ 15% increase since last week</span>
 
-                            <div class="donut-row">
-                                <div class="donut"></div>
+                                <div class="donut-row">
+                                    <div class="donut"></div>
 
-                                <ul class="legend">
-                                    <li><span></span> Plant Seeds</li>
-                                    <li><span></span> Power-ups</li>
-                                    <li><span></span> Profile Customization</li>
-                                </ul>
+                                    <ul class="legend">
+                                        <li><span></span> Plant Seeds</li>
+                                        <li><span></span> Power-ups</li>
+                                        <li><span></span> Profile Customization</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="card large">
-                            <span class="label">Quests completed</span>
-                            <h2>12,345 <small>quests completed this month</small></h2>
-                            <div class="chart"></div>
-                            <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
+                            <div class="card large">
+                                <span class="label">Quests completed</span>
+                                <h2>12,345 <small>quests completed this month</small></h2>
+                                <div class="chart"></div>
+                                <div class="months">Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</div>
+                            </div>
+
                         </div>
 
                     </div>
-
                 </div>
+
             </div>
 
         </main>
@@ -427,6 +441,7 @@ renderUserManagementScripts();
         renderDeactivateModal();
         renderDeleteModal();
         renderAddPartnerModal();
+        renderShopModals();
     ?>  
 
 </body>
