@@ -197,7 +197,6 @@ function renderShopModals() {
                 <label>Image (Upload)</label>
                 <input type="file" name="item_image" id="shop_item_image" accept="image/png" onchange="validateShopImage(this)">
                 <p id="shop-image-error" class="form-error hidden">File type not supported. Please upload a PNG file.</p>
-                <p class="input-note">Leave empty to keep existing image (for edits).</p>
 
                 <div class="modal-footer">
                     <button type="button" class="action-btn gray" onclick="closeShopItemModal()">Cancel</button>

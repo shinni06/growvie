@@ -170,10 +170,9 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
 
             // Price formatting
             if ($dbCategory == 'In App Purchases') {
-                $displayPrice = 'RM ' . number_format($price / 100, 2); // Assuming price is in cents for IAP
+                $displayPrice = 'RM ' . $price . '.00';
             } else {
-                $icon = ($dbCategory == 'Power Ups') ? '💎' : '🪙';
-                $displayPrice = $icon . ' ' . number_format($price);
+                $displayPrice = '🪙 ' . number_format($price);
             }
 
             // Escape for JS params
@@ -271,7 +270,7 @@ function renderShopSection($con) {
                                     <div class="bottom-row">
                                         <span class="price">
                                             <?php if ($cat == 'In App Purchases'): ?>
-                                                RM <?php echo number_format($item['item_price'] / 100, 2); ?>
+                                                RM <?php echo $item['item_price']; ?>.00
                                             <?php else: ?>
                                                 🪙 <?php echo number_format($item['item_price']); ?>
                                             <?php endif; ?>
