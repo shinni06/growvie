@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 09, 2026 at 07:21 AM
+-- Generation Time: Jan 09, 2026 at 07:24 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -288,7 +288,6 @@ CREATE TABLE IF NOT EXISTS `real_tree_record` (
   `location` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `coordinates` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `planting_site` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `photo_code` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `date_reported` date NOT NULL,
   `request_status` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
   PRIMARY KEY (`real_tree_id`),
@@ -300,9 +299,9 @@ CREATE TABLE IF NOT EXISTS `real_tree_record` (
 -- Dumping data for table `real_tree_record`
 --
 
-INSERT INTO `real_tree_record` (`real_tree_id`, `virtual_plant_id`, `partner_id`, `location`, `coordinates`, `planting_site`, `photo_code`, `date_reported`, `request_status`) VALUES
-('RT001', 'VP011', 'PO001', 'Sabah, Malaysia', '5.978°N, 116.075°E', 'Hill A', 'RT001.png', '2025-12-14', 'Pending'),
-('RT002', 'VP008', 'PO002', 'Penang, Malaysia', '5.4164°N, 100.3327°E', 'Forest B', 'RT002.png', '2025-12-14', 'Pending');
+INSERT INTO `real_tree_record` (`real_tree_id`, `virtual_plant_id`, `partner_id`, `location`, `coordinates`, `planting_site`, `date_reported`, `request_status`) VALUES
+('RT001', 'VP011', 'PO001', 'Sabah, Malaysia', '5.978°N, 116.075°E', 'Hill A', '2025-12-14', 'Pending'),
+('RT002', 'VP008', 'PO002', 'Penang, Malaysia', '5.4164°N, 100.3327°E', 'Forest B', '2025-12-14', 'Pending');
 
 -- --------------------------------------------------------
 

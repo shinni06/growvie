@@ -4,12 +4,14 @@ require_once __DIR__ . "/backend/modal.php";
 require_once __DIR__ . "/backend/dashboard.php";
 require_once __DIR__ . "/backend/questsubmission.php";
 require_once __DIR__ . "/backend/usermanagement.php";
-require_once __DIR__ . "/backend/shopmanagement.php"; // Add this line
+require_once __DIR__ . "/backend/shopmanagement.php";
+require_once __DIR__ . "/backend/partnermanagement.php"; // Add this line
 
 handleCreateQuest($con);
 handleReviewAction($con);
 handleUserActions($con);
 handleShopActions($con);
+handlePartnerActions($con);
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +71,8 @@ handleShopActions($con);
                 'user_deleted':   ['User Deleted', 'Account permanently removed.'],
                 'shop_item_added': ['Item Added', 'New shop item created successfully.'],
                 'shop_item_updated': ['Item Updated', 'Shop item details updated.'],
-                'shop_item_deleted': ['Item Deleted', 'Shop item removed permanently.']
+                'shop_item_deleted': ['Item Deleted', 'Shop item removed permanently.'],
+                'partner_updated': ['Request Processed', 'The tree planting verification has been updated.']
             };
 
             // Check if any param matches our keys
@@ -310,43 +313,12 @@ handleShopActions($con);
             <div class="content hidden" id="content6">
                 <div class="main-content-container">
                     <h2>Partner Organization</h2>
-                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="subtext">Manage real-world tree planting verification requests.</p>
 
-                    <!-- Request Card (change with real data) -->
-                    <div class="request-card">
+                    <?php renderPartnerRequests($con); ?>
 
-                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e7840b1"
-                            alt="Planting Image">
-
-                        <div class="request-info">
-                            <h3>REQ12345</h3>
-
-                            <div class="info-grid">
-                                <span>User</span>
-                                <span>Jamal Chong @jamalchong_123</span>
-
-                                <span>Request Date</span>
-                                <span>15/10/2025, 3:17pm</span>
-
-                                <span>Fulfillment Date</span>
-                                <span>20/10/2025, 8:56am</span>
-
-                                <span>Planting Site</span>
-                                <span>Taman Tugu Forest Park, Kuala Lumpur</span>
-
-                                <span>Location</span>
-                                <span>FRIM - Reforestation Plot A5</span>
-
-                                <span>Coordinates</span>
-                                <span>3.1742, 101.6913</span>
-                            </div>
-                        </div>
-
-                        <div class="actions">
-                            <button class="action-btn reject">Reject</button>
-                            <button class="action-btn approve">Approve</button>
-                        </div>
-                    </div>
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Verification History</h3>
+                    <?php renderPartnerHistory($con); ?>
                 </div>
             </div>  
 

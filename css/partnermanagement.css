@@ -14,26 +14,22 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 /* Image */
 .request-card img {
-    width: 140px;
-    height: 110px;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 /* Info Section */
 .request-info {
     flex: 1;
-}
-
-.request-info h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
 }
 
 /* Info grid */
@@ -45,23 +41,25 @@
     font-size: 14px;
 }
 
-.info-grid span:nth-child(odd) {
-    color: #6b6b6b;
-    font-weight: 500;
+/* History Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
 }
 
-.info-grid span:nth-child(even) {
-    color: #333;
-    font-weight: 600;
+.status-approved {
+    background: #eef6ea;
+    color: #3b5a2b;
+    border: 1px solid #c1ccb5;
 }
 
-/* Buttons */
-.reject {
-    background: #d86a6a;
-    color: white;
-}
-
-.approve {
-    background: #8ecf73;
-    color: white;
+.status-rejected {
+    background: #ffebeb;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
 }

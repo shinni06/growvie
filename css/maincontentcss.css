@@ -299,3 +299,16 @@ h3 {
 .edit-btn:hover {
     background: #c1ccb5;
 }
+
+/* Generalized Info Grid Classes */
+.info-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+}
+
+.info-value {
+    font-size: 12px;
+    color: #777;
+    word-break: break-all;
+}

@@ -360,26 +360,25 @@
 }
 
 /* --- Partner ID/Email Alignment Grid --- */
+
 .partner-info-grid {
+
     display: grid;
+
     grid-template-columns: 60px 1fr; /* 60px for labels, rest for values */
+
     row-gap: 4px;
+
     align-items: baseline;
+
     margin-top: 15px;
+
 }
 
-.partner-info-grid .info-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #555; /* Matches user-card meta label color */
-}
 
-.partner-info-grid .info-value {
-    font-size: 12px;
-    color: #777; /* Matches user-card meta value color */
-    word-break: break-all;
-}
 
 #userSearchInput {
+
     margin-left: 15px;
-}s
+
+}
