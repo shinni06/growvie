@@ -28,7 +28,7 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
@@ -55,7 +55,7 @@ function renderInactiveQuestCards(mysqli $con) {
     $res = mysqli_query($con, $sql);
 
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<p class='modal-subtext'>No inactive quests found.</p>";
+        echo "<p class='empty-state'>No inactive quests found.</p>";
         return;
     }
 
@@ -72,7 +72,7 @@ function renderInactiveQuestCards(mysqli $con) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
@@ -233,7 +233,17 @@ function renderDashboardScripts() {
             document.getElementById('deactivateModal').style.display = 'block';
         }
         function openDeleteModal(id, title) {
-            document.getElementById('delete_quest_id').value = id;
+            const input = document.getElementById('delete_quest_id');
+            const btn = document.querySelector('#deleteModal button[type="submit"]');
+            
+            if(input) {
+                input.value = id;
+                input.name = "delete_id"; // Reset to default for Quests
+            }
+            if(btn) {
+                btn.name = "confirmDelete"; // Reset to default for Quests
+            }
+            
             document.getElementById('deleteQuestTitle').innerText = title;
             document.getElementById('deleteModal').style.display = 'block';
         }

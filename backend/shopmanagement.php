@@ -30,6 +30,11 @@ function renderShopScripts() {
             const btn = document.getElementById('shopSubmitBtn');
             const form = document.getElementById('shopForm');
 
+            // Reset error
+            const errorMsg = document.getElementById('shop-image-error');
+            if(errorMsg) errorMsg.classList.add('hidden');
+            btn.disabled = false;
+
             // Set Redirect Category
             const urlParams = new URLSearchParams(window.location.search);
             const currentCat = urlParams.get('shop_category') || 'seeds';
@@ -76,6 +81,32 @@ function renderShopScripts() {
 
         function closeShopItemModal() {
             document.getElementById('shopItemModal').style.display = 'none';
+        }
+
+        function validateShopImage(input) {
+            const errorMsg = document.getElementById('shop-image-error');
+            const btn = document.getElementById('shopSubmitBtn');
+            const file = input.files[0];
+            
+            if (file) {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (ext !== 'png') {
+                    errorMsg.classList.remove('hidden');
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                } else {
+                    errorMsg.classList.add('hidden');
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                }
+            } else {
+                errorMsg.classList.add('hidden');
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
         }
     </script>
     <?php
@@ -153,7 +184,7 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
             echo "
             <div class='card' id='card-{$itemId}'>
                 <img src='{$imgSrc}' alt='{$name}'>
-                <h3 class='item-title'>{$name}</h3>
+                <h3 class='item-title title-spaced'>{$name}</h3>
                 <p class='item-description'>{$desc}</p>
                 <div class='bottom-row'>
                     <span class='price'>{$displayPrice}</span>
@@ -235,7 +266,7 @@ function renderShopSection($con) {
                                     <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>">
                                 </div>
                                 <div class="card-details">
-                                    <h3 class="item-title"><?php echo htmlspecialchars($item['item_name']); ?></h3>
+                                    <h3 class="item-title title-spaced"><?php echo htmlspecialchars($item['item_name']); ?></h3>
                                     <p class="item-description"><?php echo htmlspecialchars($item['item_desc']); ?></p>
                                     <div class="bottom-row">
                                         <span class="price">
@@ -279,6 +310,20 @@ function handleShopActions($con) {
         $category = mysqli_real_escape_string($con, $_POST['item_category']);
         $redirectCat = $_POST['redirect_category'] ?? 'seeds';
 
+        $targetDir = __DIR__ . '/../assets/shop_items/';
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        // Validate Image (PNG Only)
+        if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
+            $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
+            if ($ext !== 'png') {
+                echo "<script>alert('File type not supported. Please upload a PNG file.'); window.history.back();</script>";
+                exit();
+            }
+        }
+
         if (isset($_POST['addShopItem'])) {
             // Generate ID
             $sqlId = "SELECT item_id FROM shop_item ORDER BY item_id DESC LIMIT 1";
@@ -289,72 +334,40 @@ function handleShopActions($con) {
                 $newId = "ITM" . str_pad($num, 3, "0", STR_PAD_LEFT);
             }
 
-            // Handle Image Upload for New Item
+            // Handle Image Upload (PNG Only)
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
-                $target_dir = __DIR__ . '/../assets/shop_items/';
-                if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
-
-                // Get extension
                 $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
-                
-                // FIXED: Strictly allow only PNG to match the item_id.png frontend logic
                 if ($ext === 'png') {
-                    // Always save as [ID].png
-                    $target_file = $target_dir . $newId . ".png";
-                    
-                    // Remove any existing file (unlikely for new ID, but good practice)
-                    if (file_exists($target_file)) unlink($target_file);
-
-                    move_uploaded_file($_FILES['item_image']['tmp_name'], $target_file);
-                } else {
-                    // Optional: Alert user that only PNG is accepted
-                    echo "<script>alert('Only PNG images are allowed for new items.');</script>";
+                    move_uploaded_file($_FILES['item_image']['tmp_name'], $targetDir . $newId . ".png");
                 }
             }
 
-            // SQL Insert (Removed item_image_code)
-            // Ensure you have dropped the column in DB or this will fail
             $sql = "INSERT INTO shop_item (item_id, item_name, item_desc, item_price, item_category, item_availability) 
                     VALUES ('$newId', '$name', '$desc', '$price', '$category', 1)";
             
             if (mysqli_query($con, $sql)) {
                 header("Location: final.php?action=shop_item_added&shop_category=$redirectCat");
                 exit();
-            } else {
-                echo "<script>alert('Error: " . mysqli_error($con) . "');</script>";
             }
 
         } elseif (isset($_POST['editShopItem'])) {
             $id = mysqli_real_escape_string($con, $_POST['item_id']);
             
-            // 1. Update Basic Info
-            $sql = "UPDATE shop_item SET 
-                    item_name = '$name', 
-                    item_desc = '$desc', 
-                    item_price = '$price', 
-                    item_category = '$category' 
-                    WHERE item_id = '$id'";
+            // Handle Image Update (PNG Only)
+            if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
+                $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
+                if ($ext === 'png') {
+                    $targetFile = $targetDir . $id . ".png";
+                    if (file_exists($targetFile)) unlink($targetFile);
+                    move_uploaded_file($_FILES['item_image']['tmp_name'], $targetFile);
+                }
+            }
+
+            $sql = "UPDATE shop_item SET item_name = '$name', item_desc = '$desc', item_price = '$price', item_category = '$category' WHERE item_id = '$id'";
 
             if (mysqli_query($con, $sql)) {
-                // 2. Handle Image Update (Optional)
-                if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
-                    $target_dir = __DIR__ . '/../assets/shop_items/';
-                    $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
-                    
-                    if ($ext === 'png') {
-                        $target_file = $target_dir . $id . ".png";
-                        // Overwrite existing
-                        if (file_exists($target_file)) unlink($target_file);
-                        move_uploaded_file($_FILES['item_image']['tmp_name'], $target_file);
-                    }
-                }
-                
                 header("Location: final.php?action=shop_item_updated&shop_category=$redirectCat");
                 exit();
-            } else {
-                 echo "<script>alert('Error updating item: " . mysqli_error($con) . "');</script>";
             }
         }
     } elseif (isset($_POST['deleteShopItem'])) {

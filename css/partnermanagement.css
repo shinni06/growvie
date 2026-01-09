@@ -31,12 +31,22 @@
     margin-top: 8px;
 }
 
+.partner-avatar-square {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f8faf7;
+    border: 1px solid #eef2ed;
+    flex-shrink: 0;
+}
+
 .no-margin {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
 
-.partner-info-grid {
+.review-card .partner-info-grid {
     display: grid;
     grid-template-columns: 130px 1fr;
     row-gap: 8px;
@@ -83,10 +93,6 @@
 .partner-history-row .lb-name {
     margin-bottom: 0;
     font-size: 14px;
-}
-
-.partner-history-row .status-badge {
-    /* Removed absolute positioning to allow standard flex alignment */
 }
 
 .history-info-grid {

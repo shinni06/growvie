@@ -47,7 +47,7 @@ function renderReviewTab(mysqli $con) {
     
     $res = mysqli_query($con, $sql);
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<div class='empty-submission-msg'>🎉 No submissions pending approval!</div>";
+        echo "<div class='empty-state'>🎉 No submissions pending approval!</div>";
         return;
     }
 
@@ -63,7 +63,7 @@ function renderReviewTab(mysqli $con) {
             <div class="review-details-side">
                 <div class="review-content-scrollable">
                     <div class="quest-info-block">
-                        <h3 class="item-title">
+                        <h3 class="item-title title-spaced">
                             <?php echo htmlspecialchars($row['quest_emoji']); ?> 
                             <?php echo htmlspecialchars($row['quest_title']); ?>
                         </h3>
@@ -146,7 +146,7 @@ function renderSubmissionHistory($con) {
             <?php
         }
     } else {
-        echo '<p class="empty-msg">No approved quests found.</p>';
+        echo '<p class="empty-state">No approved quests found.</p>';
     }
     echo '</div>';
 }

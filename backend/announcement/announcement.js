@@ -92,65 +92,30 @@ function openEditAnnouncement(a) {
 }
 
 function openDeleteAnnouncement(id, title) {
-    let deleteModal = document.getElementById('deleteModal');
-    if (!deleteModal) {
-        createDeleteModal();
-        deleteModal = document.getElementById('deleteModal');
-    }
+    const modal = document.getElementById('deleteModal');
+    const inputId = document.getElementById('delete_quest_id'); // Reusing existing modal hidden input
+    const titleSpan = document.getElementById('deleteQuestTitle'); // Reusing existing modal title span
+    const submitBtn = modal.querySelector('button[name="confirmDelete"]') || modal.querySelector('.cfmdelete');
 
-    let deleteIdField = document.getElementById('delete_announcement_id');
-    if (!deleteIdField) {
-        deleteIdField = document.createElement('input');
-        deleteIdField.type = 'hidden';
-        deleteIdField.id = 'delete_announcement_id';
-        document.body.appendChild(deleteIdField);
-    }
-    deleteIdField.value = id;
+    if (!modal) return;
 
-    document.getElementById('deleteAnnouncementTitle').innerText = title;
-    deleteModal.style.display = 'block'; // Changed to block
+    // 1. Inject Data
+    if(inputId) {
+        inputId.value = id;
+        inputId.name = "delete_announcement_id"; // Swap name for PHP announcement handler
+    }
+    if(titleSpan) titleSpan.innerText = title;
+    
+    // 2. Switch Button Action
+    if(submitBtn) {
+        submitBtn.name = "deleteAnnouncement"; // Swap name for PHP announcement handler
+    }
+    
+    modal.style.display = 'block';
 }
 
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';
-}
-
-function confirmDelete() {
-    const id = document.getElementById('delete_announcement_id').value;
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '';
-
-    const deleteInput = document.createElement('input');
-    deleteInput.type = 'hidden';
-    deleteInput.name = 'deleteAnnouncement';
-    deleteInput.value = '1';
-    form.appendChild(deleteInput);
-
-    const idInput = document.createElement('input');
-    idInput.type = 'hidden';
-    idInput.name = 'delete_announcement_id';
-    idInput.value = id;
-    form.appendChild(idInput);
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
-function createDeleteModal() {
-    const modalHTML = `
-        <div id="deleteModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <h3>Delete Announcement</h3>
-                <p>Are you sure you want to delete "<span id="deleteAnnouncementTitle"></span>"?</p>
-                <div class="modal-footer announcement-modal-footer">
-                    <button type="button" class="action-btn gray" onclick="closeDeleteModal()">Cancel</button>
-                    <button type="button" class="action-btn cfmdelete" onclick="confirmDelete()">Delete</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
 window.onclick = function(event) {

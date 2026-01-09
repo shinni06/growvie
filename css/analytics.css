@@ -7,34 +7,6 @@
     border-radius: 16px;
 }
 
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.header h1 {
-    font-size: 32px;
-    font-weight: 700;
-}
-
-.header p {
-    margin-top: 5px;
-    color: #6f6f6f;
-}
-
-.generate-btn {
-    background: #8ecf73;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 20px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
 /* Grid */
 .grid {
     display: grid;

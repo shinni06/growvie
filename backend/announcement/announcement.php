@@ -69,11 +69,16 @@ function renderAnnouncements(mysqli $con) {
 
     $res = mysqli_query($con, $sql);
 
+    if (!$res || mysqli_num_rows($res) === 0) {
+        echo "<p class='empty-state'>No announcements found.</p>";
+        return;
+    }
+
     while ($a = mysqli_fetch_assoc($res)) {
         ?>
         <div class="announcement-card">
             <div class="announcement-header">
-                <h3 class="item-title"><?php echo htmlspecialchars($a['announce_title']); ?></h3>
+                <h3 class="item-title title-spaced"><?php echo htmlspecialchars($a['announce_title']); ?></h3>
                 <span class="time"> 
                     <?php echo date("d F Y", strtotime($a['announce_created_at'])); ?>
                 </span>

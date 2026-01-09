@@ -100,6 +100,7 @@ handleAnnouncementActions($con);
                 newUrl.searchParams.delete('action');
                 newUrl.searchParams.delete('review_success');
                 newUrl.searchParams.delete('quest_success');
+                newUrl.searchParams.delete('announcement_success');
                 // We keep 'shop_category', 'role', 'search', 'tab' etc.
                 
                 window.history.replaceState({}, document.title, newUrl.toString());
@@ -205,6 +206,7 @@ handleAnnouncementActions($con);
 
                 <aside class="leaderboard">
                     <h3>Approval Log</h3>
+                    <p class="subtext">Track recent community quest approvals.</p>
                     <?php renderSubmissionHistory($con); ?>
                 </aside>
             </div>
@@ -309,7 +311,7 @@ handleAnnouncementActions($con);
                     <div class="top-row">
                         <div class="tabs">
                             <?php $currentRole = $_GET['role'] ?? 'Player'; ?>
-                            <button class="tab <?php echo ($currentRole == 'Player') ? 'active' : ''; ?>" onclick="userTab('Player')">Users</button>
+                            <button class="tab <?php echo ($currentRole == 'Player') ? 'active' : ''; ?>" onclick="userTab('Player')">Players</button>
                             <button class="tab <?php echo ($currentRole == 'Partner') ? 'active' : ''; ?>" onclick="userTab('Partner')">Partners</button>
                         </div>
 
@@ -352,17 +354,21 @@ handleAnnouncementActions($con);
 
                 <aside class="leaderboard">
                     <h3>Verification History</h3>
+                    <p class="subtext">Review recently verified tree planting records.</p>
                     <?php renderPartnerHistory($con); ?>
                 </aside>
             </div>  
 
             <div class="content hidden" id="content7">
                 <div class="main-content-container">
-                    <div class="header">
-                        <h1>App analytics</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h2>App analytics</h2>
+                    <p class="subtext">Monitor your application performance and user growth.</p>
 
-                        <button class="generate-btn">+ Generate new report</button>
+                    <div class="top-row">
+                        <div class="tabs"></div>
+                        <div class="top-actions">
+                            <button class="action-btn green">+ Generate new report</button>
+                        </div>
                     </div>
 
                     <!--change with real data-->

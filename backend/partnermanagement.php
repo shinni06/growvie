@@ -60,7 +60,7 @@ function renderPartnerRequests($con) {
     $res = mysqli_query($con, $sql);
 
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<div class='empty-submission-msg'>🎉 No pending tree planting requests!</div>";
+        echo "<div class='empty-state'>🎉 No pending tree planting requests!</div>";
         return;
     }
 
@@ -72,7 +72,6 @@ function renderPartnerRequests($con) {
         
         $partnerName = htmlspecialchars($row['organization_name'] ?? 'Unknown Partner');
         $partnerUsername = htmlspecialchars($row['partner_username'] ?? 'unknown');
-        $partnerId = htmlspecialchars($row['org_id'] ?? 'N/A');
         
         $date = date("d M Y", strtotime($row['date_reported']));
         $site = htmlspecialchars($row['planting_site']);
@@ -87,100 +86,56 @@ function renderPartnerRequests($con) {
         $playerAvatar = (file_exists(__DIR__ . "/../" . $playerPfp)) ? $playerPfp : "images/pfp/default_profile_picture.jpg";
         
         // Partner Avatar
-        $partnerAvatar = "images/pfp/default_profile_picture.jpg"; 
+        $partnerPfp = "images/pfp/" . $partnerUsername . ".jpg";
+        $partnerAvatar = (file_exists(__DIR__ . "/../" . $partnerPfp)) ? $partnerPfp : "images/pfp/default_profile_picture.jpg"; 
         ?>
         <div class="review-card" id="partner-review-card-<?php echo $index; ?>" style="display: <?php echo $display; ?>;">
             <div class="review-image-side">
                 <img src="<?php echo $imgPath; ?>" onerror="this.src='<?php echo $fallback; ?>'" alt="Tree Evidence">
             </div>
             
-                                    <div class="review-details-side">
-            
-                                        <div class="review-content-scrollable">
-            
-                                            <div class="partner-header-top">
-            
-                                                <h3 class="item-title"><?php echo $treeId; ?></h3>
-            
-                                                <p class="submit-date italic-date no-margin">Reported on <?php echo $date; ?></p>
-            
-                                            </div>
-            
-                        
-            
-            
-            
-                                <div class="info-panel">
-            
-                                    <span class="info-label">Requested by</span>
-            
-                                    <div class="submitter-row partner-submitter-gap">
-            
-                                        <img src="<?php echo $playerAvatar; ?>" class="lb-avatar">
-            
-                                        <div class="user-meta">
-            
-                                            <p class="user-handle"><?php echo htmlspecialchars($row['player_fullname']); ?></p>
-            
-                                            <p class="submit-date">@<?php echo htmlspecialchars($row['player_username']); ?></p>
-            
-                                        </div>
-            
-                                    </div>
-            
-                                </div>
-            
-            
-            
-                                <div class="info-panel">
-            
-                                    <span class="info-label">Verified by</span>
-            
-                                    <div class="submitter-row partner-submitter-gap">
-            
-                                        <img src="<?php echo $partnerAvatar; ?>" class="lb-avatar">
-            
-                                        <div class="user-meta">
-            
-                                            <p class="user-handle"><?php echo $partnerName; ?></p>
-            
-                                            <p class="submit-date">@<?php echo $partnerUsername; ?></p>
-            
-                                        </div>
-            
-                                    </div>
-            
-                                </div>
-            
-            
-            
-                                <div class="info-panel">
-            
-                                    <div class="partner-info-grid no-margin">
-            
-                                        <span class="info-label">Planting Site</span>
-            
-                                        <span class="info-value"><?php echo $site; ?></span>
-            
-            
-            
-                                        <span class="info-label">Location</span>
-            
-                                        <span class="info-value"><?php echo $loc; ?></span>
-            
-            
-            
-                                        <span class="info-label">Coordinates</span>
-            
-                                        <span class="info-value"><?php echo $coords; ?></span>
-            
-                                    </div>
-            
-                                </div>
-            
+            <div class="review-details-side">
+                <div class="review-content-scrollable">
+                    <div class="partner-header-top title-spaced">
+                        <h3 class="item-title"><?php echo $treeId; ?></h3>
+                        <p class="submit-date">Reported on <?php echo $date; ?></p>
+                    </div>
+
+                    <div class="info-panel">
+                        <span class="info-label">Requested by</span>
+                        <div class="submitter-row partner-submitter-gap">
+                            <img src="<?php echo $playerAvatar; ?>" class="lb-avatar">
+                            <div class="user-meta">
+                                <p class="user-handle"><?php echo htmlspecialchars($row['player_fullname']); ?></p>
+                                <p class="submit-date">@<?php echo htmlspecialchars($row['player_username']); ?></p>
                             </div>
-            
-            
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <span class="info-label">Verified by</span>
+                        <div class="submitter-row partner-submitter-gap">
+                            <img src="<?php echo $partnerAvatar; ?>" class="partner-avatar-square">
+                            <div class="user-meta">
+                                <p class="user-handle"><?php echo $partnerName; ?></p>
+                                <p class="submit-date">@<?php echo $partnerUsername; ?></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <div class="partner-info-grid">
+                            <span class="info-label">Planting Site</span>
+                            <span class="info-value"><?php echo $site; ?></span>
+
+                            <span class="info-label">Location</span>
+                            <span class="info-value"><?php echo $loc; ?></span>
+
+                            <span class="info-label">Coordinates</span>
+                            <span class="info-value"><?php echo $coords; ?></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card-footer-wrapper">
                     <div class="review-footer">
@@ -253,7 +208,7 @@ function renderPartnerHistory($con) {
             <?php
         }
     } else {
-        echo '<p class="empty-msg">No history found.</p>';
+        echo '<p class="empty-state">No history found.</p>';
     }
     echo '</div>';
 }

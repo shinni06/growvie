@@ -176,7 +176,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             
             // Description Fallback
             $description = !empty($p['description']) ? $p['description'] : "No description available.";
-            $status = !empty($p['status']) ? $p['status'] : "Active";
+            $status = !empty($p['partner_status']) ? $p['partner_status'] : "Active";
             ?>
             <div class="card-panel partner-card">
                 <div class="partner-header-row">
@@ -185,19 +185,11 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                     <div class="partner-info">
                         <h3 class="item-title"><?php echo htmlspecialchars($p['name']); ?></h3>
                         <p class="p-username">@<?php echo htmlspecialchars($p['username']); ?></p>
-
-                        <div class="partner-info-grid">
-                            <span class="info-label">ID:</span>
-                            <span class="info-value"><?php echo htmlspecialchars($p['user_id']); ?></span>
-                            <span class="info-label">Email:</span>
-                            <span class="info-value"><?php echo htmlspecialchars($p['email']); ?></span>
-                        </div>
+                        <p class="p-email"><?php echo htmlspecialchars($p['email']); ?></p>
                     </div>
                     
                     <span class="status-tag <?php echo strtolower($status); ?>"><?php echo htmlspecialchars($status); ?></span>
                 </div>
-
-                <div class="partner-divider"></div>
 
                 <div class="partner-body">
                     <p class="item-description"><?php echo htmlspecialchars($description); ?></p>
@@ -236,7 +228,7 @@ function handleUserActions($con) {
         // Update partner table by joining with user table on email
         $query = "UPDATE partner p
                   INNER JOIN user u ON p.contact_email = u.email
-                  SET p.status = IF(p.status='Active', 'Inactive', 'Active')
+                  SET p.partner_status = IF(p.partner_status='Active', 'Inactive', 'Active')
                   WHERE u.user_id = '$id'";
                   
         mysqli_query($con, $query);
@@ -272,8 +264,8 @@ function handleUserActions($con) {
         $name = mysqli_real_escape_string($con, $_POST['partner_name']);
         $username = mysqli_real_escape_string($con, $_POST['partner_username']);
         $email = mysqli_real_escape_string($con, $_POST['partner_email']);
-        // Hash password for security
-        $pass = password_hash($_POST['partner_password'], PASSWORD_DEFAULT); 
+        // Store password as plain text (school project requirement)
+        $pass = mysqli_real_escape_string($con, $_POST['partner_password']); 
         $desc = mysqli_real_escape_string($con, $_POST['partner_desc']);
         $date = date('Y-m-d H:i:s');
 
@@ -283,7 +275,7 @@ function handleUserActions($con) {
         
         // 4. Insert into PARTNER table
         // Correctly including partner_id (POxxx) and organization_name
-        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, status) 
+        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, partner_status) 
                        VALUES ('$newPartnerId', '$name', '$email', '$desc', 'Active')";
 
         if (mysqli_query($con, $sqlUser) && mysqli_query($con, $sqlPartner)) {

@@ -93,13 +93,6 @@
     background: #c1ccb5;
 }
 
-.empty-state {
-    padding: 40px; 
-    text-align: center; 
-    color: #999;
-    font-style: italic;
-}
-
 /* ===========================
    SHARED / PLAYER CARD STYLES
    =========================== */
@@ -144,17 +137,22 @@
     margin-bottom: 6px;
 }
 
-.info h3 span {
+.user-header h3 span {
     font-size: 14px;
     font-weight: 500;
     color: #888;
     margin-left: 5px;
 }
 
+.partner-card .user-header h3 span {
+    margin-left: 0;
+}
+
 /* Reusable Meta Info (ID | Email) */
 .user-meta-info {
     display: flex;
     gap: 15px;
+    margin-top: 2px; /* Reduced spacing */
     margin-bottom: 12px;
     font-size: 12px;
     color: #777;
@@ -263,6 +261,7 @@
     flex-direction: column;
     transition: 0.2s ease;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 0;
 }
 
 .partner-card:hover {
@@ -270,18 +269,17 @@
     box-shadow: 0 6px 15px rgba(0,0,0,0.08);
 }
 
-/* Header Row */
 .partner-header-row {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Back to top alignment for multi-line text */
     gap: 15px;
 }
 
 /* Square PFP */
 .partner-pfp {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px; 
+    width: 60px;
+    height: 60px;
+    border-radius: 12px; 
     object-fit: cover;
     background: #f8faf7;
     border: 1px solid #eef2ed;
@@ -292,21 +290,38 @@
     flex: 1; /* Takes available space */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    height: 60px; /* Matches Partner PFP height */
 }
 
-.p-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 5px 0;
+.partner-card .item-title {
+    font-size: 17px;
+    margin-bottom: 0;
+    line-height: 1.2;
 }
 
 .p-username {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    color: #6b7280;
+    color: #555; /* Darker than email */
     margin: 0;
+    line-height: 1.2;
+}
+
+.p-email {
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.partner-card .user-header h3 span {
+    margin-left: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555; /* Darker than email */
+    display: inline-block;
 }
 
 /* Divider Line */
@@ -323,20 +338,24 @@
 /* Description */
 .partner-body {
     flex: 1;
+    margin-top: 15px;
+    padding-top: 0;
+    border-top: none; /* Removed section divider line */
+}
+
+.partner-body .item-description {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #555;
+    line-height: 1.5;
+    font-size: 13px;
+    font-style: normal; /* Removed italics */
 }
 
 /* --- Partner ID/Email Alignment Grid --- */
 
-.partner-info-grid {
-
-    display: grid;
-
-    grid-template-columns: 60px 1fr; /* 60px for labels, rest for values */
-
-    align-items: baseline;
-
-    margin-top: 15px;
-
+.partner-card .partner-info-grid {
+    display: none; /* Removed as per request */
 }
 
 

@@ -12,13 +12,12 @@ function renderQuestModal() {
             <h3 id="modalTitle">Add New Quest</h3>
             <form method="POST" action="final.php">
                 <input type="hidden" name="quest_id" id="edit_quest_id">
-                <div class="modal-form-row modal-spacer-small" style="align-items: flex-end;">
-                <label>Quest Icon</label>
-                <div class="emoji-selector-inline">
-                    <input type="text" name="quest_emoji" id="form_emoji" value="✅" readonly required class="emoji-display-minimal">
-                    
-                    <button type="button" class="action-btn gray" onclick="toggleEmojiPicker()">Change Icon</button>
-                </div>
+
+                <div class="modal-form-row modal-spacer-small">
+                    <div class="emoji-selector-inline">
+                        <input type="text" name="quest_emoji" id="form_emoji" value="✅" readonly required class="emoji-display-minimal">
+                        <button type="button" class="action-btn gray" onclick="toggleEmojiPicker()">Change Icon</button>
+                    </div>
                 </div>
                 
                 <div id="emojiPicker" class="emoji-grid hidden">
@@ -43,7 +42,10 @@ function renderQuestModal() {
                     <span onclick="selectEmoji('📌')">📌</span>
                     <span onclick="selectEmoji('🌍')">🌍</span>
                 </div>
-                <label>Quest Title</label><input type="text" name="quest_title" id="form_title" required>
+
+                <label>Quest Title</label>
+                <input type="text" name="quest_title" id="form_title" required>
+
                 <label>Description</label><textarea name="quest_description" id="form_desc" required></textarea>
                 <label>Category</label>
                 <select name="category" id="form_cat">
@@ -52,9 +54,9 @@ function renderQuestModal() {
                     <option value="Eco">Eco</option>
                     <option value="Waste Reduction">Waste Reduction</option>
                 </select>
-                <div style="display:flex; gap:10px;">
-                    <div><label>Drops</label><input type="number" name="drop_reward" id="form_drops"></div>
-                    <div><label>EcoCoins</label><input type="number" name="eco_coin_reward" id="form_coins"></div>
+                <div class="modal-form-row gap-10">
+                    <div class="flex-1"><label>Drops</label><input type="number" name="drop_reward" id="form_drops"></div>
+                    <div class="flex-1"><label>EcoCoins</label><input type="number" name="eco_coin_reward" id="form_coins"></div>
                 </div>
                 <label>Activation Date</label><input type="date" name="quest_date" id="form_date" required>
                 <div class="modal-footer">
@@ -70,7 +72,7 @@ function renderDeactivateModal() {
     ?>
     <div id="deactivateModal" class="modal">
         <div class="modal-content modal-content-small">
-            <h3 style="color: #92400e;">Confirm Deactivation</h3>
+            <h3 class="modal-title-warning">Confirm Deactivation</h3>
             <p class="modal-subtext">
                 Are you sure you want to deactivate <strong id="deactivateQuestTitle"></strong>? <br>
                 It will be moved to the inactive list and hidden from players.
@@ -90,8 +92,8 @@ function renderDeactivateModal() {
 function renderDeleteModal() {
     ?>
     <div id="deleteModal" class="modal">
-        <div class="modal-content" style="width: 400px;">
-            <h3 style="color: #d9534f;">Confirm Deletion</h3>
+        <div class="modal-content modal-content-small">
+            <h3 class="modal-title-danger">Confirm Deletion</h3>
             <p class="modal-subtext">
                 Are you sure you want to delete <strong id="deleteQuestTitle"></strong>? This cannot be undone.
             </p>
@@ -113,9 +115,9 @@ function renderDeleteModal() {
 function renderSuccessModal() {
     ?>
     <div id="successModal" class="modal">
-        <div class="modal-content" style="width: 400px;">
+        <div class="modal-content modal-content-small">
             <h3>Success!</h3>
-            <p>Your operation was completed successfully.</p>
+            <p class="modal-subtext">Your operation was completed successfully.</p>
             <div class="modal-footer">
               <button class="action-btn green" onclick="document.getElementById('successModal').style.display='none'">OK</button>
             </div>
@@ -193,7 +195,8 @@ function renderShopModals() {
                 <input type="number" name="item_price" id="shop_item_price" required>
                 
                 <label>Image (Upload)</label>
-                <input type="file" name="item_image" id="shop_item_image" accept="image/*">
+                <input type="file" name="item_image" id="shop_item_image" accept="image/png" onchange="validateShopImage(this)">
+                <p id="shop-image-error" class="form-error hidden">File type not supported. Please upload a PNG file.</p>
                 <p class="input-note">Leave empty to keep existing image (for edits).</p>
 
                 <div class="modal-footer">
@@ -206,8 +209,8 @@ function renderShopModals() {
 
     <!-- Delete Shop Item Modal -->
     <div id="deleteShopModal" class="modal">
-        <div class="modal-content" style="width: 400px;">
-            <h3 style="color: #d9534f;">Delete Item</h3>
+        <div class="modal-content modal-content-small">
+            <h3 class="modal-title-danger">Delete Item</h3>
             <p class="modal-subtext">
                 Are you sure you want to delete <strong id="del_shop_item_name"></strong>? This cannot be undone.
             </p>
