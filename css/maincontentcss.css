@@ -329,7 +329,7 @@ h3 {
 }
 
 /* Standardized Card/Block Spacing */
-.card, .user-card, .announcement-card, .partner-card, .request-card {
+.card, .user-card, .announcement-card, .partner-card, .request-card, .quest-card {
     background: #ffffff;
     padding: 24px;
     border-radius: 12px;
