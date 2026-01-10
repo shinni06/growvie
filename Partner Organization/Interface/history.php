@@ -2,12 +2,6 @@
     include('conn.php');
     include ('sidebar.php');
     $currentPage = basename($_SERVER['PHP_SELF']);
-    session_start();
-    $partner_login = $_SESSION['user_id'];
-    $queryPartner = "SELECT * FROM `partner` WHERE partner_id = '$partner_login'";
-    $resultPartner = mysqli_query($con, $queryPartner);
-    $row = mysqli_fetch_assoc($resultPartner);
-    $partner_id = $row['partner_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
