@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Encode Sans Expanded", sans-serif;
+    font-family: "Encode Sans", sans-serif;
 }
 
 /* 1) lock the page height and prevent body scroll */
@@ -111,11 +111,6 @@ body {
 .menu-item:hover {
     background: #f0f0f0;
     color: #000;
-}
-
-.menu-item:hover img.menu-icon {
-    color: #85C668;
-    opacity: 1;
 }
 
 .logout {

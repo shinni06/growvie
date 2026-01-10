@@ -29,6 +29,8 @@ $analytics = getAnalyticsData($con);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growvie Dashboard</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="css/maincontentcss.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/dashboard.css">
