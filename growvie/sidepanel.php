@@ -200,7 +200,7 @@ Black color(word): #000200-->
         </a>
 </div>
         <div class ="logout">
-        <a href ="logout.php" class ="sidepanel-item <?=$currentpage==='logout.php' ? 'active' : ''?>">
+        <a href ="login/login.html" class ="sidepanel-item <?=$currentpage==='login/login.html' ? 'active' : ''?>">
             <img src = "assets/logout.png" width="27" height="27">
             <div class ="text-container">Log Out</div>
         </a>

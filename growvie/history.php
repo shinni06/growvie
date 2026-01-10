@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -9,15 +7,8 @@ $database = "growvie";
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
-// Get current user from session
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-$current_user_id = $_SESSION['user_id'];
 
-// Get user's friend code (user_id serves as friend code)
-$friend_code = $current_user_id;
+$friend_code = "123456789"; 
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +29,7 @@ font-family: Arial, sans-serif;
 body {
 font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
 background-color: #DAE4D6;
-height: 100px;
+min-height: 100vh;
 }
 
 .container {
@@ -58,6 +49,10 @@ flex-direction: column;
 .logo {
 margin-bottom: 30px;
 color: #0c0c0cff;
+display: flex;
+align-items: center;
+font-size: 20px;
+font-weight: 600;
 }
 
 .menu {
@@ -77,20 +72,9 @@ list-style: none;
 
 
 .logout {
-    margin-top: auto;
-    color: #000000;
-    cursor: pointer;
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.logout:hover {
-    background: #e57373;
-    transform: translateY(-2px);
+margin-top: auto;
+color: #666;
+cursor: pointer;
 }
 
 .content {
@@ -104,11 +88,10 @@ list-style: none;
     width: 100%;
 }
 
-
 .header {
-    padding: 0 0 0 30px; 
-    margin-bottom: 80px;
-    margin-top: 40px;
+    padding:30px;
+    margin-bottom: 20px;
+    margin-top: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,22 +99,12 @@ list-style: none;
 
 .header h1 {
 margin-bottom: 5px;
+
 }
 
 .header p {
 font-size: 14px;
-color: #000000ff;
-}
-
-.friend-box {
-background: #f1f7ee;
-padding: 6px 12px;
-border-radius: 10px;
-}
-
-.friend-box span {
-font-weight: bold;
-margin-right: 6px;
+color: #000000;
 }
 
 .friend-code-section {
@@ -146,7 +119,7 @@ margin-right: 6px;
 
 .friend-code-label {
     font-size: 14px;
-    color: #000000ff;
+    color: #000000;
     font-weight: 500;
 }
 
@@ -161,7 +134,6 @@ margin-right: 6px;
 }
 
 .friend-code-box span {
-
     font-weight: 600;
     color: #000;
 }
@@ -184,11 +156,6 @@ margin-right: 6px;
     opacity: 0.7;
 }
 
-.section-title {
-font-weight: bold;
-margin-bottom: 20px;
-}
-
 .history-section {
     background: #ffffff;
     border-radius: 22px;
@@ -196,10 +163,16 @@ margin-bottom: 20px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
+.section-title {
+font-weight: bold;
+margin-bottom: 20px;
+font-size: 18px;
+}
+
 .history-card {
-    background: #d3e0d3;
+    background: #f5f5f5;
     padding: 18px;
-    border-radius: 16px;
+    border-radius: 12px;
     margin-bottom: 18px;
     display: flex;
     gap: 16px;
@@ -207,8 +180,8 @@ margin-bottom: 20px;
 }
 
 .history-card img {
-width: 120px;
-height: 90px;
+width: 140px;
+height: 105px;
 border-radius: 10px;
 object-fit: cover;
 }
@@ -216,15 +189,34 @@ object-fit: cover;
 .history-info {
 font-size: 14px;
 color: #333;
+flex: 1;
 }
 
 .history-info div {
-margin-bottom: 4px;
-line-height: 1.4;
+margin-bottom: 6px;
+line-height: 1.5;
 }
 
 .history-info strong {
-font-size: 15px;
+font-size: 16px;
+font-weight: 700;
+display: block;
+margin-bottom: 8px;
+}
+
+.info-row {
+    display: flex;
+    gap: 40px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #666;
+    min-width: 160px;
+}
+
+.info-value {
+    color: #333;
 }
 
 </style>
@@ -242,12 +234,12 @@ font-size: 15px;
 <ul class="menu">
 <li>Dashboard</li>
 <li>Shop</li>
-<li>Notifications </a></li>
+<li>Notifications</li>
 <li>Friends</li>
 <li class="active">Profile</li>
 <li>Settings</li>
 </ul>
-<div class="logout" onclick="logout()">Log Out</div>
+<div class="logout">Log Out</div>
 </aside>
 
 <main class="content">
@@ -256,14 +248,14 @@ font-size: 15px;
 <section class="header">
 <div>
 <h1>Profile</h1>
-<p>All the trees you've planted so far</p>
+<p>All the trees that you have planted.</p>
 </div>
 
 <div class="friend-code-section">
     <span class="friend-code-label">Friend Code</span>
     <div class="friend-code-box">
         <span><?php echo $friend_code; ?></span>
-        <button class="copy-btn" onclick="copyFriendCode()" title="Copy to clipboard">📋</button>
+        <button class="copy-btn" onclick="copyFriendCode()" title="Copy to clipboard"></button>
     </div>
 </div>
 </section>
@@ -273,17 +265,8 @@ font-size: 15px;
 <div class="section-title">Real Tree Plants History</div>
 
 <?php
-// Get real tree records for current user's virtual plants
-$sql = "SELECT rtr.* 
-        FROM real_tree_record rtr
-        INNER JOIN virtual_plant vp ON rtr.virtual_plant_id = vp.virtual_plant_id
-        WHERE vp.user_id = ?
-        ORDER BY rtr.date_reported DESC";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $current_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT * FROM real_tree_record ORDER BY real_tree_id DESC";
+$result = $conn->query($sql);
 
 if($result && $result->num_rows > 0){
 while($row = $result->fetch_assoc()){
@@ -294,13 +277,31 @@ while($row = $result->fetch_assoc()){
 <img src="uploads/<?= $row['photo_code'] ?>" alt="Tree">
 
 <div class="history-info">
-<div><strong><?= $row['real_tree_id'] ?></strong></div>
-<div>Virtual Plant ID: <?= $row['virtual_plant_id'] ?></div>
-<div>Partner ID: <?= $row['partner_id'] ?></div>
-<div>Location: <?= $row['location'] ?></div>
-<div>Coordinates: <?= $row['coordinates'] ?></div>
-<div>Planting Site: <?= $row['planting_site'] ?></div>
-<div>Reported: <?= date("d/m/Y, g:i a", strtotime($row['date_reported'])) ?></div>
+<strong><?= $row['real_tree_id'] ?></strong>
+<div class="info-row">
+    <span class="info-label">Partner Organization</span>
+    <span class="info-value"><?= $row['partner_id'] ?></span>
+</div>
+<div class="info-row">
+    <span class="info-label">Request Date</span>
+    <span class="info-value"><?= date("d/m/Y, g:i a", strtotime($row['date_reported'])) ?></span>
+</div>
+<div class="info-row">
+    <span class="info-label">Fulfillment Date</span>
+    <span class="info-value"><?= date("d/m/Y, g:i a", strtotime($row['date_reported'])) ?></span>
+</div>
+<div class="info-row">
+    <span class="info-label">Planting Site</span>
+    <span class="info-value"><?= $row['planting_site'] ?></span>
+</div>
+<div class="info-row">
+    <span class="info-label">Location</span>
+    <span class="info-value"><?= $row['location'] ?></span>
+</div>
+<div class="info-row">
+    <span class="info-label">Coordinates</span>
+    <span class="info-value"><?= $row['coordinates'] ?></span>
+</div>
 </div>
 
 </div>
@@ -310,9 +311,6 @@ while($row = $result->fetch_assoc()){
 else{
 echo "<p>No planting history found.</p>";
 }
-
-$stmt->close();
-$conn->close();
 ?>
     </div>
     </div>
@@ -326,12 +324,6 @@ function copyFriendCode() {
     navigator.clipboard.writeText(friendCode).then(() => {
         alert('Friend code copied to clipboard!');
     });
-}
-
-function logout() {
-    if (confirm('Are you sure you want to log out?')) {
-        window.location.href = 'logout.php';
-    }
 }
 </script>
 

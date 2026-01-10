@@ -406,7 +406,7 @@ html {
             </div>
         </section>
 
-            <div class="card">
+        <div class="card">
             <div class="profile-header">
                 <img src="jamalchong.png" alt="<?php echo htmlspecialchars($user['name']); ?>" class="profile-image">
                 
@@ -481,7 +481,7 @@ html {
             </a>
             <a href="questsubmit.php" class="nav-btn-link">
                 <button class="nav-btn quest">
-                    View Submitted Quests
+                    View Submitted Quest
                 </button>
             </a>
         </div>
@@ -490,14 +490,7 @@ html {
 
 </div>
 
-
-<?php
-$conn->close();
-?>
-        </div>
-    </div>
-
-    <script>
+<script>
 function copyFriendCode() {
     const friendCode = '<?php echo $friend_code; ?>';
     navigator.clipboard.writeText(friendCode).then(function() {
@@ -506,12 +499,11 @@ function copyFriendCode() {
         console.error('Could not copy text: ', err);
     });
 }
-
-function logout() {
-    if (confirm('Are you sure you want to log out?')) {
-        window.location.href = 'login.php';
-    }
-}
 </script>
+
 </body>
 </html>
+
+<?php
+$conn->close();
+?>
