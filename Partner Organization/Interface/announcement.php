@@ -54,7 +54,6 @@
     <?php include("createAnnouncement.php"); ?> 
     <!-- This define when the modal for creating new announcement should be shown or closed -->
    <script>
-        // MODIFIED: Added parameters for edit mode
         function openModal(mode = 'create', announcementId = null, title = '', body = '', date = '') {
             document.getElementById("overlay").style.display = "block";
             document.getElementById("modal").style.display = "block";

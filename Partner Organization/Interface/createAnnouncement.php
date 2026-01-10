@@ -132,7 +132,6 @@
             return $createNewAnnouncementID;
         }
 
-        // MODIFIED: Runs when form is submit - now handles both create and edit
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mode'])) {
             $mode = $_POST['mode'];
             
@@ -156,7 +155,7 @@
                 $status = "Scheduled";
             }
 
-            // NEW: Check if we're editing or creating
+            // Check if user is editing or creating
             if ($mode === 'edit' && isset($_POST['announcement_id']) && !empty($_POST['announcement_id'])) {
                 // UPDATE existing announcement
                 $announcementId = mysqli_real_escape_string($con, $_POST['announcement_id']);
@@ -190,7 +189,6 @@
                     echo '<script>alert("Error preparing update statement: ' . mysqli_error($con) . '");</script>';
                 }
             } else {
-                // CREATE new announcement (original code)
                 // to get the date announcement is created
                 $createAt = date('Y-m-d');
 
