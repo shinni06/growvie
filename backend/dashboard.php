@@ -204,6 +204,7 @@ function renderDashboardScripts() {
             document.getElementById('form_drops').value = q.drop_reward;
             document.getElementById('form_coins').value = q.eco_coin_reward;
             document.getElementById('form_date').value = q.date_created;
+            document.getElementById('form_emoji').value = q.quest_emoji;
             document.getElementById('questModal').style.display = 'block';
         }
 
@@ -211,6 +212,7 @@ function renderDashboardScripts() {
         function openCreateModal() {
             document.getElementById('modalTitle').innerText = "Add New Quest";
             document.getElementById('edit_quest_id').value = "";
+            document.getElementById('form_emoji').value = "✅";
             document.getElementById('questModal').style.display = 'block';
         }
 

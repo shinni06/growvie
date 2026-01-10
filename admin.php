@@ -1,4 +1,17 @@
 <?php
+session_start();
+
+// Set timezone to Malaysia/Singapore to fix date comparison issues around midnight
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
+// Handle logout function
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: login/login.html");
+    exit();
+}
+
 // Connection to backend files
 require_once __DIR__ . "/backend/db.php";
 require_once __DIR__ . "/backend/modal.php";
@@ -161,10 +174,10 @@ $analytics = getAnalyticsData($con);
             </div>
         </div>
 
-        <div class="logout">
+        <a href="admin.php?logout=true" class="logout">
             <img src="assets/logout.png" class="logout-icon">
             <span>Log Out</span>
-        </div>
+        </a>
         </nav>
 
         <!-- Content -->

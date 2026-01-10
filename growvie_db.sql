@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 10, 2026 at 12:54 AM
+-- Generation Time: Jan 10, 2026 at 05:01 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -214,10 +214,10 @@ CREATE TABLE IF NOT EXISTS `quest_submission` (
 --
 
 INSERT INTO `quest_submission` (`submission_id`, `quest_id`, `user_id`, `quest_submission_description`, `approval_status`, `submitted_at`) VALUES
-('QS001', 'Q001', 'USR002', 'Drank water out of this bad boy', 'Pending', '2025-11-14'),
-('QS002', 'Q001', 'USR002', 'i think my bottle is my emotional support', 'Pending', '2025-11-20'),
+('QS001', 'Q001', 'USR002', 'Drank water out of this bad boy', 'Approved', '2025-11-14'),
+('QS002', 'Q001', 'USR002', 'i think my bottle is my emotional support', 'Approved', '2025-11-20'),
 ('QS003', 'Q001', 'USR002', 'Switch to reusable bottles today!', 'Approved', '2025-11-29'),
-('QS004', 'Q002', 'USR004', '#notaperformativemale', 'Pending', '2025-11-15'),
+('QS004', 'Q002', 'USR004', '#notaperformativemale', 'Approved', '2025-11-15'),
 ('QS005', 'Q002', 'USR004', 'tote bags for life ', 'Approved', '2025-11-28'),
 ('QS006', 'Q001', 'USR002', 'Used my reusable bottle throughout the day on campus.', 'Approved', '2025-12-10'),
 ('QS007', 'Q001', 'USR006', 'Brought my own bottle to the gym instead of buying drinks.', 'Approved', '2025-12-11'),
@@ -226,8 +226,8 @@ INSERT INTO `quest_submission` (`submission_id`, `quest_id`, `user_id`, `quest_s
 ('QS010', 'Q003', 'USR009', 'Prepared lunch using reusable containers and cutlery.', 'Approved', '2025-12-11'),
 ('QS011', 'Q003', 'USR010', 'Packed homemade lunch in reusable boxes.', 'Approved', '2025-12-12'),
 ('QS012', 'Q004', 'USR011', 'Took public transport instead of driving.', 'Approved', '2025-12-13'),
-('QS013', 'Q004', 'USR006', 'Cycled to class instead of using a car.', 'Pending', '2025-12-14'),
-('QS014', 'Q005', 'USR012', 'Repaired a torn backpack instead of buying a new one.', 'Pending', '2025-12-14'),
+('QS013', 'Q004', 'USR006', 'Cycled to class instead of using a car.', 'Approved', '2025-12-14'),
+('QS014', 'Q005', 'USR012', 'Repaired a torn backpack instead of buying a new one.', 'Approved', '2025-12-14'),
 ('QS015', 'Q005', 'USR007', 'Fixed a broken phone cable using tape and heat shrink.', 'Pending', '2025-12-14'),
 ('QS016', 'Q001', 'USR021', 'Always carrying my bottle!', 'Approved', '2025-10-18'),
 ('QS017', 'Q002', 'USR022', 'Grocery run with tote bag', 'Approved', '2025-11-12'),
@@ -322,8 +322,8 @@ INSERT INTO `real_tree_record` (`real_tree_id`, `virtual_plant_id`, `partner_id`
 ('RT003', 'VP013', 'PO003', 'Perak, Malaysia', '4.592°N, 101.090°E', 'Forest Reserve C', '2025-12-14', 'Approved'),
 ('RT004', 'VP015', 'PO001', 'Sarawak, Malaysia', '1.553°N, 110.359°E', 'National Park D', '2025-12-28', 'Approved'),
 ('RT005', 'VP003', 'PO002', 'Selangor, Malaysia', '3.0738°N, 101.5183°E', 'Shah Alam Community Park', '2025-12-30', 'Approved'),
-('RT006', 'VP005', 'PO001', 'Pahang, Malaysia', '4.3820°N, 102.2400°E', 'Taman Negara Buffer Zone', '2026-01-03', 'Pending'),
-('RT007', 'VP007', 'PO005', 'Sarawak, Malaysia', '1.6110°N, 110.1500°E', 'Kuching Wetlands', '2026-01-06', 'Pending'),
+('RT006', 'VP005', 'PO001', 'Pahang, Malaysia', '4.3820°N, 102.2400°E', 'Taman Negara Buffer Zone', '2026-01-03', 'Approved'),
+('RT007', 'VP007', 'PO005', 'Sarawak, Malaysia', '1.6110°N, 110.1500°E', 'Kuching Wetlands', '2026-01-06', 'Rejected'),
 ('RT008', 'VP010', 'PO003', 'Johor, Malaysia', '1.4854°N, 103.7618°E', 'Endau-Rompin Park', '2026-01-06', 'Pending'),
 ('RT009', 'VP019', 'PO004', 'Kedah, Malaysia', '6.1184°N, 100.3685°E', 'School Greening Project A', '2026-01-09', 'Pending'),
 ('RT010', 'VP020', 'PO002', 'Kuala Lumpur, Malaysia', '3.1390°N, 101.6869°E', 'Urban Rooftop Garden', '2026-01-11', 'Pending');
@@ -380,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `name`, `email`, `password`, `role`, `date_joined`) VALUES
-('USR001', 'jamalchong_123', 'Jamal Chong', 'jamalchong@gmail.com', 'password1\n', 'Admin', '2025-12-11'),
+('USR001', 'jamalchong_123', 'Jamal Chong', 'jamalchong@gmail.com', 'password1', 'Admin', '2025-12-11'),
 ('USR002', 'leexiaoming88', 'Lee Xiao Ming', 'leexiaoming@gmail.com', 'password2', 'Player', '2025-12-11'),
 ('USR003', 'muhammad_ali', 'Mhd Ali', 'muhammadali@gmail.com', 'password3', 'Player', '2025-12-11'),
 ('USR004', 'huangxiaoli5', 'Xiao Li', 'huangxiaoli@gmail.com', 'password4', 'Player', '2025-12-11'),
@@ -437,17 +437,17 @@ CREATE TABLE IF NOT EXISTS `user_player` (
 --
 
 INSERT INTO `user_player` (`user_player_id`, `user_id`, `player_tier`, `eco_coins`, `drops_progress`, `total_quests_completed`, `tree_planted_irl`, `growvie_plants_planted`, `player_status`) VALUES
-('UP001', 'USR002', 1, 12435, 1280, 59, 0, 5, 'Active'),
+('UP001', 'USR002', 1, 12455, 1282, 61, 0, 5, 'Active'),
 ('UP002', 'USR003', 2, 678, 200, 100, 0, 10, 'Active'),
 ('UP003', 'USR004', 3, 90, 300, 150, 0, 20, 'Active'),
 ('UP004', 'USR005', 1, 120, 8, 5, 0, 6, 'Active'),
-('UP005', 'USR006', 2, 355, 16, 19, 0, 14, 'Active'),
-('UP006', 'USR007', 1, 90, 4, 3, 0, 4, 'Active'),
-('UP007', 'USR008', 3, 680, 25, 32, 1, 20, 'Active'),
+('UP005', 'USR006', 2, 505, 26, 24, 1, 14, 'Active'),
+('UP006', 'USR007', 1, 130, 7, 4, 0, 4, 'Active'),
+('UP007', 'USR008', 3, 710, 27, 34, 1, 20, 'Active'),
 ('UP008', 'USR009', 2, 410, 18, 21, 2, 14, 'Active'),
 ('UP009', 'USR010', 1, 150, 6, 7, 1, 9, 'Active'),
-('UP010', 'USR011', 3, 720, 30, 40, 0, 23, 'Active'),
-('UP011', 'USR012', 2, 390, 16, 19, 4, 12, 'Active'),
+('UP010', 'USR011', 3, 780, 34, 42, 0, 23, 'Active'),
+('UP011', 'USR012', 2, 470, 22, 21, 4, 12, 'Active'),
 ('UP012', 'USR013', 1, 110, 5, 6, 1, 2, 'Active'),
 ('UP013', 'USR014', 2, 460, 20, 24, 0, 11, 'Active'),
 ('UP014', 'USR015', 1, 0, 0, 0, 0, 0, 'Active'),

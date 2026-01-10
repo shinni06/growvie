@@ -50,5 +50,5 @@
 
 .announcement-textarea {
     min-height: 120px;
-    resize: vertical;
+    resize: none;
 }

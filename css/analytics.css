@@ -11,6 +11,7 @@
     border-radius: 14px;
     padding: 20px;
     position: relative;
+    margin-bottom: 0;
 }
 
 .short-card {
@@ -32,8 +33,8 @@
 }
 
 .card h2 {
-    font-size: 34px;
-    margin: 10px 0;
+    font-size: 40px;
+    margin: 8px 0;
 }
 
 .card h2 small {
@@ -55,16 +56,11 @@
 }
 
 .trend-text {
-    font-size: 12px;
+    font-size: 11px;
     color: #777;
     line-height: 1.5;
     display: flex;
     gap: 8px;
-}
-
-.trend-icon {
-    margin-top: 2px;
-    flex-shrink: 0;
 }
 
 .progress-bar {
@@ -96,7 +92,6 @@
     justify-content: center;
     gap: 30px;
     margin-top: 15px;
-    margin-bottom: 20px;
 }
 
 .legend {
@@ -110,7 +105,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .legend span {
@@ -118,4 +113,44 @@
     height: 10px;
     background: #8ecf73;
     border-radius: 50%;
+}
+
+.progress-wrapper {
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    margin: 15px 0;
+}
+
+.analytics-progress-track {
+    flex: 1; 
+    margin: 0; 
+    height: 12px;
+}
+
+.progress-text {
+    font-weight: 700; 
+    color: #8ecf73;
+}
+
+.analytics-stats-grid {
+    display: grid; 
+    grid-template-columns: auto 1fr; 
+    row-gap: 6px; 
+    column-gap: 15px;
+}
+
+.donut-chart-container {
+    width: 140px; 
+    height: 140px;
+}
+
+.line-chart-container {
+    height: 150px; 
+    width: 100%;
+}
+
+#revenueChart {
+    height: 140px;
+    width: 140px;
 }

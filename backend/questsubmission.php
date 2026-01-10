@@ -85,7 +85,7 @@ function renderReviewTab(mysqli $con) {
                         <div class="message-bubble">
                             <p class="item-description no-margin"><?php echo htmlspecialchars($row['quest_submission_description']); ?></p>
                         </div>
-                        <p class="date-text" style="text-align: right; margin-top: 10px;">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
+                        <p class="date-text submission-date">Submitted on <?php echo date("d M Y", strtotime($row['submitted_at'])); ?></p>
                     </div>
                 </div>
 

@@ -181,6 +181,10 @@ body {
     background: var(--white);
 }
 
+.form-spacer {
+    margin-bottom: 20px;
+}
+
 /* Buttons */
 .login-btn {
     width: 100%;

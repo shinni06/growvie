@@ -46,10 +46,10 @@ function renderQuestModal() {
                 <label>Description</label><textarea name="quest_description" id="form_desc" required></textarea>
                 <label>Category</label>
                 <select name="category" id="form_cat">
-                    <option value="Community">Waste Reduction</option>
-                    <option value="Personal">Energy & Transport</option>
-                    <option value="Eco">Sustainable Living</option>
-                    <option value="Waste Reduction">Community & Nature</option>
+                    <option value="Waste Reduction">Waste Reduction</option>
+                    <option value="Energy & Transport">Energy & Transport</option>
+                    <option value="Sustainable Living">Sustainable Living</option>
+                    <option value="Community & Nature">Community & Nature</option>
                 </select>
                 <div class="modal-form-row gap-10">
                     <div class="flex-1"><label>Drops</label><input type="number" name="drop_reward" id="form_drops"></div>
