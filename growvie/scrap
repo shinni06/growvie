@@ -1,0 +1,2 @@
+checkPlantWilting($con, $plant['virtual_plant_id'], $test_user_id);
+
