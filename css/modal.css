@@ -63,10 +63,6 @@
     margin-bottom: 15px;
 }
 
-.flex-end {
-    align-items: flex-end;
-}
-
 .gap-10 {
     gap: 10px;
 }

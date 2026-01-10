@@ -352,11 +352,6 @@
     display: inline-block;
 }
 
-/* Divider Line */
-.partner-divider {
-    display: none; /* Class retired in favor of .section-divider */
-}
-
 .meta-row {
     display: flex;
     justify-content: space-between;
@@ -379,14 +374,6 @@
     font-size: 13px;
     font-style: normal; /* Removed italics */
 }
-
-/* --- Partner ID/Email Alignment Grid --- */
-
-.partner-card .partner-info-grid {
-    display: none; /* Removed as per request */
-}
-
-
 
 #userSearchInput {
 

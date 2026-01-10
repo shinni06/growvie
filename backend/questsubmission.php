@@ -1,16 +1,14 @@
 <?php
-// backend/questsubmission.php
 
-/**
- * Processes approvals, awards coins/drops, and updates the player leaderboard.
- */
+// Function to handle quest submissions
 function handleReviewAction(mysqli $con) {
     if (isset($_POST['actionReview'])) {
         $submission_id = mysqli_real_escape_string($con, $_POST['submission_id']);
         $status = mysqli_real_escape_string($con, $_POST['actionReview']); 
 
+        // Handle approving quest submissions
         if ($status === 'Approved') {
-            // Fetch rewards
+            // Get reward amount
             $rewardSql = "SELECT qs.user_id, q.drop_reward, q.eco_coin_reward 
                           FROM quest_submission qs JOIN quest q ON qs.quest_id = q.quest_id 
                           WHERE qs.submission_id = '$submission_id'";
@@ -20,24 +18,22 @@ function handleReviewAction(mysqli $con) {
             $drops = $rewardData['drop_reward'];
             $coins = $rewardData['eco_coin_reward'];
 
-            // Update player account
-            // This correctly targets user_player for game stats
+            // Send rewards to players and increase quest completion count
             mysqli_query($con, "UPDATE user_player SET eco_coins = eco_coins + $coins, 
                                 drops_progress = drops_progress + $drops, 
                                 total_quests_completed = total_quests_completed + 1 
                                 WHERE user_id = '$uid'");
         }
 
-        // Update submission status
+        // Update status of quest submission to "Approved"
         mysqli_query($con, "UPDATE quest_submission SET approval_status = '$status' WHERE submission_id = '$submission_id'");
         header("Location: final.php?review_success=" . strtolower($status));
         exit();
     }
 }
 
+// Render HTML for Quest Submissions from Partner
 function renderReviewTab(mysqli $con) {
-    // UPDATED: Now joins user_player to check 'player_status' instead of 'user.status'
-    // This ensures that players 'Deleted' via User Management are correctly hidden here.
     $sql = "SELECT qs.*, q.quest_title, q.quest_description, q.quest_emoji, q.category, u.username, up.player_tier 
             FROM quest_submission qs 
             JOIN quest q ON qs.quest_id = q.quest_id
@@ -64,8 +60,8 @@ function renderReviewTab(mysqli $con) {
             
             <div class="review-details-side">
                 <div class="review-content-scrollable">
-                    <div class="quest-info-block">
-                        <h3 class="item-title title-spaced">
+                    <div>
+                        <h3 class="item-title">
                             <?php echo htmlspecialchars($row['quest_emoji']); ?> 
                             <?php echo htmlspecialchars($row['quest_title']); ?>
                         </h3>
@@ -73,7 +69,7 @@ function renderReviewTab(mysqli $con) {
                         <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
                     </div>
 
-                    <div class="user-info-block content-section-gap">
+                    <div class="content-section-gap">
                         <div class="message-bubble">
                             <div class="submitter-row">
                                 <img src="<?php echo $userPfp; ?>" class="lb-avatar tier-border-<?php echo $tier; ?>">
@@ -96,7 +92,7 @@ function renderReviewTab(mysqli $con) {
                 <div class="card-footer-wrapper">
                     <div class="review-footer">
                         <p class="submission-count">Submission <?php echo ($index+1); ?> of <?php echo mysqli_num_rows($res); ?></p>
-                        <div class="nav-btns">
+                        <div>
                             <button type="button" class="nav-btn-alt" onclick="navigateReview(<?php echo $index-1; ?>)" <?php if($index==0) echo 'disabled'; ?>>Back</button>
                             <button type="button" class="nav-btn-alt" onclick="navigateReview(<?php echo $index+1; ?>)" <?php if($index==mysqli_num_rows($res)-1) echo 'disabled'; ?>>Next</button>
                         </div>
@@ -122,9 +118,8 @@ function renderReviewTab(mysqli $con) {
     <?php
 }
 
+// Render HTML for Approval Log
 function renderSubmissionHistory($con) {
-    // UPDATED: Now joins user_player to check 'player_status'
-    // This cleans up the history log by hiding activities from deleted players.
     $query = "SELECT q.quest_title, q.quest_emoji, u.username, qs.submitted_at 
               FROM quest_submission qs 
               JOIN quest q ON qs.quest_id = q.quest_id 

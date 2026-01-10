@@ -1,9 +1,6 @@
 <?php
-// backend/modal.php
 
-/**
- * Renders the modal for creating and editing quests.
- */
+// Render modal for quest editing/creation
 function renderQuestModal() {
     ?>
     <div id="questModal" class="modal">
@@ -49,10 +46,10 @@ function renderQuestModal() {
                 <label>Description</label><textarea name="quest_description" id="form_desc" required></textarea>
                 <label>Category</label>
                 <select name="category" id="form_cat">
-                    <option value="Community">Community</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Eco">Eco</option>
-                    <option value="Waste Reduction">Waste Reduction</option>
+                    <option value="Community">Waste Reduction</option>
+                    <option value="Personal">Energy & Transport</option>
+                    <option value="Eco">Sustainable Living</option>
+                    <option value="Waste Reduction">Community & Nature</option>
                 </select>
                 <div class="modal-form-row gap-10">
                     <div class="flex-1"><label>Drops</label><input type="number" name="drop_reward" id="form_drops"></div>
@@ -68,6 +65,7 @@ function renderQuestModal() {
     <?php
 }
 
+// Render modal for quest deactivation
 function renderDeactivateModal() {
     ?>
     <div id="deactivateModal" class="modal">
@@ -89,6 +87,7 @@ function renderDeactivateModal() {
     <?php
 }
 
+// Render modal for quest deletion
 function renderDeleteModal() {
     ?>
     <div id="deleteModal" class="modal">
@@ -109,23 +108,82 @@ function renderDeleteModal() {
     <?php
 }
 
-/**
- * Renders the global success modal for all actions.
- */
-function renderSuccessModal() {
+// Render modal for handling shop items
+function renderShopModals() {
     ?>
-    <div id="successModal" class="modal">
-        <div class="modal-content modal-content-small">
-            <h3>Success!</h3>
-            <p class="modal-subtext">Your operation was completed successfully.</p>
-            <div class="modal-footer">
-              <button class="action-btn green" onclick="document.getElementById('successModal').style.display='none'">OK</button>
-            </div>
+    <!-- Render modal for editing/creating shop item -->
+    <div id="shopItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShopItemModal()">&times;</span>
+            <h3 id="shopModalTitle">Add New Item</h3>
+            
+            <form id="shopForm" method="POST" action="final.php" enctype="multipart/form-data">
+                <input type="hidden" name="item_id" id="edit_item_id">
+                <input type="hidden" name="redirect_category" id="shop_redirect_category">
+                
+                <label>Item Name</label>
+                <input type="text" name="item_name" id="shop_item_name" required>
+                
+                <label>Description</label>
+                <textarea name="item_desc" id="shop_item_desc" rows="3" required></textarea>
+                
+                <label>Category</label>
+                <select name="item_category" id="shop_item_category">
+                    <option value="Plant Seeds">Plant Seeds</option>
+                    <option value="Power Ups">Power Ups</option>
+                    <option value="In App Purchases">In App Purchases</option>
+                </select>
+                
+                <label>Price</label>
+                <input type="number" name="item_price" id="shop_item_price" required>
+                
+                <label>Image (Upload)</label>
+                <input type="file" name="item_image" id="shop_item_image" accept="image/png" onchange="validateShopImage(this)">
+                <p id="shop-image-error" class="form-error hidden">File type not supported. Please upload a PNG file.</p>
+
+                <div class="modal-footer">
+                    <button type="button" class="action-btn gray" onclick="closeShopItemModal()">Cancel</button>
+                    <button type="submit" name="addShopItem" id="shopSubmitBtn" class="action-btn green">Add Item</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- Render modal for confirming deletion of shop item -->
+    <div id="deleteShopModal" class="modal">
+        <div class="modal-content modal-content-small">
+            <h3 class="modal-title-danger">Delete Item</h3>
+            <p class="modal-subtext">
+                Are you sure you want to delete <strong id="del_shop_item_name"></strong>? This cannot be undone.
+            </p>
+            <form method="POST" action="final.php">
+                <input type="hidden" name="item_id" id="del_shop_item_id">
+                <input type="hidden" name="redirect_category" id="del_redirect_category">
+                <div class="modal-footer">
+                    <button type="button" class="action-btn gray" onclick="document.getElementById('deleteShopModal').style.display='none'">Cancel</button>
+                    <button type="submit" name="deleteShopItem" class="action-btn cfmdelete">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Render modal for deletion of shop item
+        function openShopDeleteModal(id, name) {
+            document.getElementById('del_shop_item_id').value = id;
+            document.getElementById('del_shop_item_name').innerText = name;
+            
+            // Redirect the user back to last used tab
+            const urlParams = new URLSearchParams(window.location.search);
+            document.getElementById('del_redirect_category').value = urlParams.get('shop_category') || 'seeds';
+
+            document.getElementById('deleteShopModal').style.display = 'block';
+        }
+    </script>
     <?php
 }
 
+// Render modal for adding new partner organization
 function renderAddPartnerModal() {
     ?>
     <div id="addPartnerModal" class="modal">
@@ -164,78 +222,18 @@ function renderAddPartnerModal() {
     <?php
 }
 
-/**
- * Renders the Modal HTML for Shop Items
- */
-function renderShopModals() {
+// Render general success modal for completed actions
+function renderSuccessModal() {
     ?>
-    <div id="shopItemModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeShopItemModal()">&times;</span>
-            <h3 id="shopModalTitle">Add New Item</h3>
-            
-            <form id="shopForm" method="POST" action="final.php" enctype="multipart/form-data">
-                <input type="hidden" name="item_id" id="edit_item_id">
-                <input type="hidden" name="redirect_category" id="shop_redirect_category">
-                
-                <label>Item Name</label>
-                <input type="text" name="item_name" id="shop_item_name" required>
-                
-                <label>Description</label>
-                <textarea name="item_desc" id="shop_item_desc" rows="3" required></textarea>
-                
-                <label>Category</label>
-                <select name="item_category" id="shop_item_category">
-                    <option value="Plant Seeds">Plant Seeds</option>
-                    <option value="Power Ups">Power Ups</option>
-                    <option value="In App Purchases">In App Purchases</option>
-                </select>
-                
-                <label>Price</label>
-                <input type="number" name="item_price" id="shop_item_price" required>
-                
-                <label>Image (Upload)</label>
-                <input type="file" name="item_image" id="shop_item_image" accept="image/png" onchange="validateShopImage(this)">
-                <p id="shop-image-error" class="form-error hidden">File type not supported. Please upload a PNG file.</p>
-
-                <div class="modal-footer">
-                    <button type="button" class="action-btn gray" onclick="closeShopItemModal()">Cancel</button>
-                    <button type="submit" name="addShopItem" id="shopSubmitBtn" class="action-btn green">Add Item</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Delete Shop Item Modal -->
-    <div id="deleteShopModal" class="modal">
+    <div id="successModal" class="modal">
         <div class="modal-content modal-content-small">
-            <h3 class="modal-title-danger">Delete Item</h3>
-            <p class="modal-subtext">
-                Are you sure you want to delete <strong id="del_shop_item_name"></strong>? This cannot be undone.
-            </p>
-            <form method="POST" action="final.php">
-                <input type="hidden" name="item_id" id="del_shop_item_id">
-                <input type="hidden" name="redirect_category" id="del_redirect_category">
-                <div class="modal-footer">
-                    <button type="button" class="action-btn gray" onclick="document.getElementById('deleteShopModal').style.display='none'">Cancel</button>
-                    <button type="submit" name="deleteShopItem" class="action-btn cfmdelete">Yes, Delete</button>
-                </div>
-            </form>
+            <h3>Success!</h3>
+            <p class="modal-subtext">Your operation was completed successfully.</p>
+            <div class="modal-footer">
+              <button class="action-btn green" onclick="document.getElementById('successModal').style.display='none'">OK</button>
+            </div>
         </div>
     </div>
-
-    <script>
-        function openShopDeleteModal(id, name) {
-            document.getElementById('del_shop_item_id').value = id;
-            document.getElementById('del_shop_item_name').innerText = name;
-            
-            // Set Redirect Category
-            const urlParams = new URLSearchParams(window.location.search);
-            document.getElementById('del_redirect_category').value = urlParams.get('shop_category') || 'seeds';
-
-            document.getElementById('deleteShopModal').style.display = 'block';
-        }
-    </script>
     <?php
 }
 

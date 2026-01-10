@@ -1,10 +1,4 @@
 /*Partener Orgainzer tab*/
-.partner-wrapper {
-    background: #dfe9d8;
-    margin: 20px;
-    padding: 40px;
-    border-radius: 16px;
-}
 
 /* Request Card */
 .request-card {
@@ -12,13 +6,6 @@
     align-items: center;
     gap: 24px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.username-at {
-    font-size: 14px;
-    color: #999;
-    margin-left: 5px;
-    font-weight: 500;
 }
 
 .partner-header-top {
@@ -60,20 +47,6 @@
     border-radius: 10px;
     object-fit: cover;
     flex-shrink: 0;
-}
-
-/* Info Section */
-.request-info {
-    flex: 1;
-}
-
-/* Info grid */
-.info-grid {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    row-gap: 8px;
-    column-gap: 20px;
-    font-size: 14px;
 }
 
 /* History Status Badges */

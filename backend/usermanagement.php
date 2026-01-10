@@ -1,30 +1,20 @@
 <?php
-// backend/usermanagement.php
 
-/**
- * Renders the JavaScript required for User Management interactions.
- */
+// Render JS for user management functions
 function renderUserManagementScripts() {
     ?>
     <script>
-        /**
-         * Switches between User and Partner sub-tabs.
-         */
+        // Render JS for Tab Switching Logic in User Management
         function userTab(role) {
-            // UI Update: Toggle 'active' class
             document.querySelectorAll('#content5 .tab').forEach(btn => btn.classList.remove('active'));
             if (event && event.target) event.target.classList.add('active');
 
-            // Redirect with current search value to maintain context
             const searchVal = document.getElementById('userSearchInput')?.value || '';
             window.location.href = `final.php?role=${role}&search=${searchVal}`;
         }
 
-        /**
-         * Triggered by the search bar input.
-         */
+        // Logic for search bar
         function handleUserSearch() {
-            // Get current role from URL or default to 'Player'
             const urlParams = new URLSearchParams(window.location.search);
             const currentRole = urlParams.get('role') || 'Player';
             
@@ -32,10 +22,7 @@ function renderUserManagementScripts() {
             window.location.href = `final.php?role=${currentRole}&search=${searchVal}`;
         }   
 
-        /**
-         * Opens the Delete Confirmation Modal.
-         * Only used for Players now.
-         */
+        // Modal for deleting users
         function openUserDeleteModal(id, name) {
             const modal = document.getElementById('deleteModal');
             const inputId = document.getElementById('delete_quest_id'); // Reusing existing modal hidden input
@@ -44,14 +31,12 @@ function renderUserManagementScripts() {
 
             if (!modal) return;
 
-            // 1. Inject Data
             if(inputId) {
                 inputId.value = id;
-                inputId.name = "user_id"; // Change name so PHP 'handleUserActions' catches it
+                inputId.name = "user_id";
             }
             if(title) title.innerText = name;
             
-            // 2. Switch Button Action
             if(submitBtn) {
                 submitBtn.name = "confirmDeleteUser"; 
             }
@@ -62,14 +47,12 @@ function renderUserManagementScripts() {
     <?php
 }
 
-/**
- * Renders the content based on the active role.
- */
+// Render content for users depending on the tab
 function renderUserManagement($con, $role = 'Player', $search = '') {
     $search = mysqli_real_escape_string($con, $search);
     $role = mysqli_real_escape_string($con, $role);
 
-    // --- PLAYER TAB LOGIC ---
+    // Logic for player tab
     if ($role === 'Player') {
         $sql = "SELECT u.*, up.total_quests_completed, up.player_tier, 
                        up.tree_planted_irl, up.growvie_plants_planted,
@@ -99,11 +82,10 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             $tierBadgeClass = 'tier-' . $tier;
             $tierLabel = 'TIER ' . $tier;
 
-            // Image Fallback
+            // Attempt to find user pfp from user ID, if cannot be found use default pfp
             $userPfp = "images/pfp/" . $u['username'] . ".png";
             $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.png";
-            
-            // Data vars
+
             $username = htmlspecialchars($u['username']);
             $name = htmlspecialchars($u['name']);
             $userId = htmlspecialchars($u['user_id']);
@@ -113,6 +95,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             $virtualPlants = (int)($u['growvie_plants_planted'] ?? 0);
             $dateJoined = date("d M Y", strtotime($u['date_joined']));
 
+            // Display user card for each user
             echo "
             <div class='user-card $suspendedClass' id='card-$userId'>
                 <div class='left-section'>
@@ -154,7 +137,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
         echo '</div>';
     } 
     
-    // --- PARTNER TAB LOGIC (UPDATED) ---
+    // Logic for partner tab
     elseif ($role === 'Partner') {
         $sql = "SELECT u.*, p.description, p.partner_status 
                 FROM user u 
@@ -172,13 +155,13 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             return;
         }
 
-        echo '<div class="partner-grid">'; // Grid Container start
+        echo '<div class="partner-grid">';
         while ($p = mysqli_fetch_assoc($res)) {
-            // Profile Picture Logic
+            // Attempt to find user pfp from user ID, if cannot be found use default pfp
             $pfpPath = "images/pfp/" . $p['username'] . ".png";
             $displayPfp = (file_exists(__DIR__ . "/../" . $pfpPath)) ? $pfpPath : "images/pfp/default_profile_picture.png";
             
-            // Description Fallback
+            // Attempt to get description for partner, if cannot be found print corresponding message
             $description = !empty($p['description']) ? $p['description'] : "No description available.";
             $status = !empty($p['partner_status']) ? $p['partner_status'] : "Active";
             ?>
@@ -201,15 +184,13 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             </div>
             <?php
         }
-        echo '</div>'; // Grid Container end
+        echo '</div>';
     }
 }
 
-/**
- * Handles the POST logic for Suspending and Deleting.
- * Only applies to Players.
- */
+// Function to handle suspension/deletion of player and adding new partner
 function handleUserActions($con) {
+    // Suspend user, change status to "Suspended"
     if (isset($_POST['suspendUser'])) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = IF(player_status='Active', 'Suspended', 'Active') WHERE user_id = '$id'";
@@ -218,6 +199,7 @@ function handleUserActions($con) {
         exit();
     }
 
+    // Delete user, change status to "Deleted"
     if (isset($_POST['confirmDeleteUser'])) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = 'Deleted' WHERE user_id = '$id'";
@@ -226,59 +208,41 @@ function handleUserActions($con) {
         exit();
     }
 
-    if (isset($_POST['togglePartnerStatus'])) {
-        $id = mysqli_real_escape_string($con, $_POST['user_id']);
-        
-        // Update partner table by joining with user table on email
-        $query = "UPDATE partner p
-                  INNER JOIN user u ON p.contact_email = u.email
-                  SET p.partner_status = IF(p.partner_status='Active', 'Inactive', 'Active')
-                  WHERE u.user_id = '$id'";
-                  
-        mysqli_query($con, $query);
-        
-        header("Location: final.php?role=Partner&action=partner_updated");
-        exit();
-    }
-
+    // Add new partner
     if (isset($_POST['addNewPartner'])) {
-        // 1. Generate new User ID (e.g., USR005)
+        // Generate new user ID
         $lastSql = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1";
         $lastRes = mysqli_query($con, $lastSql);
         
-        $newId = "USR001"; // Default if table is empty
+        $newId = "USR001";
         if ($row = mysqli_fetch_assoc($lastRes)) {
-            // Extract number, increment, and pad back to USR00X
             $num = (int)substr($row['user_id'], 3) + 1;
             $newId = "USR" . str_pad($num, 3, "0", STR_PAD_LEFT);
         }
 
-        // 1.1 Generate new Partner ID (e.g., PO006)
+        // Generate new partner ID
         $lastPartnerSql = "SELECT partner_id FROM partner ORDER BY partner_id DESC LIMIT 1";
         $lastPartnerRes = mysqli_query($con, $lastPartnerSql);
         
-        $newPartnerId = "PO001"; // Default if table is empty
+        $newPartnerId = "PO001";
         if ($pRow = mysqli_fetch_assoc($lastPartnerRes)) {
-            // Extract number, increment, and pad back to PO00X
             $pNum = (int)substr($pRow['partner_id'], 2) + 1;
             $newPartnerId = "PO" . str_pad($pNum, 3, "0", STR_PAD_LEFT);
         }
 
-        // 2. Sanitize Inputs
+        // Validate inputs
         $name = mysqli_real_escape_string($con, $_POST['partner_name']);
         $username = mysqli_real_escape_string($con, $_POST['partner_username']);
         $email = mysqli_real_escape_string($con, $_POST['partner_email']);
-        // Store password as plain text (school project requirement)
         $pass = mysqli_real_escape_string($con, $_POST['partner_password']); 
         $desc = mysqli_real_escape_string($con, $_POST['partner_desc']);
         $date = date('Y-m-d H:i:s');
 
-        // 3. Insert into USER table first
+        // Insert row into user table
         $sqlUser = "INSERT INTO user (user_id, username, password, email, name, role, date_joined) 
                     VALUES ('$newId', '$username', '$pass', '$email', '$name', 'Partner', '$date')";
         
-        // 4. Insert into PARTNER table
-        // Correctly including partner_id (POxxx) and organization_name
+        // Insert row into partner table
         $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, partner_status) 
                        VALUES ('$newPartnerId', '$name', '$email', '$desc', 'Active')";
 
@@ -286,7 +250,6 @@ function handleUserActions($con) {
             header("Location: final.php?role=Partner&action=partner_added");
             exit();
         } else {
-            // Simple error handling
             echo "<script>alert('Error adding partner: " . mysqli_error($con) . "'); window.history.back();</script>";
             exit();
         }

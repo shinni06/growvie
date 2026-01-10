@@ -1,11 +1,7 @@
 <?php
-// backend/dashboard.php
 
-/**
- * Renders Quest Cards using dynamic emoji and status-based filtering.
- */
+// Render HTML for Quest Cards
 function renderQuestCards(mysqli $con, int $limit = 20) {
-    // UPDATED: No more quest_expiry; uses date_created and quest_emoji
     $sql = "
         SELECT
             q.quest_id, q.quest_title, q.quest_description, q.quest_emoji, q.category,
@@ -28,7 +24,7 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
@@ -50,6 +46,7 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
     }
 }
 
+// Render HTML for Inactive Quest Cards
 function renderInactiveQuestCards(mysqli $con) {
     $sql = "SELECT * FROM quest WHERE status != 'Active' ORDER BY date_created DESC";
     $res = mysqli_query($con, $sql);
@@ -72,7 +69,7 @@ function renderInactiveQuestCards(mysqli $con) {
             <div class="quest-left">
                 <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="item-title title-spaced"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
@@ -95,9 +92,7 @@ function renderInactiveQuestCards(mysqli $con) {
     }
 }
 
-/**
- * RESTORED: Renders the leaderboard with tiered ranking colors.
- */
+// Render HTML for Player Leaderboard
 function renderLeaderboard(mysqli $con) {
     $sql = "SELECT u.username, up.total_quests_completed, up.player_tier 
             FROM user u 
@@ -127,11 +122,9 @@ function renderLeaderboard(mysqli $con) {
     echo "</div>";
 }
 
-/**
- * Handles Quest Creation and Deletion.
- */
+// Function to handle quests
 function handleCreateQuest(mysqli $con) {
-    // 1. Handle Activation (Move from Inactive to Active)
+    // Quest activation
     if (isset($_POST['activateQuest'])) {
         $id = mysqli_real_escape_string($con, $_POST['activate_id']);
         mysqli_query($con, "UPDATE quest SET status = 'Active' WHERE quest_id = '$id'");
@@ -139,15 +132,12 @@ function handleCreateQuest(mysqli $con) {
         exit();
     }
 
-    // NEW: 2. Handle Deactivation (Move from Active to Inactive)
+    // Quest deactivation
     if (isset($_POST['deactivateQuest'])) {
         $id = mysqli_real_escape_string($con, $_POST['deactivate_id']);
-        
-        // Update the status in your quest table
         $sql = "UPDATE quest SET status = 'Inactive' WHERE quest_id = '$id'";
         
         if (mysqli_query($con, $sql)) {
-            // Redirect with a specific success parameter for the modal
             header("Location: final.php?quest_success=deactivated");
             exit();
         } else {
@@ -155,6 +145,7 @@ function handleCreateQuest(mysqli $con) {
         }
     }
 
+    // Quest deletion
     if (isset($_POST['confirmDelete'])) {
         $id = mysqli_real_escape_string($con, $_POST['delete_id']);
         mysqli_query($con, "DELETE FROM quest WHERE quest_id = '$id'");
@@ -162,6 +153,7 @@ function handleCreateQuest(mysqli $con) {
         exit();
     }
 
+    // Quest editing/creation
     if (isset($_POST['submitQuest'])) {
         $quest_id  = mysqli_real_escape_string($con, $_POST['quest_id']);
         $emoji     = mysqli_real_escape_string($con, $_POST['quest_emoji']);
@@ -172,7 +164,7 @@ function handleCreateQuest(mysqli $con) {
         $coins     = (int)$_POST['eco_coin_reward'];
         $startDate = mysqli_real_escape_string($con, $_POST['quest_date']);
 
-        // NEW LOGIC: Determine status based on the date
+        // Determine if quest is active/inactive based on the scheduled date and today's date
         $today = date('Y-m-d');
         $status = ($startDate > $today) ? 'Inactive' : 'Active';
 
@@ -183,7 +175,6 @@ function handleCreateQuest(mysqli $con) {
                 date_created='$startDate', status='$status', quest_emoji='$emoji' 
                 WHERE quest_id='$quest_id'";
         } else {
-            // CREATE MODE: Auto-assign ID and set initial status based on date
             $lastIdSql = "SELECT quest_id FROM quest ORDER BY quest_id DESC LIMIT 1";
             $res = mysqli_query($con, $lastIdSql);
             $new_id = ($row = mysqli_fetch_assoc($res)) ? "Q" . str_pad((int)substr($row['quest_id'], 1) + 1, 3, "0", STR_PAD_LEFT) : "Q001";
@@ -199,9 +190,11 @@ function handleCreateQuest(mysqli $con) {
     }
 }
 
+// Render JS for dashboard functions
 function renderDashboardScripts() {
     ?>
     <script>
+        // Modal for editing quests
         function openEditModal(q) {
             document.getElementById('modalTitle').innerText = "Edit Quest";
             document.getElementById('edit_quest_id').value = q.quest_id;
@@ -213,39 +206,48 @@ function renderDashboardScripts() {
             document.getElementById('form_date').value = q.date_created;
             document.getElementById('questModal').style.display = 'block';
         }
+
+        // Modal for creating quests
         function openCreateModal() {
             document.getElementById('modalTitle').innerText = "Add New Quest";
             document.getElementById('edit_quest_id').value = "";
             document.getElementById('questModal').style.display = 'block';
         }
-        function toggleEmojiPicker() {
-            const picker = document.getElementById('emojiPicker');
-            picker.classList.toggle('hidden');
-        }
 
-        function selectEmoji(emoji) {
-            document.getElementById('form_emoji').value = emoji;
-            document.getElementById('emojiPicker').classList.add('hidden');
-        }
+        // Modal for deactivating quests
         function openDeactivateModal(id, title) {
             document.getElementById('deactivate_quest_id').value = id;
             document.getElementById('deactivateQuestTitle').innerText = title;
             document.getElementById('deactivateModal').style.display = 'block';
         }
+
+        // Modal for deleting quests
         function openDeleteModal(id, title) {
             const input = document.getElementById('delete_quest_id');
             const btn = document.querySelector('#deleteModal button[type="submit"]');
             
             if(input) {
                 input.value = id;
-                input.name = "delete_id"; // Reset to default for Quests
+                input.name = "delete_id";
             }
             if(btn) {
-                btn.name = "confirmDelete"; // Reset to default for Quests
+                btn.name = "confirmDelete";
             }
             
             document.getElementById('deleteQuestTitle').innerText = title;
             document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        // Display emoji keypad during quest creation
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.classList.toggle('hidden');
+        }
+
+        // Select an emoji during quest creation
+        function selectEmoji(emoji) {
+            document.getElementById('form_emoji').value = emoji;
+            document.getElementById('emojiPicker').classList.add('hidden');
         }
     </script>
     <?php

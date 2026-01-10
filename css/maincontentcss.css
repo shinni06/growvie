@@ -93,10 +93,10 @@ body {
 }
 
 .menu-item img.menu-icon {
-    width: 30px;        
-    height: 30px;
+    width: 18px;        
+    height: 18px;
     object-fit: contain;
-    opacity: 0.7;
+    opacity: 0.3;
 }
 
 .menu-item.active {
@@ -117,6 +117,12 @@ body {
 .menu-item:hover {
     background: #f0f0f0;
     color: #000;
+}
+
+/* Turn icon green on hover (Approx. for #85C668) */
+.menu-item:hover img.menu-icon {
+    filter: invert(77%) sepia(11%) saturate(1324%) hue-rotate(63deg) brightness(93%) contrast(84%);
+    opacity: 1;
 }
 
 .logout {
@@ -140,14 +146,14 @@ body {
 }
 
 .logout-icon {
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
     object-fit: contain;
-    opacity: 0.6;
+    opacity: 0.3;
 }
 
 .logout:hover .logout-icon {
-    opacity: 0.9;
+    opacity: 0.7;
 }
 
 /*main content*/
@@ -179,33 +185,6 @@ body {
     gap: 15px;
 }
 
-
-/* Keep leaderboard in column 2 */
-#content1 .leaderboard {
-    grid-column: 2 / 3;
-}
-
-#content1 h2 {
-    grid-column: 1 / 2;
-}
-
-#content1 .subtext {
-    grid-column: 1 / 2;
-}
-
-#content1 .create-btn {
-    grid-column: 1 / 2;
-}
-
-#content1 .quests {
-    grid-column: 1 / 2;
-}
-
-#content1 .leaderboard {
-    grid-column: 2 / 3;
-    grid-row: 1 / -1;
-}
-
 h1 {
     font-size: 32px;
     font-weight: 700;
@@ -223,12 +202,6 @@ h3 {
     font-size: 18px;
     font-weight: 700;
     color: #000;
-}
-
-.subtitle {
-    margin-top: 6px;
-    color: #6f6f6f;
-    margin-bottom: 25px;
 }
 
 .subtext {
@@ -515,10 +488,6 @@ aside .subtext {
         width: 120px;
         height: 90px;
     }
-    
-    .info-grid {
-        grid-template-columns: 120px 1fr;
-    }
 }
 
 /* Tablet Portrait and below (max-width: 768px) */
@@ -558,11 +527,6 @@ aside .subtext {
         padding: 8px 12px;
     }
     
-    .logout-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
     /* Menu bar below logo */
     .menu {
         flex-direction: row;
@@ -581,11 +545,6 @@ aside .subtext {
         font-size: 12px;
         white-space: nowrap;
         flex-shrink: 0;
-    }
-    
-    .menu-item img.menu-icon {
-        width: 18px;
-        height: 18px;
     }
     
     /* Main content adjusts */
@@ -673,12 +632,6 @@ aside .subtext {
     }
     
     /* Partner Management */
-    .partner-wrapper {
-        padding: 20px;
-        margin: 0;
-        border-radius: 12px;
-    }
-    
     .request-card {
         flex-direction: column;
         gap: 15px;
@@ -823,11 +776,6 @@ aside .subtext {
         font-size: 11px;
     }
     
-    .logout-icon {
-        width: 16px;
-        height: 16px;
-    }
-    
     /* Menu bar below logo */
     .menu {
         flex-direction: row;
@@ -862,12 +810,6 @@ aside .subtext {
         min-width: 100%;
     }
     
-    /* Partner wrapper adjustments */
-    .partner-wrapper {
-        margin: 0;
-        padding: 15px 10px;
-        border-radius: 12px;
-    }
     
     /* Typography */
     h1 {

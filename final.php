@@ -1,4 +1,5 @@
 <?php
+// Connection to backend files
 require_once __DIR__ . "/backend/db.php";
 require_once __DIR__ . "/backend/modal.php";
 require_once __DIR__ . "/backend/dashboard.php";
@@ -9,14 +10,16 @@ require_once __DIR__ . "/backend/partnermanagement.php";
 require_once __DIR__ . "/backend/announcement/announcement.php";
 require_once __DIR__ . "/backend/appanalytics.php";
 
+// Functions to handle user input and update database
 handleCreateQuest($con);
 handleReviewAction($con);
 handleUserActions($con);
 handleShopActions($con);
 handlePartnerActions($con);
 handleAnnouncementActions($con);
-$analytics = getAnalyticsData($con);
 
+// Retrieve data from updated database to render analytics
+$analytics = getAnalyticsData($con);
 ?>
 
 <!DOCTYPE html>
@@ -26,14 +29,6 @@ $analytics = getAnalyticsData($con);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growvie Dashboard</title>
 
-    <?php
-        renderDashboardScripts();
-        renderUserManagementScripts();
-        renderShopScripts();
-        renderAnalyticsScripts($analytics);
-    ?>
-
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/maincontentcss.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/dashboard.css">
@@ -46,31 +41,36 @@ $analytics = getAnalyticsData($con);
     <script src="backend/announcement/announcement.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <?php
+        renderDashboardScripts();
+        renderUserManagementScripts();
+        renderShopScripts();
+        renderAnalyticsScripts($analytics);
+    ?>
+
     <script>
-        // Simple Tab Switcher
+        // Tab switching function
         function tab(t) {
             localStorage.setItem('activeTab', t);
             
-            // Toggle Active Menu Class
+            // Select the active tab and add the class to it
             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
             document.getElementById('tab' + t).classList.add('active');
 
-            // Toggle Content Visibility
+            // Hide content for all tabs except the active tab
             document.querySelectorAll('.content').forEach(el => el.classList.add('hidden'));
             const activeContent = document.getElementById('content' + t);
             if(activeContent) activeContent.classList.remove('hidden');
         }
 
-        // Auto-Run on Load
         window.addEventListener('DOMContentLoaded', () => {
-            // 1. Restore Tab
+            // Store active tab into browser local storage
             tab(localStorage.getItem('activeTab') || 1);
 
-            // 2. Handle URL Success Messages (Simplified)
+            // Handle general modal success messages
             const params = new URLSearchParams(window.location.search);
             const modal = document.getElementById('successModal');
             
-            // Map URL actions to Title/Message
             const messages = {
                 'approved':       ['Submission Approved!', 'Evidence verified. User rewarded.'],
                 'rejected':       ['Submission Rejected', 'Submission declined and removed.'],
@@ -86,7 +86,6 @@ $analytics = getAnalyticsData($con);
                 'announcement_deleted': ['Announcement Deleted', 'The announcement has been removed.']
             };
 
-            // Check if any param matches our keys
             let action = params.get('action');
             if (params.get('review_success')) action = 'quest_success';
             if (params.get('quest_success')) action = 'quest_success';
@@ -100,13 +99,12 @@ $analytics = getAnalyticsData($con);
                 modal.querySelector('p').innerText = match[1];
                 modal.style.display = 'block';
                 
-                // Clean URL but preserve important params
+                // Clean URL to prevent popup from showing again
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.delete('action');
                 newUrl.searchParams.delete('review_success');
                 newUrl.searchParams.delete('quest_success');
                 newUrl.searchParams.delete('announcement_success');
-                // We keep 'shop_category', 'role', 'search', 'tab' etc.
                 
                 window.history.replaceState({}, document.title, newUrl.toString());
             }
@@ -116,14 +114,13 @@ $analytics = getAnalyticsData($con);
 
 <body>
     <div class = "layout"> 
-        <!--sidebar-->
+        <!-- Sidebar -->
         <nav class="sidebar">
             <div class="logo">
                 <img src="assets/Logo.png" alt="Growvie">
                 <span>Growvie</span>
             </div>
 
-        <!--sidebar menu-->
         <div class="menu">
             <div class="menu-item" onclick="tab(1)" id="tab1">
                 <img src="assets/dashboard.png" class="menu-icon">
@@ -131,7 +128,7 @@ $analytics = getAnalyticsData($con);
             </div>
 
             <div class="menu-item" onclick="tab(2)" id="tab2">
-                <img src="assets/announcement.png" class="menu-icon">
+                <img src="assets/questsubmission.png" class="menu-icon">
                 Quest Submissions
             </div>
 
@@ -161,21 +158,20 @@ $analytics = getAnalyticsData($con);
             </div>
         </div>
 
-        <!--logout-->
         <div class="logout">
             <img src="assets/logout.png" class="logout-icon">
             Log Out
         </div>
         </nav>
 
-        <!--main content-->
+        <!-- Content -->
         <main class="main">
             
-            <!-- DASHBOARD TAB -->
+            <!-- #1 Dashboard Tab -->
             <div class="content" id="content1">
                 <div class="main-content-container">
                     <h2>Welcome back, Jamal</h2>
-                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="subtext">Your central hub for overseeing quest rotation and tracking community engagement.</p>
 
                     <h3>Active Quests</h3>
 
@@ -192,23 +188,25 @@ $analytics = getAnalyticsData($con);
                     </div>
                 </div>
 
+                <!-- Leaderboard Sidebar -->
                 <aside class="leaderboard">
-                    <h3>Daily Leaderboard</h3>
+                    <h3>Player Leaderboard</h3>
                     <?php renderLeaderboard($con); ?>
                 </aside>
             </div>
 
-            <!-- Quest submission tab -->
+            <!-- #2 Quest Submission Tab -->
             <div class="content hidden" id="content2">
                 <div class="main-content-container">
                     <h2>Quest Submissions</h2>
                     <p class="subtext">Review community tasks and approve/reject pending evidence.</p>
                     
-                    <div class="review-container">
+                    <div>
                         <?php renderReviewTab($con); ?>
                     </div>
                 </div>
 
+                <!-- Approval Log Sidebar -->
                 <aside class="leaderboard">
                     <h3>Approval Log</h3>
                     <p class="subtext">Track recent community quest approvals.</p>
@@ -216,7 +214,7 @@ $analytics = getAnalyticsData($con);
                 </aside>
             </div>
 
-            <!-- ANNOUNCEMENT TAB -->
+            <!-- #3 Announcement Tab -->
             <div class="content hidden" id="content3">
                 <div class="main-content-container">
                     <h2>Announcements</h2>
@@ -256,17 +254,17 @@ $analytics = getAnalyticsData($con);
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div>
                                 <label for="announcementTitle">Announcement Title</label>
                                 <input type="text" id="announcementTitle" class="announcement-form-input" placeholder="Enter announcement title">
                             </div>
                             
-                            <div class="form-group">
+                            <div>
                                 <label for="announcementContent">Announcement Content</label>
                                 <textarea id="announcementContent" class="announcement-textarea" placeholder="Enter announcement content"></textarea>
                             </div>
 
-                            <div class="modal-footer announcement-modal-footer">
+                            <div class="modal-footer">
                                 <button type="button" class="action-btn gray" onclick="closePopup()">Close</button>
                                 <button type="button" class="action-btn green" onclick="postAnnouncement()">Post</button>
                             </div>
@@ -279,7 +277,7 @@ $analytics = getAnalyticsData($con);
                 </div>
             </div>
 
-            <!--Shop management tab-->
+            <!-- #4 Shop Management Tab -->
             <div class="content hidden" id="content4">
                 <div class="main-content-container">
                     <h2>Shop Management</h2>
@@ -307,7 +305,7 @@ $analytics = getAnalyticsData($con);
                 </div>
             </div>
 
-            <!--User management tab-->
+            <!-- #5 User Management Tab -->
             <div class="content hidden" id="content5">
                 <div class="main-content-container">
                     <h2>User Management</h2>
@@ -339,14 +337,13 @@ $analytics = getAnalyticsData($con);
 
                     <div id="user-list-container">
                         <?php 
-                            // Call the render function we built earlier
                             renderUserManagement($con, $currentRole, $_GET['search'] ?? ''); 
                         ?>
                     </div>
                 </div>
             </div>
     
-            <!--Partner organizer tab-->
+            <!-- #6 Parter Organization Tab -->
             <div class="content hidden" id="content6">
                 <div class="main-content-container">
                     <h2>Partner Organization</h2>
@@ -357,6 +354,7 @@ $analytics = getAnalyticsData($con);
                     </div>
                 </div>
 
+                <!-- Verification History Sidebar -->
                 <aside class="leaderboard">
                     <h3>Verification History</h3>
                     <p class="subtext">Review recently verified tree planting records.</p>
@@ -364,6 +362,7 @@ $analytics = getAnalyticsData($con);
                 </aside>
             </div>  
 
+            <!-- #6 App Analytics Tab -->
             <div class="content hidden" id="content7">
                 <div class="main-content-container">
                     <h2>App Analytics</h2>

@@ -78,7 +78,7 @@ function renderAnnouncements(mysqli $con) {
         ?>
         <div class="announcement-card">
             <div class="announcement-header">
-                <h3 class="item-title title-spaced"><?php echo htmlspecialchars($a['announce_title']); ?></h3>
+                <h3 class="item-title"><?php echo htmlspecialchars($a['announce_title']); ?></h3>
                 <span class="date-text top-right-info"> 
                     <?php echo date("d F Y", strtotime($a['announce_created_at'])); ?>
                 </span>

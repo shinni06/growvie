@@ -1,33 +1,33 @@
 <?php
-/**
- * Handles Partner Organization Actions (Approve/Reject)
- */
+
+// Function to handle plant requests from partners
 function handlePartnerActions($con) {
     if (isset($_POST['partnerAction'])) {
         $treeId = mysqli_real_escape_string($con, $_POST['real_tree_id']);
         $action = $_POST['partnerAction'];
 
+        // Handle approving plant requests
         if ($action === 'Approve') {
-            // 1. Update status to Approved
+            // Update status of real_tree_record to "Approved"
             $updateSql = "UPDATE real_tree_record SET request_status = 'Approved' WHERE real_tree_id = '$treeId'";
             mysqli_query($con, $updateSql);
 
-            // 2. Find associated user via virtual_plant
+            // Get the corresponding player
             $findUserSql = "SELECT vp.user_id 
                             FROM real_tree_record r
                             JOIN virtual_plant vp ON r.virtual_plant_id = vp.virtual_plant_id
                             WHERE r.real_tree_id = '$treeId'";
             $res = mysqli_query($con, $findUserSql);
             
+            // Increment tree_planted_irl count for player
             if ($row = mysqli_fetch_assoc($res)) {
                 $userId = $row['user_id'];
-                // 3. Increment tree_planted_irl for the user
                 $updateStats = "UPDATE user_player SET tree_planted_irl = tree_planted_irl + 1 WHERE user_id = '$userId'";
                 mysqli_query($con, $updateStats);
             }
 
         } elseif ($action === 'Reject') {
-            // Update status to Rejected
+            // Update status of real_tree_record to "Rejected"
             $updateSql = "UPDATE real_tree_record SET request_status = 'Rejected' WHERE real_tree_id = '$treeId'";
             mysqli_query($con, $updateSql);
         }
@@ -37,14 +37,8 @@ function handlePartnerActions($con) {
     }
 }
 
-/**
- * Renders the Partner Organization requests from real_tree_record.
- * Mirrors the structure of renderReviewTab in questsubmission.php
- */
+// Render HTML for Planting Requests from Partner
 function renderPartnerRequests($con) {
-    // Join real_tree_record -> virtual_plant -> user to get player details
-    // Join with partner table to get the organization details
-    // Join with user table AGAIN (as 'up') to get the partner's username
     $sql = "SELECT r.*, 
                    u.username as player_username, u.name as player_fullname, 
                    p.organization_name, p.partner_id as org_id,
@@ -81,11 +75,11 @@ function renderPartnerRequests($con) {
         $imgPath = "images/real_trees_planted/" . $row['real_tree_id'] . ".png";
         $fallback = "images/submission/null.png";
         
-        // Player Avatar
+        // Get Player Avatar
         $playerPfp = "images/pfp/" . $row['player_username'] . ".png";
         $playerAvatar = (file_exists(__DIR__ . "/../" . $playerPfp)) ? $playerPfp : "images/pfp/default_profile_picture.png";
         
-        // Partner Avatar
+        // Get Partner Avatar
         $partnerPfp = "images/pfp/" . $partnerUsername . ".png";
         $partnerAvatar = (file_exists(__DIR__ . "/../" . $partnerPfp)) ? $partnerPfp : "images/pfp/default_profile_picture.png"; 
         ?>
@@ -96,7 +90,7 @@ function renderPartnerRequests($con) {
             
             <div class="review-details-side">
                 <div class="review-content-scrollable">
-                    <div class="partner-header-top title-spaced">
+                    <div class="partner-header-top">
                         <h3 class="item-title"><?php echo $treeId; ?></h3>
                         <p class="date-text top-right-info">Reported on <?php echo $date; ?></p>
                     </div>
@@ -140,7 +134,7 @@ function renderPartnerRequests($con) {
                 <div class="card-footer-wrapper">
                     <div class="review-footer">
                         <p class="submission-count">Request <?php echo ($index+1); ?> of <?php echo $total; ?></p>
-                        <div class="nav-btns">
+                        <div>
                             <button type="button" class="nav-btn-alt" onclick="navigatePartner(<?php echo $index-1; ?>)" <?php if($index==0) echo 'disabled'; ?>>Back</button>
                             <button type="button" class="nav-btn-alt" onclick="navigatePartner(<?php echo $index+1; ?>)" <?php if($index==$total-1) echo 'disabled'; ?>>Next</button>
                         </div>
@@ -166,9 +160,8 @@ function renderPartnerRequests($con) {
     <?php
 }
 
+// Render HTML for Verification History
 function renderPartnerHistory($con) {
-    // Join real_tree_record -> virtual_plant -> user
-    // AND Join with partner table to get the organization details
     $sql = "SELECT r.*, u.username, u.name as player_name, u.user_id, p.organization_name, p.partner_id
             FROM real_tree_record r
             JOIN virtual_plant vp ON r.virtual_plant_id = vp.virtual_plant_id

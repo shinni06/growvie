@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 09, 2026 at 08:57 PM
+-- Generation Time: Jan 10, 2026 at 12:54 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -355,9 +355,7 @@ INSERT INTO `shop_item` (`item_id`, `item_name`, `item_desc`, `item_price`, `ite
 ('ITM003', 'Water Booster', 'Instantly adds 5 water drops to a plant', 2000, 'Power Ups', 1),
 ('ITM004', 'Double Coins', 'Earn double eco-coins for 1 hour', 2500, 'Power Ups', 1),
 ('ITM005', 'Extra Drops Pack', 'Buy 10 extra water drops', 30, 'In App Purchases', 1),
-('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 500, 'In App Purchases', 0),
-('ITM007', 'zx', 'z', 1, 'Plant Seeds', 1),
-('ITM008', 'as', 'sd', 12, 'Plant Seeds', 1);
+('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 500, 'In App Purchases', 0);
 
 -- --------------------------------------------------------
 

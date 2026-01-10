@@ -1,25 +1,26 @@
 <?php
 require_once __DIR__ . '/db.php';
 
+// Get data for analytics from database
 function getAnalyticsData($con) {
     $data = [];
 
-    // 1. TOTAL USERS & GROWTH
+    // Get data for user count
     $sqlUsers = "SELECT COUNT(*) as total FROM user WHERE role='Player'";
     $resUsers = mysqli_query($con, $sqlUsers);
     $data['total_users'] = mysqli_fetch_assoc($resUsers)['total'];
 
-    // 2. PLANTS PLANTED (Virtual)
+    // Get data for virtual plants planted
     $sqlPlants = "SELECT COUNT(*) as total FROM virtual_plant";
     $resPlants = mysqli_query($con, $sqlPlants);
     $data['total_plants'] = mysqli_fetch_assoc($resPlants)['total'];
 
-    // 2.1 ACTIVE PARTNERS
+    // Get data for partner count
     $sqlActivePartners = "SELECT COUNT(*) as total FROM partner WHERE partner_status='Active'";
     $resActivePartners = mysqli_query($con, $sqlActivePartners);
     $data['active_partners'] = mysqli_fetch_assoc($resActivePartners)['total'];
 
-    // 3. PLANTING REQUESTS (Real Trees)
+    // Get data for real tree planting records
     $sqlRequests = "SELECT 
         COUNT(*) as total,
         SUM(CASE WHEN request_status = 'Approved' THEN 1 ELSE 0 END) as completed,
@@ -35,7 +36,7 @@ function getAnalyticsData($con) {
         ? round(($data['req_completed'] / $data['req_total']) * 100) 
         : 0;
 
-    // 4. REVENUE (Real Money)
+    // Get data for revenue amount
     $sqlRev = "SELECT SUM(si.item_price) as revenue 
                FROM user_purchase up 
                JOIN shop_item si ON up.item_id = si.item_id 
@@ -44,7 +45,7 @@ function getAnalyticsData($con) {
     $revRaw = mysqli_fetch_assoc($resRev)['revenue'];
     $data['revenue_total'] = number_format(($revRaw ?: 0), 2);
 
-    // 5. REVENUE BREAKDOWN
+    // Get data for revenue category breakdown
     $sqlCat = "SELECT si.item_category, COUNT(*) as count 
                FROM user_purchase up 
                JOIN shop_item si ON up.item_id = si.item_id 
@@ -56,13 +57,14 @@ function getAnalyticsData($con) {
         $data['categories'][$row['item_category']] = $row['count'];
     }
 
-    // 6. CHART DATA (6 Months: 3 before, current, 2 after)
+    // Get data for chart
     $months = [];
     $userCounts = [];
     $questCounts = [];
     $plantCounts = [];
     $requestCounts = [];
 
+    // Display data for 3 months before and 2 months after the current month
     for ($i = -3; $i <= 2; $i++) {
         $date = date('Y-m', strtotime("$i months"));
         $label = date('M', strtotime("$i months"));
@@ -91,7 +93,7 @@ function getAnalyticsData($con) {
     $data['quests_this_month'] = $questCounts[3]; 
     $data['users_this_month'] = $userCounts[3];  
 
-    // 7. GROWTH CALCULATIONS
+    // Calculate the growth percentage for user count, virtual planting and request handling
     function calcGrowth($current, $last) {
         if ($last > 0) return round((($current - $last) / $last) * 100);
         return ($current > 0) ? 100 : 0;
@@ -101,20 +103,18 @@ function getAnalyticsData($con) {
     $data['plant_growth_percent'] = calcGrowth($plantCounts[3], $plantCounts[2]);
     $data['request_growth_percent'] = calcGrowth($requestCounts[3], $requestCounts[2]);
 
-    // *** SYSTEM COLORS DEFINED HERE ***
-    // 0: Light Green (Seeds), 1: Main Green (Power Ups), 2: Dark Green (IAP)
+    // Define colours for pie chart
     $data['colors'] = ['#8ecf73', '#5fb85f', '#2d6a4f'];
 
     return $data;
 }
 
-/**
- * Renders the HTML structure for the Analytics Tab
- */
+// Render HTML content for App Analytics Tab
 function renderAnalyticsTab($analytics) {
     ?>
     <div class="grid">
-        <!-- Row 1: 2/11, 2/11, 2/11, 5/11 -->
+        <!-- First Row -->
+        <!-- Total Active Users Card -->
         <div class="card short-card span-2">
             <span class="label">Total Active Users</span>
             <h2><?php echo $analytics['total_users']; ?></h2>
@@ -126,6 +126,7 @@ function renderAnalyticsTab($analytics) {
             </div>
         </div>
 
+        <!-- Virtual Plants Planted Card -->
         <div class="card short-card span-2">
             <span class="label">Growvie Plants Planted</span>
             <h2><?php echo $analytics['total_plants']; ?></h2>
@@ -137,6 +138,7 @@ function renderAnalyticsTab($analytics) {
             </div>
         </div>
 
+        <!-- Total Active Partners Card -->
         <div class="card short-card span-2">
             <span class="label">Total Active Partners</span>
             <h2><?php echo $analytics['active_partners']; ?></h2>
@@ -148,6 +150,7 @@ function renderAnalyticsTab($analytics) {
             </div>
         </div>
 
+        <!-- Planting Requests Progress Bar Card -->
         <div class="card short-card span-5">
             <span class="label">Planting Requests</span>
             
@@ -170,7 +173,8 @@ function renderAnalyticsTab($analytics) {
             </div>
         </div>
 
-        <!-- Row 2: 3/11 (Revenue), 4/11 (User Reg), 4/11 (Quest Comp) -->
+        <!-- Second Row -->
+        <!-- Revenue Earned & Revenue Breakdown Pie Chart Card -->
         <div class="card span-3">
             <span class="label">Revenue Earned</span>
             <h2>RM<?php echo $analytics['revenue_total']; ?></h2>
@@ -188,18 +192,20 @@ function renderAnalyticsTab($analytics) {
             </div>
         </div>
 
+        <!-- New User Registration Line Graph Card -->
         <div class="card span-4">
             <span class="label">New User Registration</span>
             <h2><?php echo $analytics['users_this_month']; ?> <small>new users this month</small></h2>
-            <div class="chart-container" style="height: 180px; width: 100%;">
+            <div style="height: 180px; width: 100%;">
                 <canvas id="userChart"></canvas>
             </div>
         </div>
 
+        <!-- Quests Completed Line Graph Card -->
         <div class="card span-4">
             <span class="label">Quests Completed</span>
             <h2><?php echo $analytics['quests_this_month']; ?> <small>quests completed this month</small></h2>
-            <div class="chart-container" style="height: 180px; width: 100%;">
+            <div style="height: 180px; width: 100%;">
                 <canvas id="questChart"></canvas>
             </div>
         </div>
@@ -208,11 +214,9 @@ function renderAnalyticsTab($analytics) {
     <?php
 }
 
-/**
- * Renders the Chart.js scripts
- */
+// Render JS for charts
 function renderAnalyticsScripts($analytics) {
-    // Pass PHP Colors to JS
+    // Pass in PHP colours
     $colorsJS = json_encode($analytics['colors']); 
     ?>
     <script>
@@ -220,29 +224,7 @@ function renderAnalyticsScripts($analytics) {
             const userChartCanvas = document.getElementById('userChart');
             if (!userChartCanvas) return;
 
-            // 1. USER CHART
-            new Chart(userChartCanvas.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: <?php echo $analytics['chart_labels']; ?>, 
-                    datasets: [{
-                        label: 'New Users',
-                        data: <?php echo $analytics['chart_users']; ?>,
-                        borderColor: '#8ecf73',
-                        backgroundColor: 'rgba(142, 207, 115, 0.2)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
-                }
-            });
-
-            // 2. REVENUE CHART (SOLID PIE STYLE)
+            // Render Revenue Breakdown Pie Chart
             const ctxRev = document.getElementById('revenueChart').getContext('2d');
             new Chart(ctxRev, {
                 type: 'pie',
@@ -267,8 +249,30 @@ function renderAnalyticsScripts($analytics) {
                     plugins: { legend: { display: false } }
                 }
             });
+            
+            // Render New User Registration Line Graph
+            new Chart(userChartCanvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: <?php echo $analytics['chart_labels']; ?>, 
+                    datasets: [{
+                        label: 'New Users',
+                        data: <?php echo $analytics['chart_users']; ?>,
+                        borderColor: '#8ecf73',
+                        backgroundColor: 'rgba(142, 207, 115, 0.2)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
+                }
+            });
 
-            // 3. QUEST CHART
+            // Render Quests Completed Line Graph
             new Chart(document.getElementById('questChart').getContext('2d'), {
                 type: 'line',
                 data: {
