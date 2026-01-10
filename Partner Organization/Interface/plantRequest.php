@@ -45,30 +45,31 @@
 
         // Handle file upload with real_tree_id as filename
         if (isset($_FILES['plant_image']) && $_FILES['plant_image']['error'] === UPLOAD_ERR_OK && $real_tree_id) {
-            $target_dir = "../PNGS/";
+
             $imageFileType = strtolower(pathinfo($_FILES["plant_image"]["name"], PATHINFO_EXTENSION));
-            
-            // Check if image file is actual image
-            $check = getimagesize($_FILES["plant_image"]["tmp_name"]);
-            if ($check === false) {
-                $errors[] = "File is not an image.";
-                $uploadOk = 0;
+
+            // to check if file is png
+            if ($imageFileType !== 'png') {
+                echo "<script>alert('Only PNG images are allowed.'); window.location.href='dashboard.php';</script>";
+                exit;
             }
 
-            if ($uploadOk == 1) {
-                // Set filename as real_tree_id with original extension
-                $photo_code = $real_tree_id . '.' . $imageFileType;
-                $target_file = $target_dir . $photo_code;
-                
-                // Move the uploaded file
-                if (move_uploaded_file($_FILES["plant_image"]["tmp_name"], $target_file)) {
-                    // File uploaded successfully
-                } else {
-                    $errors[] = "Sorry, there was an error uploading your file.";
-                    $photo_code = null;
-                }
+            // Double-check real MIME type (prevents fake .png files)
+            $mime = mime_content_type($_FILES["plant_image"]["tmp_name"]);
+            if ($mime !== 'image/png') {
+                echo "<script>alert('Invalid PNG file.'); window.location.href='dashboard.php';</script>";
+                exit;
+            }
+
+            $photo_code = $real_tree_id . '.png';
+            $target_file = "../PNGS/" . $photo_code;
+
+            if (!move_uploaded_file($_FILES["plant_image"]["tmp_name"], $target_file)) {
+                echo "<script>alert('Image upload failed.'); window.location.href='dashboard.php';</script>";
+                exit;
             }
         }
+
 
         // Set default if no file uploaded
         if ($photo_code === null) {
@@ -98,23 +99,31 @@
                 $errors[] = "Invalid partner ID: '$partner_id'. Available partners: " . implode(', ', $available);
             } else {
                 // Partner exists, proceed with insert
-                $sql = "INSERT INTO real_tree_record 
-                        (real_tree_id, virtual_plant_id, partner_id, location, coordinates, planting_site, photo_code, date_reported)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+               $sql = "INSERT INTO 
+                        real_tree_record (
+                        real_tree_id, 
+                        virtual_plant_id, 
+                        partner_id, 
+                        location, 
+                        coordinates, 
+                        planting_site, 
+                        date_reported)
+                        VALUES 
+                        (?, ?, ?, ?, ?, ?, ?)";
+
 
                 $stmt = mysqli_prepare($con, $sql);
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "ssssssss",
+                    "sssssss",
                     $real_tree_id,
                     $virtual_plant_id,
                     $partner_id,
                     $location,
                     $coordinates,
                     $planting_site,
-                    $photo_code,
-                    $date_reported
-                );
+                    $date_reported);
+
 
                 if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Real tree record successfully saved with ID: $real_tree_id'); window.location.href='dashboard.php';</script>";

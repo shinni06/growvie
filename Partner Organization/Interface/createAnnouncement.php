@@ -17,11 +17,11 @@
         <div id="modal" class="modal">
             <form method="POST" action="" id="announcementForm">
                 <div class="modal-content announcementModal">
-                    <!-- NEW: Hidden fields for edit functionality -->
+                    <!-- Hidden fields for edit functionality -->
                     <input type="hidden" id="announcement_id" name="announcement_id" value="">
                     <input type="hidden" id="mode" name="mode" value="create">
                     
-                    <!-- NEW: Modal title that changes -->
+                    <!-- Modal title that changes -->
                     <h3 id="modalTitle" style="margin-bottom: 15px;">Create New Announcement</h3>
                     
                     <h5 class="scheduleHeading" style="margin-bottom: 20px; font-size: 15px;">Schedule Date</h5>
@@ -49,7 +49,7 @@
                         <input type="number" class="year-box" id="year" name="year" required>
                     </div>
                     
-                    <!-- For users to enter announcemnt title -->
+                    <!-- For users to enter announcement title -->
                     <h5 class="scheduleHeading">Announcement Title</h5>
                     <input type="text" id="announcementTitle" name="announcementTitle" required>
 
@@ -57,6 +57,7 @@
                     <h5 class="scheduleHeading">Announcement Content</h5>
                     <textarea class="announcementContent" id="announcementContent" name="announcementContent" required></textarea>
                 </div>
+                <!-- MOVED: Buttons are now outside modal-content but inside form -->
                 <div class="modal-button-container">
                     <button type="button" id="deleteBtn" onclick="deleteFromModal()" class="modal-delete-btn">
                         Delete Announcement
@@ -65,7 +66,7 @@
                 </div>
             </form>
         </div>
-    </div>
+</div>
     
     <script>
         // This gets local today date
@@ -108,7 +109,7 @@
     <?php 
         // This function is to automatically  generate announcement ID
         function generateAnnouncementID($con) {
-            // To get last annoucement id
+            // To get last announcement id
             $queryAnnouncementID = "SELECT announcement_id 
                                     FROM announcement
                                     ORDER BY announcement_id DESC 

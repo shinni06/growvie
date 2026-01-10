@@ -147,7 +147,7 @@ body, html, label{
 .plantProgressBar {
     flex: 1;
     background-color: #E6E6E6;
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
     height: 40px;
 }
@@ -259,7 +259,7 @@ body, html, label{
     color: #FFFFFF;
     width: 120px;
     height: 35px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     margin-top: auto;
@@ -361,7 +361,7 @@ body, html, label{
     padding: 10px 30px;
     border: none;
     background-color: #D5DAD4;
-    border-radius: 8px;
+    border-radius: 10px;
     color: #7E7E7E;
     font-size: 13px;
     cursor: pointer;
@@ -385,7 +385,7 @@ input {
     padding: 10px 30px;
     border: none;
     background-color: #85C668;
-    border-radius: 8px;
+    border-radius: 10px;
     color: white;
     font-size: 13px;
     cursor: pointer;
@@ -403,7 +403,7 @@ input {
 }
 
 .realTreeID{
-    font-size: 14x;
+    font-size: 14px;
     font-weight: 700;
     margin-bottom: 10px;
 }
@@ -411,13 +411,17 @@ input {
 .plantContainer{
     background-color: white;
     width: 100%;
-    min-height: 200px;
+    min-height: fit-content;
     border-radius: 15px;
     padding: 20px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
     box-sizing: border-box;
+}
+
+.plantImg {
+    flex-shrink: 0;
 }
 
 .plantImg img{
@@ -447,10 +451,17 @@ input {
     width: 20%;
 }
 
-.labels, .values {
+.reqInforWrapper .requestRows {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.requestRows .label{
+    width: 150px;
+    font-weight: 600;
+    color: #333;
+    flex-shrink: 0;
 }
 
 .newAnnouncement{
@@ -504,7 +515,7 @@ input {
     align-self: flex-end;
     padding: 8px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
@@ -513,8 +524,10 @@ input {
 
 .modal-button-container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
+    gap: 10px;
 }
 
 .modal-buttons {
@@ -530,13 +543,9 @@ input {
     color: white;
     padding: 10px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-}
-
-.reqUpload-btn {
-    margin-left: auto;
 }
 
 .upperAnnouncementBox{
@@ -568,18 +577,22 @@ input {
 }
 
 .announcementModal {
+    display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
+    flex: 1;
 }
 
 .announcementContent{   
-    flex: 1;
+    flex: 1; 
     resize: none;
     padding: 10px;
     border-radius: 10px;
     width: 98%;
     background-color: #EDF2EB;
+    min-height: 200px;
+    box-sizing: border-box;
 }
 
 .date-box, .month-box, .year-box{
@@ -618,19 +631,6 @@ input {
 
 .year-box{
     width: 80px;
-}
-
-.plantImg{
-    flex-shrink:0;
-}
-
-.plantImg img{
-    width: 100%;
-    max-width: 200px;
-    aspect-ratio: 1 / 1;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
 }
 
 /* Responsive Media Queries */
@@ -748,7 +748,6 @@ input {
         display: flex;
         align-items: center;
         justify-content: center;
-        
     }
 
     .modal {
@@ -772,7 +771,7 @@ input {
         padding: 10px 30px;
         border: none;
         background-color: #85C668;
-        border-radius: 8px;
+        border-radius: 10px;
         color: white;
         font-size: 13px;
         cursor: pointer;
@@ -824,18 +823,118 @@ input {
     .completeBtn {
         width: 100px;
     }
+
+    .plantContainer {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+        min-height: auto;
+    }
+    
+    .plantImg {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
     
     .plantImg img {
-        width: 120px;
-        height: 120px;
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+    
+    .plantDetails {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .realTreeID {
+        font-size: 14px;
+        margin-bottom: 10px;
     }
     
     .reqInfoWrapper {
         flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .requestRows {
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .requestRows .label {
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    
+    .requestRows span {
+        width: 100%;
+        font-size: 12px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .dateSelector {
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
     }
     
     .date-box, .month-box, .year-box {
         height: 35px;
         font-size: 12px;
+        flex: 0 1 auto;
+    }
+    
+    .date-box {
+        width: 60px;
+    }
+    
+    .month-box {
+        width: 110px;
+    }
+    
+    .year-box {
+        width: 70px;
+    }
+
+    .scheduleHeading {
+        margin-top: 10px;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+    
+    #announcementTitle {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 12px;
+    }
+    
+    .announcementContent {
+        width: 100%;
+        min-height: 150px;
+        font-size: 12px;
+    }
+
+    .edit-btn {
+        width: auto;
+        min-width: 80px;
+        padding: 10px 20px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 }

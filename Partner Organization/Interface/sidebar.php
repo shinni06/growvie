@@ -1,11 +1,13 @@
 <?php
+    include('conn.php');
     $currentPage = basename($_SERVER['PHP_SELF']);
     session_start();
     $partner_login = $_SESSION['user_id'];
-    $queryPartner = "SELECT * FROM `partner` WHERE partner_id = '$partner_login'";
+    $queryPartner = "SELECT * FROM `partner` WHERE user_id = '$partner_login'";
     $resultPartner = mysqli_query($con, $queryPartner);
     $row = mysqli_fetch_assoc($resultPartner);
     $partner_id = $row['partner_id'];
+    $GLOBALS['partner_id'] = $partner_id;
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,14 +26,14 @@
 
         <!--This section defines the navigation links the user will be able to use-->
         <nav class="menu">
-            <a href="dashboard.php" class="navBtn">
-                <img src="..\PNGS\DashboardLogo.png">Dashboard
+            <a href="dashboard.php" class="navBtn <?php echo ($currentPage == 'dashboard.php') ? 'active' : ''; ?>">
+                <img src="..\PNGS\<?php echo ($currentPage == 'dashboard.php') ? 'DashboardLogoActive.png' : 'DashboardLogo.png'; ?>">Dashboard
             </a>
-            <a href="history.php" class="navBtn">
-                <img src="..\PNGS\HistoryLogo.png">History
+            <a href="history.php" class="navBtn <?php echo ($currentPage == 'history.php') ? 'active' : ''; ?>">
+                <img src="..\PNGS\<?php echo ($currentPage == 'history.php') ? 'HistoryLogoActive.png' : 'HistoryLogo.png'; ?>">History
             </a>
-            <a href="announcement.php" class="navBtn">
-                <img src="..\PNGS\AnnouncementLogo.png">Announcement
+            <a href="announcement.php" class="navBtn <?php echo ($currentPage == 'announcement.php') ? 'active' : ''; ?>">
+                <img src="..\PNGS\<?php echo ($currentPage == 'announcement.php') ? 'announcement-active.png' : 'AnnouncementLogo.png'; ?>">Announcement
             </a>
         </nav>
 
