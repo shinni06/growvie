@@ -200,7 +200,7 @@ Black color(word): #000200-->
         </a>
 </div>
         <div class ="logout">
-        <a href ="login/login.html" class ="sidepanel-item <?=$currentpage==='login/login.html' ? 'active' : ''?>">
+        <a href="/growvie-1/logout.php" class ="sidepanel-item <?=$currentpage==='/growvie-1/logout.php' ? 'active' : ''?>">
             <img src = "assets/logout.png" width="27" height="27">
             <div class ="text-container">Log Out</div>
         </a>
