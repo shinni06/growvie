@@ -57,10 +57,10 @@ function renderReviewTab(mysqli $con) {
         $username = $row['username'];
         $tier = (int)($row['player_tier'] ?? 1);
         $display = ($index === 0) ? "flex" : "none";
-        $userPfp = (file_exists(__DIR__ . "/../images/pfp/" . $username . ".jpg")) ? "images/pfp/" . $username . ".jpg" : "images/pfp/default_profile_picture.jpg";
+        $userPfp = (file_exists(__DIR__ . "/../images/pfp/" . $username . ".png")) ? "images/pfp/" . $username . ".png" : "images/pfp/default_profile_picture.png";
         ?>
         <div class="review-card" id="review-card-<?php echo $index; ?>" style="display: <?php echo $display; ?>;">
-            <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.jpg" onerror="this.src='images/submission/null.jpg'"></div>
+            <div class="review-image-side"><img src="images/submission/<?php echo $row['submission_id']; ?>.png" onerror="this.src='images/submission/null.png'"></div>
             
             <div class="review-details-side">
                 <div class="review-content-scrollable">

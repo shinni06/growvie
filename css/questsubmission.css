@@ -180,3 +180,26 @@
 .message-info-block {
     margin-top: 10px;
 }
+
+/* Make Approval Log align with review card */
+#content2 .leaderboard {
+    max-height: 615px;
+    display: flex;
+    flex-direction: column;
+}
+
+#content2 .leaderboard .lb-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: none;
+}
+
+#content2 .leaderboard .lb-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+#content2 .leaderboard .lb-list::-webkit-scrollbar-thumb {
+    background: #d8e3d5;
+    border-radius: 10px;
+}

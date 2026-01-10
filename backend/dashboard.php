@@ -110,8 +110,8 @@ function renderLeaderboard(mysqli $con) {
     while($row = mysqli_fetch_assoc($res)) {
         $rankClass = ($rank <= 3) ? "rank-top-" . $rank : "";
         $tier = (int)($row['player_tier'] ?? 1);
-        $userPfp = "images/pfp/" . $row['username'] . ".jpg";
-        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.jpg";
+        $userPfp = "images/pfp/" . $row['username'] . ".png";
+        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.png";
 
         echo "
         <div class='lb-row {$rankClass}'>

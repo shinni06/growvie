@@ -1,12 +1,14 @@
 /*Dashboard*/
 /*quest*/
 .quest-card {
+    background: #ffffff;
+    padding: 20px 20px; /* Restores internal breathing room */
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid #d8e3d5; /* Restores the subtle green border */
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    min-height: 160px; /* Added for absolute elements space */
-    position: relative;
 }
 
 .quest-left {
@@ -20,15 +22,35 @@
     font-size: 20px;
 }
 
-.quest-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #000;
-}
-
-.quest-content {
+/* Styling the 'universal' classes specifically for Quest Cards */
+.quest-card .quest-content {
     display: flex;
     flex-direction: column;
+    gap: 2px; /* Tighter gap for the list view */
+}
+
+/* Override global .item-title (18px) to be smaller for dashboard */
+.quest-card .item-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 5px; /* Remove default margins to let flex-gap handle spacing */
+}
+
+/* Override global .item-description margin (15px) to be tighter */
+.quest-card .item-description {
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 8px; /* Only 5px bottom margin instead of global 15px */
+    line-height: 1.4;
+}
+
+/* Ensure the category row sits correctly */
+.quest-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
 }
 
 .category {
@@ -46,24 +68,12 @@
   white-space: nowrap;
 }
 
-
-.quest-sub {
-    font-size: 12px;
-    color: #999;
-    margin-top: 27px;
-}
-
 .quest-right {
     min-width: 150px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: flex-end;
-}
-
-.time {
-    font-size: 12px;
-    color: #999;
 }
 
 .edit-btn {
@@ -262,13 +272,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-}
-
-.time {
-    margin-top: 8px;
-    font-weight: 600;
-    font-size: 11px;
-    color: #a0a0a0;
 }
 
 /* Container for Category and User Count */

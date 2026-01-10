@@ -158,7 +158,7 @@ handlePartnerActions($con);
             <div class="content" id="content1">
                 <div class="main-content-container">
                     <h2>Welcome back, Jamal</h2>
-                    <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="subtext">Manage active quests, oversee community engagement, and monitor platform growth.</p>
 
                     <h3>Active Quests</h3>
 

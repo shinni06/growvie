@@ -124,10 +124,40 @@
     object-fit: cover;
 }
 
-/* Tier Border Colors */
-.tier-border-1 { border-color: #f3df5b !important; }
-.tier-border-2 { border-color: #5b9cf3 !important; }
-.tier-border-3 { border-color: #a35bf3 !important; }
+/* Tier Border Colors (Pastel) */
+.tier-border-1 { border-color: #ffeeb3 !important; } 
+.tier-border-2 { border-color: #b3d9ff !important; } 
+.tier-border-3 { border-color: #dcb3ff !important; } 
+
+/* Tier Badge Base Style */
+.tier-badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+/* Tier Badge Colors (Refined Pastel) */
+.tier-badge.tier-1 {
+    background: #fff9e6;
+    color: #997300;
+    border: 1px solid #ffe899;
+}
+
+.tier-badge.tier-2 {
+    background: #ebf5ff;
+    color: #0066cc;
+    border: 1px solid #99ccff;
+}
+
+.tier-badge.tier-3 {
+    background: #f6ebff;
+    color: #8000ff;
+    border: 1px solid #d199ff;
+}
 
 /* Reusable Info Block */
 .info {
@@ -136,19 +166,20 @@
     justify-content: center;
 }
 
+.item-title span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #888;
+    display: inline-flex;
+    align-items: center;
+}
+
 /* Reusable Header (Name + @Username) */
 .user-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 6px;
-}
-
-.user-header h3 span {
-    font-size: 14px;
-    font-weight: 500;
-    color: #888;
-    margin-left: 5px;
 }
 
 .partner-card .user-header h3 span {
@@ -185,16 +216,6 @@
     display: flex;
     align-items: center;
     gap: 6px;
-}
-
-.tier-badge {
-    font-size: 10px;
-    background: #f3df5b;
-    color: #614d00;
-    padding: 3px 8px;
-    border-radius: 99px;
-    font-weight: 800;
-    text-transform: uppercase;
 }
 
 .right-section {

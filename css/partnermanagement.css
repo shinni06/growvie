@@ -129,3 +129,26 @@
     color: #856404;
     border-color: #ffeeba;
 }
+
+/* Make Verification History align with review card */
+#content6 .leaderboard {
+    max-height: 615px;
+    display: flex;
+    flex-direction: column;
+}
+
+#content6 .leaderboard .lb-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: none;
+}
+
+#content6 .leaderboard .lb-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+#content6 .leaderboard .lb-list::-webkit-scrollbar-thumb {
+    background: #d8e3d5;
+    border-radius: 10px;
+}

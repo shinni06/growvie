@@ -78,16 +78,16 @@ function renderPartnerRequests($con) {
         $loc = htmlspecialchars($row['location']);
         $coords = htmlspecialchars($row['coordinates']);
         
-        $imgPath = "images/real_trees_planted/" . $row['real_tree_id'] . ".jpg";
-        $fallback = "images/submission/null.jpg";
+        $imgPath = "images/real_trees_planted/" . $row['real_tree_id'] . ".png";
+        $fallback = "images/submission/null.png";
         
         // Player Avatar
-        $playerPfp = "images/pfp/" . $row['player_username'] . ".jpg";
-        $playerAvatar = (file_exists(__DIR__ . "/../" . $playerPfp)) ? $playerPfp : "images/pfp/default_profile_picture.jpg";
+        $playerPfp = "images/pfp/" . $row['player_username'] . ".png";
+        $playerAvatar = (file_exists(__DIR__ . "/../" . $playerPfp)) ? $playerPfp : "images/pfp/default_profile_picture.png";
         
         // Partner Avatar
-        $partnerPfp = "images/pfp/" . $partnerUsername . ".jpg";
-        $partnerAvatar = (file_exists(__DIR__ . "/../" . $partnerPfp)) ? $partnerPfp : "images/pfp/default_profile_picture.jpg"; 
+        $partnerPfp = "images/pfp/" . $partnerUsername . ".png";
+        $partnerAvatar = (file_exists(__DIR__ . "/../" . $partnerPfp)) ? $partnerPfp : "images/pfp/default_profile_picture.png"; 
         ?>
         <div class="review-card" id="partner-review-card-<?php echo $index; ?>" style="display: <?php echo $display; ?>;">
             <div class="review-image-side">

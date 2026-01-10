@@ -93,60 +93,63 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
         echo '<div class="list-container">';
         while ($u = mysqli_fetch_assoc($res)) {
             $isSuspended = (($u['player_status'] ?? 'Active') === 'Suspended');
-            $cardClass = $isSuspended ? "user-card suspended" : "user-card";
-            $tier = (int)($u['player_tier'] ?? 1);
+            $suspendedClass = $isSuspended ? "suspended" : "";
             
-            // Image Fallback
-            $userPfp = "images/pfp/" . $u['username'] . ".jpg";
-            $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.jpg";
-            ?>
-            <div class="<?php echo $cardClass; ?>">
-                <div class="left-section">
-                    <img src="<?php echo $displayPfp; ?>" alt="Profile" class="user-card-pfp tier-border-<?php echo $tier; ?>">
-                    <div class="info">
-                        <div class="user-header">
-                            <h3 class="item-title"><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
-                            <span class="tier-badge">Tier <?php echo (int)($u['player_tier'] ?? 1); ?></span>
-                        </div>
-                        
-                        <div class="user-meta-info">
-                            <span class="meta-item"><strong>ID:</strong> <?php echo htmlspecialchars($u['user_id']); ?></span>
-                            <span class="meta-item"><strong>Email:</strong> <?php echo htmlspecialchars($u['email']); ?></span>
-                        </div>
+            $tier = (int)($u['player_tier'] ?? 1);
+            $tierBadgeClass = 'tier-' . $tier;
+            $tierLabel = 'TIER ' . $tier;
 
-                        <div class="user-stats-row">
-                            <div class="stat"><span class="stat-icon">🎯</span> <?php echo (int)($u['total_quests_completed'] ?? 0); ?> Quests</div>
-                            <div class="stat"><span class="stat-icon">🌳</span> <?php echo (int)($u['tree_planted_irl'] ?? 0); ?> IRL Trees</div>
-                            <div class="stat"><span class="stat-icon">🌱</span> <?php echo (int)($u['growvie_plants_planted'] ?? 0); ?> Virtual Plants</div>
+            // Image Fallback
+            $userPfp = "images/pfp/" . $u['username'] . ".png";
+            $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.png";
+            
+            // Data vars
+            $username = htmlspecialchars($u['username']);
+            $name = htmlspecialchars($u['name']);
+            $userId = htmlspecialchars($u['user_id']);
+            $email = htmlspecialchars($u['email']);
+            $questsCompleted = (int)($u['total_quests_completed'] ?? 0);
+            $irlTrees = (int)($u['tree_planted_irl'] ?? 0);
+            $virtualPlants = (int)($u['growvie_plants_planted'] ?? 0);
+            $dateJoined = date("d M Y", strtotime($u['date_joined']));
+
+            echo "
+            <div class='user-card $suspendedClass' id='card-$userId'>
+                <div class='left-section'>
+                    <img src='$displayPfp' alt='PFP' class='user-card-pfp tier-border-$tier'>
+                    <div class='info'>
+                        <div class='user-header'>
+                            <h3 class='item-title'>$name <span>@$username</span></h3>
+                            <span class='tier-badge $tierBadgeClass'>$tierLabel</span>
+                        </div>
+                        <div class='user-meta-info'>
+                            <span class='meta-item'><strong>ID:</strong> $userId</span>
+                            <span class='meta-item'><strong>Email:</strong> $email</span>
+                        </div>
+                        <div class='user-stats-row'>
+                            <span class='stat'>🎯 $questsCompleted Quests</span>
+                            <span class='stat'>🌳 $irlTrees IRL Trees</span>
+                            <span class='stat'>🌱 $virtualPlants Plants</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="right-section">
-                    <?php if ($isSuspended): ?>
-                        <div class="status-tag suspended top-right-info">Suspended</div>
-                    <?php else: ?>
-                        <p class="date-text top-right-info">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
-                    <?php endif; ?>
+                <div class='right-section'>
+                    " . ($isSuspended ? "<div class='status-tag suspended top-right-info'>Suspended</div>" : "<p class='date-text top-right-info'>Joined $dateJoined</p>") . "
 
-                    <div class="item-actions bottom-right-info">
-                        <form method="POST" action="final.php?role=Player">
-                            <input type="hidden" name="user_id" value="<?php echo $u['user_id']; ?>">
-                            <?php if ($isSuspended): ?>
-                                <button type="submit" name="suspendUser" class="action-btn activate">Unsuspend</button>
-                            <?php else: ?>
-                                <button type="submit" name="suspendUser" class="action-btn deactivate">Suspend</button>
-                            <?php endif; ?>
+                    <div class='item-actions bottom-right-info'>
+                        <form method='POST' action='final.php?role=Player'>
+                            <input type='hidden' name='user_id' value='$userId'>
+                            " . ($isSuspended ? "<button type='submit' name='suspendUser' class='action-btn activate'>Unsuspend</button>" : "<button type='submit' name='suspendUser' class='action-btn deactivate'>Suspend</button>") . "
                         </form>
 
-                        <button type="button" class="action-btn delete" 
-                            onclick="openUserDeleteModal('<?php echo $u['user_id']; ?>', '<?php echo addslashes($u['name']); ?>')">
+                        <button type='button' class='action-btn delete' 
+                            onclick=\"openUserDeleteModal('$userId', '" . addslashes($name) . "')\">
                             Delete
                         </button>
                     </div>
                 </div>
-            </div>
-            <?php
+            </div>";
         }
         echo '</div>';
     } 
@@ -172,8 +175,8 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
         echo '<div class="partner-grid">'; // Grid Container start
         while ($p = mysqli_fetch_assoc($res)) {
             // Profile Picture Logic
-            $pfpPath = "images/pfp/" . $p['username'] . ".jpg";
-            $displayPfp = (file_exists(__DIR__ . "/../" . $pfpPath)) ? $pfpPath : "images/pfp/default_profile_picture.jpg";
+            $pfpPath = "images/pfp/" . $p['username'] . ".png";
+            $displayPfp = (file_exists(__DIR__ . "/../" . $pfpPath)) ? $pfpPath : "images/pfp/default_profile_picture.png";
             
             // Description Fallback
             $description = !empty($p['description']) ? $p['description'] : "No description available.";
