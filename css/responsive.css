@@ -276,7 +276,59 @@
     /* Shop Grid */
     .shop-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 10px;
+    }
+    
+    .shop-card, .add-card {
+        height: auto;
+        min-height: 240px;
+        padding: 12px;
+        min-height: 0;
+        padding: 10px;
+    }
+    
+    .add-card .plus {
+        font-size: 30px;
+    }
+    
+    .shop-card img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 8px;
+    }
+    
+    .shop-card .item-title {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+    
+    .shop-card .item-description {
+        font-size: 10px;
+        line-height: 1.3;
+    }
+    
+    .shop-bottom-row {
+        margin-top: 5px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .shop-bottom-row .price {
+        font-size: 12px;
+    }
+    
+    .shop-bottom-row .item-actions {
+        width: auto;
+        gap: 5px;
+    }
+    
+    /* Tabs */
+    .tab {
+        height: 30px;
+        padding: 0 10px;
+        font-size: 11px;
     }
 
     /* User Management */
