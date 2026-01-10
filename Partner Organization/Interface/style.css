@@ -496,14 +496,47 @@ input {
     margin-top: 10px;
 }
 
-.delete-btn {
-    background-color: #dc3545;
-    color: #FFFFFF;
-    width: 120px;
-    height: 35px;
-    border-radius: 5px;
+
+.edit-btn {
+    background-color: #85C668;
+    color: white;
+    width: 10%;
+    align-self: flex-end;
+    padding: 8px 20px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+.modal-button-container {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 10px;
+}
+
+.modal-delete-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.reqUpload-btn {
+    margin-left: auto;
 }
 
 .upperAnnouncementBox{
@@ -535,7 +568,7 @@ input {
 }
 
 .announcementModal {
-    flex-direction: column;   /* override row */
+    flex-direction: column;
     height: 100%;
     min-height: 0;
 }
