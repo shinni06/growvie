@@ -1,5 +1,5 @@
 <?php
-$con=mysqli_connect("localhost","root","","growvie");
+$con=mysqli_connect("localhost","root","","Growvie");
 
 if(mysqli_connect_errno())
 {

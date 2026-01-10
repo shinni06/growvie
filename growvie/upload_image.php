@@ -47,7 +47,7 @@ $newSubmissionId = 'QS' . str_pad($newNum, 3, '0', STR_PAD_LEFT);
 // Force PNG naming 
 $filename =  $newSubmissionId . ".png";
 
-$uploadDir = __DIR__ . "/uploads/";
+$uploadDir = __DIR__ . "growvie/uploads/";
 
 // safety check
 if (!is_dir($uploadDir)) {

@@ -28,8 +28,7 @@
                             FROM real_tree_record
                             INNER JOIN virtual_plant ON
                             real_tree_record.virtual_plant_id = virtual_plant.virtual_plant_id
-                            INNER JOIN user ON virtual_plant.user_id = user.user_id
-                            WHERE real_tree_record.partner_id = '{$row['partner_id']}'";
+                            INNER JOIN user ON virtual_plant.user_id = user.user_id";
         $resultRealtreeInfo = mysqli_query($con, $queryRealTreeInfo);
         
     ?>

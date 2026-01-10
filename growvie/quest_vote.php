@@ -26,30 +26,28 @@ $user_player = mysqli_fetch_assoc($user_playerResult);
 
 // display vote for quest submssion
 $quest_voteQuery = "SELECT 
-    quest_submission.submission_id,
-    user.user_id,
-    user.username,
-    user.name,
-    user.profile_picture,
-    quest_submission.proof_code,
-    quest.quest_title,
-    quest_submission.quest_submission_description,
+    qs.submission_id,
+    u.user_id,
+    u.username,
+    u.name,
+    u.profile_picture,
+    qs.proof_code,
+    q.quest_title,
+    qs.quest_submission_description,
 
-    SUM(CASE WHEN quest_submission_vote.upvote_status = 1 THEN 1 ELSE 0 END) AS total_upvotes,
-    SUM(CASE WHEN quest_submission_vote.downvote_status = 1 THEN 1 ELSE 0 END) AS total_downvotes,
+    SUM(CASE WHEN qsv.upvote_status = 1 THEN 1 ELSE 0 END) AS total_upvotes,
+    SUM(CASE WHEN qsv.downvote_status = 1 THEN 1 ELSE 0 END) AS total_downvotes,
 
-    MAX(CASE 
-        WHEN quest_submission_vote.user_id = '$test_user_id' THEN 1 
-        ELSE 0 
-    END) AS has_current_user_voted
+    MAX(CASE WHEN qsv.user_id = '$test_user_id' THEN 1 ELSE 0 END) AS has_current_user_voted
 
-FROM quest_submission
-JOIN user ON quest_submission.user_id = user.user_id
-LEFT JOIN quest_submission_vote 
-    ON quest_submission.submission_id = quest_submission_vote.submission_id
-RIGHT JOIN quest on quest_submission.quest_id = quest.quest_id
-GROUP BY quest_submission.submission_id, user.user_id, user.username, user.name, user.profile_picture, quest_submission.proof_code
-ORDER BY quest_submission.submitted_at ASC";
+FROM quest_submission qs
+INNER JOIN user u ON qs.user_id = u.user_id
+INNER JOIN quest q ON qs.quest_id = q.quest_id
+LEFT JOIN quest_submission_vote qsv ON qs.submission_id = qsv.submission_id
+
+GROUP BY qs.submission_id, u.user_id, u.username, u.name, u.profile_picture, qs.proof_code, q.quest_title, qs.quest_submission_description
+
+ORDER BY qs.submitted_at ASC";
 
 $quest_voteResult = mysqli_query($con, $quest_voteQuery);
 
