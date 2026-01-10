@@ -106,6 +106,17 @@ if (!empty($dailyquests)) {
     }
 }
 
+//message for wilting
+$wiltedQuery = "SELECT COUNT(*) AS wilted_count 
+FROM virtual_plant 
+WHERE user_id = '$test_user_id' 
+AND current_stage = 0
+";
+
+$res = mysqli_query($con, $wiltedQuery);
+$wilted = mysqli_fetch_assoc($res)['wilted_count'];
+
+
 
 ?>
 
@@ -751,6 +762,13 @@ html {
         }
     }
 
+    .alert-box{
+        background-color: rgba(227, 107, 107, 0.5);
+        font-size: 12px;
+        padding:5px;
+        border-radius:10px;
+    }
+
 
 
 </style>
@@ -813,6 +831,11 @@ html {
                         <div class ="pinfo-text">
                             <p><?php echo htmlspecialchars($latestPlant['plant_name']); ?></p>
                             <p class="p-desc"><?php echo htmlspecialchars($latestPlant['plant_desc']); ?></p>
+                            <?php if ($wilted > 0): ?>
+                            <div class="alert-box">
+                                Plant has wilted. Complete a quest and water the plant to recover!
+                            </div>
+                            <?php endif; ?>
                         </div>
 
                         <!--stage image-->
@@ -946,6 +969,7 @@ html {
 </div>
 
 <div id="alert-box" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; background-color: #DAE5D7; color: white; border-radius: 12px; font-weight: 600; font-family: 'Encode Sans Expanded'; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; z-index: 9999;"></div>
+
 
 
 <script>
