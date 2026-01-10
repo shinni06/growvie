@@ -2,6 +2,12 @@
     include('conn.php');
     include ('sidebar.php');
     $currentPage = basename($_SERVER['PHP_SELF']);
+    session_start();
+    $partner_login = $_SESSION['user_id'];
+    $queryPartner = "SELECT * FROM `partner` WHERE partner_id = '$partner_login'";
+    $resultPartner = mysqli_query($con, $queryPartner);
+    $row = mysqli_fetch_assoc($resultPartner);
+    $partner_id = $row['partner_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +19,6 @@
 </head>
 <body>
     <?php
-    $partner_id = $_SESSION['user_id'];
         //This gets all of information needed to display in history
         $queryRealTreeInfo = "SELECT real_tree_record.real_tree_id, 
                             real_tree_record.virtual_plant_id, 
@@ -30,7 +35,8 @@
                             INNER JOIN virtual_plant ON
                             real_tree_record.virtual_plant_id = virtual_plant.virtual_plant_id
                             INNER JOIN user ON virtual_plant.user_id = user.user_id
-                            WHERE real_tree_record.partner_id = '{$row['$partner_id']}'";
+                            WHERE real_tree_record.partner_id = '{$_SESSION['user_id']}'
+        ";
         $resultRealtreeInfo = mysqli_query($con, $queryRealTreeInfo);
         
     ?>

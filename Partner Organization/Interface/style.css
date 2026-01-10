@@ -620,6 +620,19 @@ input {
     width: 80px;
 }
 
+.plantImg{
+    flex-shrink:0;
+}
+
+.plantImg img{
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
 /* Responsive Media Queries */
 
 /* Tablet - 768px and below */
