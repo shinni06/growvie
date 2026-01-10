@@ -36,8 +36,8 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
             </div>
             <div class="quest-right">
                 <div class="reward-badges top-right-info">
-                    <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
-                    <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
+                    <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> <span class="badge-unit">Drops</span></div>
+                    <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> <span class="badge-unit">EcoCoins</span></div>
                 </div>
                 <span class="date-text bottom-right-info">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
             </div>
@@ -82,8 +82,8 @@ function renderInactiveQuestCards(mysqli $con) {
             </div>
             <div class="quest-right">
                 <div class="reward-badges top-right-info">
-                    <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
-                    <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
+                    <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> <span class="badge-unit">Drops</span></div>
+                    <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> <span class="badge-unit">EcoCoins</span></div>
                 </div>
                 <span class="date-text bottom-right-info"><?php echo $statusLabel; ?></span>
             </div>

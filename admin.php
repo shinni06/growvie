@@ -39,7 +39,8 @@ $analytics = getAnalyticsData($con);
     <link rel="stylesheet" href="css/shopmanagement.css">
     <link rel="stylesheet" href="css/usermanagement.css">
     <link rel="stylesheet" href="css/partnermanagement.css">
-    <link rel="stylesheet" href="css/analytics.css">    
+    <link rel="stylesheet" href="css/analytics.css">
+    <link rel="stylesheet" href="css/responsive.css">  
     <script src="backend/announcement/announcement.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -126,43 +127,43 @@ $analytics = getAnalyticsData($con);
         <div class="menu">
             <div class="menu-item" onclick="tab(1)" id="tab1">
                 <img src="assets/dashboard.png" class="menu-icon">
-                Dashboard
+                <span>Dashboard</span>
             </div>
 
             <div class="menu-item" onclick="tab(2)" id="tab2">
                 <img src="assets/questsubmission.png" class="menu-icon">
-                Quest Submissions
+                <span>Quest Submissions</span>
             </div>
 
             <div class="menu-item" onclick="tab(3)" id="tab3">
                 <img src="assets/announcement.png" class="menu-icon">
-                Announcements
+                <span>Announcements</span>
             </div>
 
             <div class="menu-item" onclick="tab(4)" id="tab4">
                 <img src="assets/shop.png" class="menu-icon">
-                Shop Management
+                <span>Shop Management</span>
             </div>
 
             <div class="menu-item" onclick="tab(5)" id="tab5">
                 <img src="assets/user.png" class="menu-icon">
-                User Management
+                <span>User Management</span>
             </div>
 
             <div class="menu-item" onclick="tab(6)" id="tab6">
                 <img src="assets/partner.png" class="menu-icon">
-                Partner Organization
+                <span>Partner Organization</span>
             </div>
 
             <div class="menu-item" onclick="tab(7)" id="tab7">
                 <img src="assets/appanalytics.png" class="menu-icon">
-                App Analytics
+                <span>App Analytics</span>
             </div>
         </div>
 
         <div class="logout">
             <img src="assets/logout.png" class="logout-icon">
-            Log Out
+            <span>Log Out</span>
         </div>
         </nav>
 

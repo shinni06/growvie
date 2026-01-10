@@ -109,10 +109,10 @@
     align-items: flex-end;
 }
 
-.quest-meta-row {
+.item-actions {
     display: flex;
+    gap: 8px;
     align-items: center;
-    gap: 12px;
 }
 
 #inactive-section-title {
