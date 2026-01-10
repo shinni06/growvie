@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$user_id = 'USR001';
+$test_user_id = $_SESSION['user_id'];
 
 $user_query = "SELECT u.*, up.player_tier, up.eco_coins, up.drops_progress, up.total_quests_completed, 
                up.tree_planted_irl, up.growvie_plants_planted 

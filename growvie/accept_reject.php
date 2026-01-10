@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$test_user_id = "USR002"; // temporary until login page is provided
+$test_user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $friendship_id = $_POST['friendship_id'] ?? null;

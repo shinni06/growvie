@@ -1,7 +1,7 @@
 <?php
 
 // Connect to growvie_db database
-$con = mysqli_connect("localhost","root","","growvie_db");
+$con = mysqli_connect("localhost","root","","Growvie");
 
 // Check connection and print error message if failed
 if (mysqli_connect_errno()) {

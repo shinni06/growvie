@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$user_id = 'USR001'; // You can make this dynamic based on logged-in user
+$test_user_id = $_SESSION['user_id'];
 
 // Fetch user's friend code
 $user_query = "SELECT user_id FROM user WHERE user_id = ?";

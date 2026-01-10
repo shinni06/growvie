@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$test_user_id = "USR002"; // temporary until login page is provided
+$test_user_id = $_SESSION['user_id'];
 
 // friend request query
 $friendreqReceivedQuery = "SELECT f.friendship_id, f.user_id AS requester_id, u.username AS requester_username, u.name AS requester_name, u.profile_picture AS requester_pfp, f.date_added

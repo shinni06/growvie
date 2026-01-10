@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$test_user_id = "USR002"; 
+$test_user_id = $_SESSION['user_id'];
 
 // Basic validation
 if (!isset($_POST['quest_id']) || !isset($_FILES['image'])) {

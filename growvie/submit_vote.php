@@ -5,7 +5,7 @@ session_start();
 
 header("Content-Type: text/plain");
 
-$test_user_id = "USR002"; // replace with session later
+$test_user_id = $_SESSION['user_id'];
 
 $submission_id = $_POST['submission_id'];
 $vote = $_POST['vote'];

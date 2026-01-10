@@ -2,8 +2,7 @@
 include "conn.php";
 session_start();
 
-// TEMP: replace with actual logged-in user ID
-$user_id = "USR002";
+$test_user_id = $_SESSION['user_id'];
 
 // Get friend code from POST
 if (!isset($_POST['friend_code']) || empty(trim($_POST['friend_code']))) {

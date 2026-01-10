@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$test_user_id = "USR002"; // replace later with $_SESSION
+$test_user_id = $_SESSION['user_id'];
 
 if (!isset($_POST['item_id'])) {
     echo "Invalid request";

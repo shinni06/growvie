@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$sender_id = "USR002"; // replace with logged-in user
+$sender_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $friend_id = $_POST['friend_id'] ?? '';

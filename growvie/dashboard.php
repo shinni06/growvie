@@ -4,7 +4,7 @@ include "drops_stage.php";
 include "wilting.php";
 session_start();
 
-$test_user_id = "USR002"; // temporary until login page is provided
+$test_user_id = $_SESSION['user_id'];
 
 //user table
 $userQuery = "SELECT * FROM `user` /*sql reserved keyword, need escape char*/ WHERE user_id = '$test_user_id'";

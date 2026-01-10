@@ -4,7 +4,7 @@ include "drops_stage.php";
 include "wilting.php";
 session_start();
 
-$test_user_id = "USR002"; // temporary until login page is provided
+$test_user_id = $_SESSION['user_id'];
 
 // Check wilting for all user's plants first
 $result = mysqli_query($con, "SELECT virtual_plant_id FROM virtual_plant WHERE user_id = '$test_user_id'");
