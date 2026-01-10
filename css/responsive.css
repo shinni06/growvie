@@ -2,657 +2,175 @@
    RESPONSIVE MEDIA QUERIES
    ============================================ */
 
-/* Tablet (1024px) - Switch to Icon Sidebar */
+/* --------------------------------------------
+   TABLET (Max-Width: 1024px)
+   -------------------------------------------- */
 @media screen and (max-width: 1024px) {
     
-    /* 1. Layout Structure - Adjust grid for narrow sidebar */
-    .layout {
-        grid-template-columns: 80px 1fr;
-    }
+    /* --- Layout & Sidebar --- */
+    .layout { grid-template-columns: 80px 1fr; }
+    .sidebar { width: 80px; padding: 25px 10px; align-items: center; }
+    .logo { justify-content: center; padding: 0; margin-bottom: 30px; }
+    .logo span { display: none; }
+    .menu-item { justify-content: center; padding: 12px; width: 50px; height: 50px; }
+    .menu-item span { display: none; }
+    .menu-item img.menu-icon { margin: 0; width: 24px; height: 24px; display: block; }
+    .logout { justify-content: center; padding: 12px; width: 50px; height: 50px; }
+    .logout span { display: none; }
+    .logout-icon { margin: 0; width: 20px; height: 20px; }
+    .main { padding: 20px; margin: 15px 10px 0 0; scrollbar-gutter: auto }
 
-    /* 2. Sidebar becomes Icon Rail */
-    .sidebar {
-        width: 80px;
-        padding: 25px 10px;
-        align-items: center;
-    }
-    
-    .logo {
-        justify-content: center;
-        padding: 0;
-        margin-bottom: 30px;
-    }
-    
-    .logo span {
-        display: none;
-    }
+    /* --- Dashboard & General Grids --- */
+    #content1, #content2, #content6 { grid-template-columns: 1fr; gap: 25px; display: flex; flex-direction: column; }
+    .leaderboard { margin-left: 0; width: 100%; margin-top: 0; }
 
-    .menu-item {
-        justify-content: center;
-        padding: 12px;
-        width: 50px;
-        height: 50px;
-    }
-    
-    .menu-item span {
-        display: none;
-    }
-    
-    .menu-item img.menu-icon {
-        margin: 0;
-        width: 24px;
-        height: 24px;
-        display: block;
-    }
+    /* --- Quest Submission --- */
+    .review-card { flex-direction: column; height: auto; min-height: auto; }
+    .review-image-side { width: 100%; height: 350px; min-height: auto; }
+    .review-details-side { height: auto; min-height: auto; overflow: visible; }
+    .review-content-scrollable { overflow: visible; }
 
-    .logout {
-        justify-content: center;
-        padding: 12px;
-        width: 50px;
-        height: 50px;
-    }
-    
-    .logout span {
-        display: none;
-    }
-    
-    .logout-icon {
-        margin: 0;
-        width: 20px;
-        height: 20px;
-    }
+    /* --- Shop --- */
+    .shop-grid { grid-template-columns: repeat(3, 1fr); }
 
-    /* 3. Main Content Area */
-    .main {
-        padding: 20px;
-    }
+    /* --- Analytics --- */
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .span-2, .span-3, .span-4, .span-5, .span-11 { grid-column: span 1; }
+    .span-3, .span-4, .span-5 { grid-column: span 2; }
 
-    /* 4. Grid Resets (Dashboard, Quest Submission, Partner) */
-    /* Change from 5fr 2fr side-by-side to stacked 1 column */
-    #content1, #content2, #content6 {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Sidebar/Leaderboard moves to bottom */
-    .leaderboard {
-        margin-left: 0;
-        width: 100%;
-        margin-top: 0;
-    }
-
-    /* 5. Quest Submission Specifics */
-    .review-card {
-        flex-direction: column;
-        height: auto;
-        min-height: auto;
-    }
-
-    .review-image-side {
-        width: 100%;
-        height: 350px;
-        min-height: auto;
-    }
-
-    .review-details-side {
-        height: auto;
-        min-height: auto;
-        overflow: visible;
-    }
-    
-    .review-content-scrollable {
-        overflow: visible; /* Let page scroll handle it */
-    }
-
-    /* 6. Shop Grid */
-    .shop-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    /* 7. Analytics Grid */
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* Reset spans for 2-column grid */
-    .span-2, .span-3, .span-4, .span-5, .span-11 {
-        grid-column: span 1;
-    }
-    
-    /* Make charts wider */
-    .span-3, .span-4, .span-5 {
-        grid-column: span 2;
-    }
-    
-    /* 8. Partner Request Card */
-    .request-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .request-card img {
-        width: 100%;
-        height: 200px;
-    }
-    
-    .partner-info-grid {
-        width: 100%;
-    }
+    /* --- Partners --- */
+    .request-card { flex-direction: column; align-items: flex-start; }
+    .request-card img { width: 100%; height: 200px; }
+    .partner-info-grid { width: 100%; }
 }
 
-/* Mobile (768px) */
+/* --------------------------------------------
+   MOBILE (Max-Width: 768px)
+   -------------------------------------------- */
 @media screen and (max-width: 768px) {
     
-    /* Compress Sidebar further */
-    .layout {
-        grid-template-columns: 60px 1fr;
-    }
+    /* --- Layout & Sidebar --- */
+    .layout { grid-template-columns: 60px 1fr; }
+    .sidebar { width: 60px; padding: 15px 5px; }
+    .menu-item, .logout { width: 40px; height: 40px; padding: 8px; }
+    .menu-item img.menu-icon, .logout-icon { width: 20px; height: 20px; }
+    .main { margin: 10px 5px 0 0; padding: 20px; }
 
-    .sidebar {
-        width: 60px;
-        padding: 15px 5px;
-    }
-
-    .menu-item, .logout {
-        width: 40px;
-        height: 40px;
-        padding: 8px;
-    }
-
-    .menu-item img.menu-icon, .logout-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* Typography */
+    /* --- Typography --- */
     h1 { font-size: 26px; }
     h2 { font-size: 22px; }
     h3 { font-size: 18px; }
-    
-    .item-description, p {
-        font-size: 13px;
-    }
-    
-    .subtext {
-        font-size: 13px;
-        margin-bottom: 15px;
-    }
+    .item-description, p { font-size: 13px; }
+    .subtext { font-size: 13px; margin-bottom: 15px; }
 
-    /* Dashboard Quest Cards */
-    .quest-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-        padding: 20px;
-    }
-
-    .quest-left {
-        width: 100%;
-        display: flex;
-        gap: 15px;
-    }
-
-    .quest-card .quest-content {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-    
+    /* --- Dashboard (Quest Cards) --- */
+    .quest-card { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
+    .quest-left { width: 100%; display: flex; gap: 15px; }
+    .quest-card .quest-content { display: flex; flex-direction: column; gap: 5px; }
     .quest-card .item-title { font-size: 16px; margin-bottom: 5px; }
     .quest-card .item-description { font-size: 13px; margin-bottom: 10px; }
+    .quest-right { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; gap: 10px; }
+    .quest-card .quest-icon { font-size: 24px; margin: 0; }
+    .quest-meta-row { flex-wrap: wrap; }
+    .badge { min-width: auto; padding: 8px 12px; font-size: 12px; }
+    .quest-right .reward-badges { flex-direction: row; margin-bottom: 0; }
+    .quest-right .bottom-right-info { width: auto; margin-top: 0; }
+    .date-text { font-size: 11px; }
+    .action-btn { height: 35px; padding: 0 15px; font-size: 12px; }
+    .action-btn.create { height: 40px; padding: 0 20px; font-size: 14px; }
+    .action-btn.large { height: 30px; font-size: 11px; }
 
-    .quest-right {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-        gap: 10px;
-    }
+    /* --- Shop --- */
+    .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .shop-card, .add-card { height: auto; min-height: 240px; padding: 12px; }
+    .add-card .plus { font-size: 30px; }
+    .shop-card img { width: 70px; height: 70px; margin-bottom: 8px; }
+    .shop-card .item-title { font-size: 12px; margin-bottom: 4px; }
+    .shop-card .item-description { font-size: 10px; margin-bottom: 8px; line-height: 1.3; }
+    .shop-bottom-row { margin-top: auto; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .shop-bottom-row .price { font-size: 12px; }
+    .shop-bottom-row .item-actions { width: 100%; gap: 5px; }
 
-    .quest-card .quest-icon {
-        font-size: 24px;
-        margin: 0;
-    }
-    
-    .quest-meta-row {
-        flex-wrap: wrap;
-    }
-    
-    .badge {
-        min-width: auto;
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-    
-    /* Align badges horizontally on mobile */
-    .quest-right .reward-badges {
-        flex-direction: row;
-        margin-bottom: 0;
-    }
-    
-    .quest-right .bottom-right-info {
-        width: auto;
-        margin-top: 0;
-    }
-    
-    .date-text {
-        font-size: 11px;
-    }
-    
-    /* Smaller Buttons */
-    .action-btn {
-        height: 35px;
-        padding: 0 15px;
-        font-size: 12px;
-    }
-    
-    .action-btn.create {
-        height: 40px;
-        padding: 0 20px;
-        font-size: 14px;
-    }
-    
-    .action-btn.large {
-        height: 40px;
-        font-size: 13px;
-    }
+    /* --- User Management --- */
+    .top-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .top-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+    .search-filter { width: 100%; flex-direction: row; gap: 5px; }
+    .search-filter input { width: auto; flex: 1; margin-left: 0 !important; height: 34px; font-size: 12px; }
+    .filter-btn { height: 34px; padding: 0 15px; }
+    .action-btn.green { width: 100%; height: 34px; }
+    .tab { height: 30px; padding: 0 10px; font-size: 11px; }
+    .user-card { flex-direction: column; gap: 10px; padding: 12px; height: auto; }
+    .left-section { flex-direction: row; align-items: flex-start; gap: 10px; }
+    .user-card-pfp { width: 45px; height: 45px; border-width: 2px; }
+    .info { width: 100%; }
+    .user-header { margin-bottom: 2px; flex-wrap: wrap; gap: 5px; }
+    .user-card .item-title { font-size: 13px; }
+    .user-card .item-title span { font-size: 11px; }
+    .tier-badge { padding: 2px 6px; font-size: 9px; }
+    .user-meta-info { flex-direction: column; gap: 2px; margin-bottom: 6px; font-size: 10px; }
+    .user-stats-row { flex-wrap: wrap; gap: 4px; }
+    .stat { font-size: 9px; padding: 3px 6px; }
+    .right-section { align-items: center; width: 100%; margin-top: 8px; border-top: 1px solid #f0f0f0; padding-top: 8px; min-width: auto; flex-direction: row; justify-content: space-between; }
+    .top-right-info { position: static; margin-bottom: 0; font-size: 10px; }
+    .bottom-right-info { position: static; width: auto; display: flex; gap: 5px; }
+    .bottom-right-info form { flex: 0 0 auto; }
+    .bottom-right-info button { width: auto; padding: 0 10px; height: 26px; font-size: 10px; }
 
-    /* Shop Grid */
-    .shop-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-    
-    .shop-card, .add-card {
-        height: auto;
-        min-height: 240px;
-        padding: 12px;
-    }
-    
-    .add-card .plus {
-        font-size: 30px;
-    }
-    
-    .shop-card img {
-        width: 70px;
-        height: 70px;
-        margin-bottom: 8px;
-    }
-    
-    .shop-card .item-title {
-        font-size: 12px;
-        margin-bottom: 4px;
-    }
-    
-    .shop-card .item-description {
-        font-size: 10px;
-        margin-bottom: 8px;
-        line-height: 1.3;
-    }
-    
-    .shop-bottom-row {
-        margin-top: auto;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-    
-    .shop-bottom-row .price {
-        font-size: 12px;
-    }
-    
-    .shop-bottom-row .item-actions {
-        width: 100%;
-        gap: 5px;
-    }
+    /* --- Global Components --- */
+    .card, .user-card, .announcement-card, .partner-card, .request-card, .quest-card, .review-card { padding: 20px; }
+    .modal-content { width: 90%; max-width: 400px; padding: 20px; max-height: 85vh; }
+    .announcement-date-container { flex-direction: column; }
 
-    /* User Management */
-    .top-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
+    /* --- Analytics --- */
+    .grid { grid-template-columns: 1fr; }
+    .span-2, .span-3, .span-4, .span-5, .span-11 { grid-column: span 1; }
 
-    .top-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
+    /* --- Partners & Quests --- */
+    .partner-grid { grid-template-columns: 1fr; }
+    .review-card { padding: 0; display: flex; flex-direction: column; gap: 0; height: auto; }
+    .review-image-side { width: 180px; height: 180px; margin: 15px 15px 0 15px; overflow: hidden; border-radius: 12px; flex: none; }
+    .review-details-side { display: flex; flex-direction: column; padding: 15px; }
+    .review-content-scrollable { display: block; }
+    .submitter-row .lb-avatar { display: none; }
+    .review-card .item-title { font-size: 12px; margin-bottom: 2px; }
+    .submit-date { font-size: 8px; }
+    .nav-btn-alt { padding: 4px 10px; font-size: 10px; }
+    .submission-count { font-size: 9px; }
+    .submission-date { font-size: 9px; margin-top: 5px; }
+    .review-card .item-description { font-size: 10px; margin-bottom: 4px; line-height: 1.2; }
+    .quest-sub-category { font-size: 9px; padding: 2px 6px; }
+    .user-handle { font-size: 10px; }
+    .message-bubble { padding: 5px; }
+    .content-section-gap { margin-top: 5px; }
+    .partner-card { padding: 12px; }
+    .partner-pfp { width: 40px; height: 40px; border-radius: 8px; }
+    .partner-info { height: auto; justify-content: center; gap: 2px; }
+    .partner-card .item-title { font-size: 13px; }
+    .p-username, .p-email { font-size: 10px; }
+    .status-tag { padding: 2px 6px; font-size: 9px; }
+    .partner-body { margin-top: 8px; }
+    .partner-body .item-description { font-size: 10px; }
+    .request-card { flex-direction: column; align-items: flex-start; padding: 0; height: auto; }
+    .request-card img { width: 180px; height: 180px; margin: 15px 15px 0 15px; border-radius: 12px; }
+    .request-card > div:last-child { padding: 15px; }
+    .partner-avatar-square { display: none; }
 
-    .search-filter {
-        width: 100%;
-        flex-direction: row;
-        gap: 5px;
-    }
-
-    .search-filter input {
-        width: auto;
-        flex: 1;
-        margin-left: 0 !important; /* Override inline style if any */
-        height: 34px;
-        font-size: 12px;
-    }
-    
-    .filter-btn {
-        height: 34px;
-        padding: 0 15px;
-    }
-    
-    .action-btn.green {
-        width: 100%;
-        height: 34px;
-    }
-    
-    /* Tabs */
-    .tab {
-        height: 30px;
-        padding: 0 10px;
-        font-size: 11px;
-    }
-
-    /* User Card Stacking */
-    .user-card {
-        flex-direction: column;
-        gap: 10px;
-        padding: 12px;
-        height: auto;
-    }
-
-    .left-section {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    
-    .user-card-pfp {
-        width: 45px;
-        height: 45px;
-        border-width: 2px;
-    }
-    
-    .info {
-        width: 100%;
-    }
-    
-    .user-header {
-        margin-bottom: 2px;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-    
-    .user-card .item-title {
-        font-size: 13px;
-    }
-    
-    .user-card .item-title span {
-        font-size: 11px;
-    }
-    
-    .tier-badge {
-        padding: 2px 6px;
-        font-size: 9px;
-    }
-    
-    .user-meta-info {
-        flex-direction: column;
-        gap: 2px;
-        margin-bottom: 6px;
-        font-size: 10px;
-    }
-    
-    .user-stats-row {
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-    
-    .stat {
-        font-size: 9px;
-        padding: 3px 6px;
-    }
-
-    .right-section {
-        align-items: center;
-        width: 100%;
-        margin-top: 8px;
-        border-top: 1px solid #f0f0f0;
-        padding-top: 8px;
-        min-width: auto;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .top-right-info {
-        position: static;
-        margin-bottom: 0;
-        font-size: 10px;
-    }
-
-    .bottom-right-info {
-        position: static;
-        width: auto;
-        display: flex;
-        gap: 5px;
-    }
-    
-    .bottom-right-info form {
-        flex: 0 0 auto;
-    }
-    
-    .bottom-right-info button {
-        width: auto;
-        padding: 0 10px;
-        height: 26px;
-        font-size: 10px;
-    }
-    
-    /* Compress Card Padding */
-    .card, .user-card, .announcement-card, .partner-card, .request-card, .quest-card, .review-card {
-        padding: 20px;
-    }
-
-    /* Analytics - Single Column */
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .span-2, .span-3, .span-4, .span-5, .span-11 {
-        grid-column: span 1;
-    }
-
-    /* Modals */
-    .modal-content {
-        width: 90%;
-        max-width: 400px;
-        padding: 20px;
-        max-height: 85vh;
-    }
-    
-    /* Announcement Form */
-    .announcement-date-container {
-        flex-direction: column;
-    }
-    
-    /* Partner Grid */
-    .partner-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Quest Submission Compression */
-    .review-card {
-        padding: 15px;
-        display: grid;
-        grid-template-columns: 80px 1fr;
-        gap: 10px;
-    }
-
-    .review-image-side {
-        width: 80px;
-        height: 80px;
-        border-radius: 6px;
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .review-details-side {
-        display: contents;
-    }
-    
-    .review-content-scrollable {
-        display: contents;
-    }
-    
-    .review-content-scrollable > div:first-child {
-        grid-column: 2;
-        grid-row: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .review-content-scrollable > .content-section-gap,
-    .review-content-scrollable > .message-info-block,
-    .card-footer-wrapper {
-        grid-column: 1 / -1;
-        width: 100%;
-    }
-    
-    .review-card .item-title {
-        font-size: 12px;
-        margin-bottom: 2px;
-    }
-
-    .submit-date {
-        font-size: 9px;
-    }
-    
-    .nav-btn-alt {
-        padding: 4px 10px;
-        font-size: 10px;
-    }
-    
-    .submission-count {
-        font-size: 10px;
-    }
-    
-    /* Partner Request Compression */
-    .review-card .item-description {
-        font-size: 10px;
-        margin-bottom: 4px;
-        line-height: 1.2;
-    }
-    
-    .quest-sub-category {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-    
-    .user-handle {
-        font-size: 11px;
-    }
-    
-    .submit-date {
-        font-size: 9px;
-    }
-    
-    .message-bubble {
-        padding: 5px;
-    }
-    
-    .content-section-gap {
-        margin-top: 5px;
-    }
-    
-    .partner-card {
-        padding: 12px;
-    }
-    
-    .partner-pfp {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-    }
-    
-    .partner-info {
-        height: auto;
-        justify-content: center;
-        gap: 2px;
-    }
-    
-    .partner-card .item-title {
-        font-size: 13px;
-    }
-    
-    .p-username, .p-email {
-        font-size: 10px;
-    }
-    
-    .status-tag {
-        padding: 2px 6px;
-        font-size: 9px;
-    }
-    
-    .partner-body {
-        margin-top: 8px;
-    }
-    
-    .partner-body .item-description {
-        font-size: 10px;
-    }
-
-    /* Partner Request Compression */
-    .request-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px;
-    }
-    
-    .request-card img {
-        width: 100%;
-        height: 150px;
-    }
-
-    /* Leaderboard Compression */
-    .leaderboard {
-        padding: 15px;
-    }
-    
-    .leaderboard h3 {
-        margin-bottom: 10px;
-    }
-
-    .lb-row {
-        padding: 8px 10px;
-        gap: 8px;
-    }
-
-    .lb-avatar {
-        width: 30px;
-        height: 30px;
-        flex: 0 0 30px;
-        border-width: 2px;
-    }
-
-    .lb-rank {
-        font-size: 12px;
-        width: 15px;
-    }
-
-    .lb-name {
-        font-size: 12px;
-    }
-
-    .lb-sub {
-        font-size: 10px;
-    }
+    /* --- Leaderboard --- */
+    .leaderboard { padding: 15px; }
+    .leaderboard h3 { margin-bottom: 10px; }
+    .lb-row { padding: 8px 10px; gap: 8px; }
+    .lb-avatar { width: 30px; height: 30px; flex: 0 0 30px; border-width: 2px; }
+    .lb-rank { font-size: 12px; width: 15px; }
+    .lb-name { font-size: 12px; }
+    .lb-sub { font-size: 10px; }
 }
 
-/* Small Mobile (480px) */
+/* --------------------------------------------
+   SMALL MOBILE (Max-Width: 480px)
+   -------------------------------------------- */
 @media screen and (max-width: 480px) {
     .main {
-        padding: 10px;
+        padding: 20px;
     }
     
     .layout {
@@ -677,6 +195,203 @@
         font-size: 10px;
         margin-bottom: 4px;
     }
+}
+
+    /* ============================================
+   DENSE DASHBOARD STYLESHEET
+   Objective: Maximum Density & Minimal Whitespace
+   Target: Desktop-first, high-data interface
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+
+#content1, #content2, #content6 {
+    gap: 15px;
+}
+
+h1 { font-size: 24px; }
+
+
+/* --- 1. Main Grid Container --- */
+#content1 > div:first-child,
+.quest-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+}
+
+/* --- Shop Compact --- */
+.shop-grid {
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* --- Partner Grid Compact --- */
+.partner-grid {
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* --- User Management Compact --- */
+
+
+/* --- 2. The Card --- */
+.quest-card {
+    /* Dimensions & Visuals */
+    padding: 10px 12px;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background: #ffffff;
+    
+    /* Grid Layout: Icon | Content | Stats */
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 8px;
+    align-items: start;
+    
+    /* Reset existing styles */
+    margin-bottom: 8px;
+    min-height: auto;
+}
+
+    /* --- 3. Left Section Hack --- */
+    .quest-left {
+        display: contents;
+    }
+
+    /* --- 4. Icon --- */
+    .quest-icon {
+        font-size: 18px;
+        background: #f5f5f5;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0; /* Reset */
+    }
+
+    /* --- 5. Content Area --- */
+    .quest-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0; /* Essential for text-overflow to work in Grid/Flex */
+    }
+
+    /* Reordering elements using Flexbox Order to place Category right below Title */
+    .quest-content .item-title {
+        order: 1;
+        font-size: 13px;
+        font-weight: 700;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+        line-height: 1.3;
+    }
+
+    .quest-content .quest-meta-row {
+        order: 2;
+        margin-bottom: 2px;
+        display: flex;
+    }
+
+    .quest-content .item-description {
+        order: 3;
+        font-size: 11px;
+        color: #666;
+        line-height: 1.2em;
+        max-height: 2.4em; /* Cap at roughly 2 lines */
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 2px;
+    }
+
+    .quest-content .item-actions {
+        order: 4;
+        margin-top: 2px;
+        display: flex;
+        gap: 4px;
+    }
+
+    /* Compact Category Badge */
+    .quest-category {
+        font-size: 9px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        line-height: 1.4;
+        display: inline-block;
+        background: #eef6ea;
+        color: #3b5a2b;
+        border: 1px solid #d6e6cf;
+    }
+
+    /* Compact Action Buttons */
+    .quest-card .action-btn {
+        padding: 2px 6px;
+        font-size: 10px;
+        height: 22px;
+        line-height: 1;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* --- 6. Right Section --- */
+    .quest-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 4px;
+        min-width: auto;
+        height: 100%;
+    }
+
+    /* Reset absolute positioning from original CSS */
+    .quest-right .top-right-info,
+    .quest-right .bottom-right-info {
+        position: static;
+    }
+
+    .reward-badges {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-end;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 2px 5px;
+        min-width: 0;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        gap: 3px;
+    }
+
+    /* Hide "Drops" and "EcoCoins" text labels */
+    .badge-unit {
+        display: none;
+    }
+
+    .date-text {
+        font-size: 9px;
+        color: #999;
+        text-align: right;
+        white-space: nowrap;
+    }
+
     
     .quest-sub-category {
         font-size: 9px;
