@@ -1,11 +1,7 @@
 <?php
-// backend/dashboard.php
 
-/**
- * Renders Quest Cards using dynamic emoji and status-based filtering.
- */
+// Render HTML for Quest Cards
 function renderQuestCards(mysqli $con, int $limit = 20) {
-    // UPDATED: No more quest_expiry; uses date_created and quest_emoji
     $sql = "
         SELECT
             q.quest_id, q.quest_title, q.quest_description, q.quest_emoji, q.category,
@@ -26,12 +22,12 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
         ?>
         <div class="quest-card">
             <div class="quest-left">
-                <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
+                <div class="quest-icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="quest-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
-                    <div class="quest-desc"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
-                    <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
-                    <div class="quest-actions-row">
+                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
+                    <div class="quest-meta-row"><span class="quest-category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
+                    <div class="item-actions">
                         <button type="button" class="action-btn edit" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($q)); ?>)">Edit</button>
                         <button type="button" class="action-btn deactivate" onclick="openDeactivateModal('<?php echo $q['quest_id']; ?>', '<?php echo addslashes($q['quest_title']); ?>')">Deactivate</button>
                         <button type="button" class="action-btn delete" onclick="openDeleteModal('<?php echo $q['quest_id']; ?>', '<?php echo addslashes($q['quest_title']); ?>')">Delete</button>
@@ -39,23 +35,24 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges">
+                <div class="reward-badges top-right-info">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="quest-sub">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
+                <span class="date-text bottom-right-info">Completed <?php echo number_format((int)$q["users_completed"]); ?> times</span>
             </div>
         </div>
         <?php
     }
 }
 
+// Render HTML for Inactive Quest Cards
 function renderInactiveQuestCards(mysqli $con) {
     $sql = "SELECT * FROM quest WHERE status != 'Active' ORDER BY date_created DESC";
     $res = mysqli_query($con, $sql);
 
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<p class='modal-subtext'>No inactive quests found.</p>";
+        echo "<p class='empty-state'>No inactive quests found.</p>";
         return;
     }
 
@@ -70,13 +67,13 @@ function renderInactiveQuestCards(mysqli $con) {
         ?>
         <div class="quest-card quest-card-inactive">
             <div class="quest-left">
-                <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
+                <div class="quest-icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
-                    <div class="quest-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
-                    <div class="quest-desc"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
-                    <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
-                    <div class="quest-actions-row">
-                        <form method="POST" action="final.php">
+                    <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
+                    <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
+                    <div class="quest-meta-row"><span class="quest-category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
+                    <div class="item-actions">
+                        <form method="POST" action="admin.php">
                             <input type="hidden" name="activate_id" value="<?php echo $q['quest_id']; ?>">
                             <button type="submit" name="activateQuest" class="action-btn activate">Activate</button>
                         </form>
@@ -84,39 +81,37 @@ function renderInactiveQuestCards(mysqli $con) {
                 </div>
             </div>
             <div class="quest-right">
-                <div class="reward-badges">
+                <div class="reward-badges top-right-info">
                     <div class="badge drop-badge">💧 <?php echo (int)$q["drop_reward"]; ?> Drops</div>
                     <div class="badge coin-badge">🪙 <?php echo (int)$q["eco_coin_reward"]; ?> EcoCoins</div>
                 </div>
-                <span class="quest-sub"><?php echo $statusLabel; ?></span>
+                <span class="date-text bottom-right-info"><?php echo $statusLabel; ?></span>
             </div>
         </div>
         <?php
     }
 }
 
-/**
- * RESTORED: Renders the leaderboard with tiered ranking colors.
- */
-function renderLeaderboard(mysqli $con, int $limit = 10) {
-    $sql = "SELECT u.username, up.total_quests_completed 
+// Render HTML for Player Leaderboard
+function renderLeaderboard(mysqli $con) {
+    $sql = "SELECT u.username, up.total_quests_completed, up.player_tier 
             FROM user u 
             JOIN user_player up ON u.user_id = up.user_id 
-            ORDER BY up.total_quests_completed DESC 
-            LIMIT $limit";
+            ORDER BY up.total_quests_completed DESC";
     $res = mysqli_query($con, $sql);
     
     echo "<div class='lb-list'>";
     $rank = 1;
     while($row = mysqli_fetch_assoc($res)) {
         $rankClass = ($rank <= 3) ? "rank-top-" . $rank : "";
-        $userPfp = "images/pfp/" . $row['username'] . ".jpg";
-        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/null.jpg";
+        $tier = (int)($row['player_tier'] ?? 1);
+        $userPfp = "images/pfp/" . $row['username'] . ".png";
+        $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.png";
 
         echo "
         <div class='lb-row {$rankClass}'>
             <div class='lb-rank'>$rank</div>
-            <img src='{$displayPfp}' class='lb-avatar'>
+            <img src='{$displayPfp}' class='lb-avatar tier-border-{$tier}'>
             <div class='lb-meta'>
                 <div class='lb-name'>" . htmlspecialchars($row['username']) . "</div>
                 <div class='lb-sub'>" . $row['total_quests_completed'] . " quests completed</div>
@@ -127,41 +122,38 @@ function renderLeaderboard(mysqli $con, int $limit = 10) {
     echo "</div>";
 }
 
-/**
- * Handles Quest Creation and Deletion.
- */
+// Function to handle quests
 function handleCreateQuest(mysqli $con) {
-    // 1. Handle Activation (Move from Inactive to Active)
+    // Quest activation
     if (isset($_POST['activateQuest'])) {
         $id = mysqli_real_escape_string($con, $_POST['activate_id']);
         mysqli_query($con, "UPDATE quest SET status = 'Active' WHERE quest_id = '$id'");
-        header("Location: final.php?quest_success=activated");
+        header("Location: admin.php?quest_success=activated");
         exit();
     }
 
-    // NEW: 2. Handle Deactivation (Move from Active to Inactive)
+    // Quest deactivation
     if (isset($_POST['deactivateQuest'])) {
         $id = mysqli_real_escape_string($con, $_POST['deactivate_id']);
-        
-        // Update the status in your quest table
         $sql = "UPDATE quest SET status = 'Inactive' WHERE quest_id = '$id'";
         
         if (mysqli_query($con, $sql)) {
-            // Redirect with a specific success parameter for the modal
-            header("Location: final.php?quest_success=deactivated");
+            header("Location: admin.php?quest_success=deactivated");
             exit();
         } else {
             die("Database Error: " . mysqli_error($con));
         }
     }
 
+    // Quest deletion
     if (isset($_POST['confirmDelete'])) {
         $id = mysqli_real_escape_string($con, $_POST['delete_id']);
         mysqli_query($con, "DELETE FROM quest WHERE quest_id = '$id'");
-        header("Location: final.php?quest_success=deleted");
+        header("Location: admin.php?quest_success=deleted");
         exit();
     }
 
+    // Quest editing/creation
     if (isset($_POST['submitQuest'])) {
         $quest_id  = mysqli_real_escape_string($con, $_POST['quest_id']);
         $emoji     = mysqli_real_escape_string($con, $_POST['quest_emoji']);
@@ -172,7 +164,7 @@ function handleCreateQuest(mysqli $con) {
         $coins     = (int)$_POST['eco_coin_reward'];
         $startDate = mysqli_real_escape_string($con, $_POST['quest_date']);
 
-        // NEW LOGIC: Determine status based on the date
+        // Determine if quest is active/inactive based on the scheduled date and today's date
         $today = date('Y-m-d');
         $status = ($startDate > $today) ? 'Inactive' : 'Active';
 
@@ -183,7 +175,6 @@ function handleCreateQuest(mysqli $con) {
                 date_created='$startDate', status='$status', quest_emoji='$emoji' 
                 WHERE quest_id='$quest_id'";
         } else {
-            // CREATE MODE: Auto-assign ID and set initial status based on date
             $lastIdSql = "SELECT quest_id FROM quest ORDER BY quest_id DESC LIMIT 1";
             $res = mysqli_query($con, $lastIdSql);
             $new_id = ($row = mysqli_fetch_assoc($res)) ? "Q" . str_pad((int)substr($row['quest_id'], 1) + 1, 3, "0", STR_PAD_LEFT) : "Q001";
@@ -193,15 +184,17 @@ function handleCreateQuest(mysqli $con) {
         }
 
         if (mysqli_query($con, $sql)) {
-            header("Location: final.php?quest_success=true");
+            header("Location: admin.php?quest_success=true");
             exit();
         }
     }
 }
 
+// Render JS for dashboard functions
 function renderDashboardScripts() {
     ?>
     <script>
+        // Modal for editing quests
         function openEditModal(q) {
             document.getElementById('modalTitle').innerText = "Edit Quest";
             document.getElementById('edit_quest_id').value = q.quest_id;
@@ -213,29 +206,48 @@ function renderDashboardScripts() {
             document.getElementById('form_date').value = q.date_created;
             document.getElementById('questModal').style.display = 'block';
         }
+
+        // Modal for creating quests
         function openCreateModal() {
             document.getElementById('modalTitle').innerText = "Add New Quest";
             document.getElementById('edit_quest_id').value = "";
             document.getElementById('questModal').style.display = 'block';
         }
-        function toggleEmojiPicker() {
-            const picker = document.getElementById('emojiPicker');
-            picker.classList.toggle('hidden');
-        }
 
-        function selectEmoji(emoji) {
-            document.getElementById('form_emoji').value = emoji;
-            document.getElementById('emojiPicker').classList.add('hidden');
-        }
+        // Modal for deactivating quests
         function openDeactivateModal(id, title) {
             document.getElementById('deactivate_quest_id').value = id;
             document.getElementById('deactivateQuestTitle').innerText = title;
             document.getElementById('deactivateModal').style.display = 'block';
         }
+
+        // Modal for deleting quests
         function openDeleteModal(id, title) {
-            document.getElementById('delete_quest_id').value = id;
+            const input = document.getElementById('delete_quest_id');
+            const btn = document.querySelector('#deleteModal button[type="submit"]');
+            
+            if(input) {
+                input.value = id;
+                input.name = "delete_id";
+            }
+            if(btn) {
+                btn.name = "confirmDelete";
+            }
+            
             document.getElementById('deleteQuestTitle').innerText = title;
             document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        // Display emoji keypad during quest creation
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.classList.toggle('hidden');
+        }
+
+        // Select an emoji during quest creation
+        function selectEmoji(emoji) {
+            document.getElementById('form_emoji').value = emoji;
+            document.getElementById('emojiPicker').classList.add('hidden');
         }
     </script>
     <?php

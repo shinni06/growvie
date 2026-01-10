@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 09, 2026 at 07:24 AM
+-- Generation Time: Jan 10, 2026 at 12:54 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -180,13 +180,15 @@ CREATE TABLE IF NOT EXISTS `quest` (
 
 INSERT INTO `quest` (`quest_id`, `quest_title`, `quest_description`, `quest_emoji`, `drop_reward`, `eco_coin_reward`, `category`, `created_by`, `status`, `date_created`) VALUES
 ('Q001', 'Bottle Buddy', 'Take a photo of your reusable bottle during your day.', '🥤', 1, 10, 'Waste Reduction', 'USR001', 'Active', '2025-12-14'),
-('Q002', 'Bring Your Own Bag', 'Use a reusable shopping bag instead of plastic.', '🛍️', 1, 15, 'Waste', 'USR001', 'Active', '2025-12-14'),
+('Q002', 'Bring Your Own Bag', 'Use a reusable shopping bag instead of plastic.', '🛍️', 1, 15, 'Waste Reduction', 'USR001', 'Active', '2025-12-14'),
 ('Q003', 'Zero-Waste Lunch', 'Prepare a lunch using reusable containers, cutlery, and cloth wraps.', '🍱', 2, 25, 'Waste Reduction', 'USR001', 'Active', '2025-12-14'),
-('Q004', 'Green Commute', 'Walk, cycle, or take public transport instead of driving.', '🚲', 2, 30, 'Sustainable Transport', 'USR001', 'Active', '2025-12-14'),
-('Q005', 'Repair & Reuse', 'Fix a small item (stitch clothes, glue a broken piece, etc.)', '♻️', 3, 40, 'Waste Reduction', 'USR001', 'Active', '2025-12-14'),
-('Q006', 'new quest test!!!', 'ajhakshdlsj', '🎯', 50, 50, 'Community', 'USR001', 'Inactive', '2026-01-24'),
-('Q007', 'test', 'qweqwe', '🎯', 0, 0, 'Community', 'USR001', 'Inactive', '2026-01-06'),
-('Q008', 'inactive quest test', 'zzHJAAAAAAAAAAA', '🎯', 69, 69, 'Community', 'USR001', 'Active', '2026-01-29');
+('Q004', 'Green Commute', 'Walk, cycle, or take public transport instead of driving.', '🚲', 2, 30, 'Energy & Transport', 'USR001', 'Active', '2025-12-14'),
+('Q005', 'Repair & Reuse', 'Fix a small item (stitch clothes, glue a broken piece, etc.)', '♻️', 3, 40, 'Sustainable Living', 'USR001', 'Active', '2025-12-14'),
+('Q006', 'Meatless Monday', 'Eat a vegetarian meal. Upload a pic of your greens!', '🥗', 3, 50, 'Sustainable Living', 'USR001', 'Inactive', '2026-01-31'),
+('Q007', 'Trash Tag', 'Pick up litter in your neighborhood. Show us the bag.', '🚮', 5, 100, 'Community & Nature', 'USR001', 'Inactive', '2026-01-31'),
+('Q008', 'Thrift Haul', 'Buy something second-hand instead of new.', '👕', 4, 80, 'Sustainable Living', 'USR001', 'Inactive', '2026-01-31'),
+('Q009', 'Step It Up', 'Take the stairs instead of the elevator. Snap a selfie of you walking up!', '🚶', 2, 20, 'Energy & Transport', 'USR001', 'Inactive', '2026-01-31'),
+('Q010', 'Second Life', 'Donate clothes or books to a charity/community box.', '❤️', 4, 70, 'Community & Nature', 'USR001', 'Inactive', '2026-01-31');
 
 -- --------------------------------------------------------
 
@@ -199,7 +201,6 @@ CREATE TABLE IF NOT EXISTS `quest_submission` (
   `submission_id` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
   `quest_id` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
   `user_id` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
-  `proof_code` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `quest_submission_description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `approval_status` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `submitted_at` date NOT NULL,
@@ -212,22 +213,38 @@ CREATE TABLE IF NOT EXISTS `quest_submission` (
 -- Dumping data for table `quest_submission`
 --
 
-INSERT INTO `quest_submission` (`submission_id`, `quest_id`, `user_id`, `proof_code`, `quest_submission_description`, `approval_status`, `submitted_at`) VALUES
-('QS001', 'Q001', 'USR002', 'QS001.png', 'Drank water out of this bad boy', 'Pending', '2025-11-14'),
-('QS002', 'Q001', 'USR002', 'QS002.png', 'i think my bottle is my emotional support', 'Pending', '2025-11-20'),
-('QS003', 'Q001', 'USR002', 'QS003.png', 'Switch to reusable bottles today!', 'Pending', '2025-11-29'),
-('QS004', 'Q002', 'USR004', 'QS004.png', '#notaperformativemale', 'Pending', '2025-11-15'),
-('QS005', 'Q002', 'USR004', 'QS005.png', 'tote bags for life ', 'Pending', '2025-11-28'),
-('QS006', 'Q001', 'USR002', 'QS006.png', 'Used my reusable bottle throughout the day on campus.', 'Pending', '2025-12-10'),
-('QS007', 'Q001', 'USR006', 'QS007.png', 'Brought my own bottle to the gym instead of buying drinks.', 'Pending', '2025-12-11'),
-('QS008', 'Q002', 'USR007', 'QS008.png', 'Used a reusable bag while grocery shopping.', 'Pending', '2025-12-12'),
-('QS009', 'Q002', 'USR008', 'QS009.png', 'Carried my own tote bag to the convenience store.', 'Pending', '2025-12-13'),
-('QS010', 'Q003', 'USR009', 'QS010.png', 'Prepared lunch using reusable containers and cutlery.', 'Pending', '2025-12-11'),
-('QS011', 'Q003', 'USR010', 'QS011.png', 'Packed homemade lunch in reusable boxes.', 'Pending', '2025-12-12'),
-('QS012', 'Q004', 'USR011', 'QS012.png', 'Took public transport instead of driving.', 'Pending', '2025-12-13'),
-('QS013', 'Q004', 'USR006', 'QS013.png', 'Cycled to class instead of using a car.', 'Pending', '2025-12-14'),
-('QS014', 'Q005', 'USR012', 'QS014.png', 'Repaired a torn backpack instead of buying a new one.', 'Pending', '2025-12-14'),
-('QS015', 'Q005', 'USR007', 'QS015.png', 'Fixed a broken phone cable using tape and heat shrink.', 'Pending', '2025-12-14');
+INSERT INTO `quest_submission` (`submission_id`, `quest_id`, `user_id`, `quest_submission_description`, `approval_status`, `submitted_at`) VALUES
+('QS001', 'Q001', 'USR002', 'Drank water out of this bad boy', 'Pending', '2025-11-14'),
+('QS002', 'Q001', 'USR002', 'i think my bottle is my emotional support', 'Pending', '2025-11-20'),
+('QS003', 'Q001', 'USR002', 'Switch to reusable bottles today!', 'Approved', '2025-11-29'),
+('QS004', 'Q002', 'USR004', '#notaperformativemale', 'Pending', '2025-11-15'),
+('QS005', 'Q002', 'USR004', 'tote bags for life ', 'Approved', '2025-11-28'),
+('QS006', 'Q001', 'USR002', 'Used my reusable bottle throughout the day on campus.', 'Approved', '2025-12-10'),
+('QS007', 'Q001', 'USR006', 'Brought my own bottle to the gym instead of buying drinks.', 'Approved', '2025-12-11'),
+('QS008', 'Q002', 'USR007', 'Used a reusable bag while grocery shopping.', 'Approved', '2025-12-12'),
+('QS009', 'Q002', 'USR008', 'Carried my own tote bag to the convenience store.', 'Approved', '2025-12-13'),
+('QS010', 'Q003', 'USR009', 'Prepared lunch using reusable containers and cutlery.', 'Approved', '2025-12-11'),
+('QS011', 'Q003', 'USR010', 'Packed homemade lunch in reusable boxes.', 'Approved', '2025-12-12'),
+('QS012', 'Q004', 'USR011', 'Took public transport instead of driving.', 'Approved', '2025-12-13'),
+('QS013', 'Q004', 'USR006', 'Cycled to class instead of using a car.', 'Pending', '2025-12-14'),
+('QS014', 'Q005', 'USR012', 'Repaired a torn backpack instead of buying a new one.', 'Pending', '2025-12-14'),
+('QS015', 'Q005', 'USR007', 'Fixed a broken phone cable using tape and heat shrink.', 'Pending', '2025-12-14'),
+('QS016', 'Q001', 'USR021', 'Always carrying my bottle!', 'Approved', '2025-10-18'),
+('QS017', 'Q002', 'USR022', 'Grocery run with tote bag', 'Approved', '2025-11-12'),
+('QS018', 'Q001', 'USR023', 'Hydrated and sustainable.', 'Approved', '2025-12-08'),
+('QS019', 'Q004', 'USR022', 'Took the bus to work today.', 'Approved', '2025-11-18'),
+('QS020', 'Q003', 'USR024', 'Packed lunch, no plastic!', 'Pending', '2026-01-05'),
+('QS021', 'Q005', 'USR025', 'Fixed my torn shirt.', 'Pending', '2026-01-09'),
+('QS022', 'Q001', 'USR026', 'refilled my bottle at the gym', 'Pending', '2026-01-02'),
+('QS023', 'Q002', 'USR026', 'Grocery shopping with reusable tote!', 'Pending', '2026-01-03'),
+('QS024', 'Q001', 'USR027', 'no plastic used today', 'Pending', '2026-01-04'),
+('QS025', 'Q004', 'USR028', 'Cycled to the office instead of taking a cab.', 'Pending', '2026-01-05'),
+('QS026', 'Q005', 'USR028', 'Repaired the strap on my briefcase.', 'Pending', '2026-01-06'),
+('QS027', 'Q001', 'USR030', 'Hydrated. You’re welcome.', 'Pending', '2026-01-09'),
+('QS028', 'Q003', 'USR030', 'Salad in a glass container', 'Pending', '2026-01-09'),
+('QS029', 'Q002', 'USR022', 'brought my own bag', 'Pending', '2026-01-08'),
+('QS030', 'Q004', 'USR023', 'Took the bus.', 'Pending', '2026-01-07'),
+('QS031', 'Q001', 'USR025', 'refilled', 'Pending', '2026-01-08');
 
 -- --------------------------------------------------------
 
@@ -300,8 +317,16 @@ CREATE TABLE IF NOT EXISTS `real_tree_record` (
 --
 
 INSERT INTO `real_tree_record` (`real_tree_id`, `virtual_plant_id`, `partner_id`, `location`, `coordinates`, `planting_site`, `date_reported`, `request_status`) VALUES
-('RT001', 'VP011', 'PO001', 'Sabah, Malaysia', '5.978°N, 116.075°E', 'Hill A', '2025-12-14', 'Pending'),
-('RT002', 'VP008', 'PO002', 'Penang, Malaysia', '5.4164°N, 100.3327°E', 'Forest B', '2025-12-14', 'Pending');
+('RT001', 'VP011', 'PO001', 'Sabah, Malaysia', '5.978°N, 116.075°E', 'Hill A', '2025-11-25', 'Approved'),
+('RT002', 'VP008', 'PO002', 'Penang, Malaysia', '5.4164°N, 100.3327°E', 'Forest B', '2025-12-14', 'Approved'),
+('RT003', 'VP013', 'PO003', 'Perak, Malaysia', '4.592°N, 101.090°E', 'Forest Reserve C', '2025-12-14', 'Approved'),
+('RT004', 'VP015', 'PO001', 'Sarawak, Malaysia', '1.553°N, 110.359°E', 'National Park D', '2025-12-28', 'Approved'),
+('RT005', 'VP003', 'PO002', 'Selangor, Malaysia', '3.0738°N, 101.5183°E', 'Shah Alam Community Park', '2025-12-30', 'Approved'),
+('RT006', 'VP005', 'PO001', 'Pahang, Malaysia', '4.3820°N, 102.2400°E', 'Taman Negara Buffer Zone', '2026-01-03', 'Pending'),
+('RT007', 'VP007', 'PO005', 'Sarawak, Malaysia', '1.6110°N, 110.1500°E', 'Kuching Wetlands', '2026-01-06', 'Pending'),
+('RT008', 'VP010', 'PO003', 'Johor, Malaysia', '1.4854°N, 103.7618°E', 'Endau-Rompin Park', '2026-01-06', 'Pending'),
+('RT009', 'VP019', 'PO004', 'Kedah, Malaysia', '6.1184°N, 100.3685°E', 'School Greening Project A', '2026-01-09', 'Pending'),
+('RT010', 'VP020', 'PO002', 'Kuala Lumpur, Malaysia', '3.1390°N, 101.6869°E', 'Urban Rooftop Garden', '2026-01-11', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -329,8 +354,8 @@ INSERT INTO `shop_item` (`item_id`, `item_name`, `item_desc`, `item_price`, `ite
 ('ITM002', 'Tulip Seed Pack', 'Pack of tulip seeds for blooming plants', 1500, 'Plant Seeds', 1),
 ('ITM003', 'Water Booster', 'Instantly adds 5 water drops to a plant', 2000, 'Power Ups', 1),
 ('ITM004', 'Double Coins', 'Earn double eco-coins for 1 hour', 2500, 'Power Ups', 1),
-('ITM005', 'Extra Drops Pack', 'Buy 10 extra water drops', 3000, 'In App Purchases', 1),
-('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 50000, 'In App Purchases', 0);
+('ITM005', 'Extra Drops Pack', 'Buy 10 extra water drops', 30, 'In App Purchases', 1),
+('ITM006', 'VIP Pass', 'Unlock special quests and rewards', 500, 'In App Purchases', 0);
 
 -- --------------------------------------------------------
 
@@ -355,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `name`, `email`, `password`, `role`, `date_joined`) VALUES
-('USR001', 'jamalchong_123', 'Jamal Chong', 'jamalchong@gmail.com', 'password1\r\n', 'Admin', '2025-12-11'),
+('USR001', 'jamalchong_123', 'Jamal Chong', 'jamalchong@gmail.com', 'password1\n', 'Admin', '2025-12-11'),
 ('USR002', 'leexiaoming88', 'Lee Xiao Ming', 'leexiaoming@gmail.com', 'password2', 'Player', '2025-12-11'),
 ('USR003', 'muhammad_ali', 'Mhd Ali', 'muhammadali@gmail.com', 'password3', 'Player', '2025-12-11'),
 ('USR004', 'huangxiaoli5', 'Xiao Li', 'huangxiaoli@gmail.com', 'password4', 'Player', '2025-12-11'),
@@ -374,7 +399,17 @@ INSERT INTO `user` (`user_id`, `username`, `name`, `email`, `password`, `role`, 
 ('USR017', 'ecotechsolutions', 'EcoTech Solutions', 'info@ecotech.com', 'partner2', 'Partner', '2024-08-31'),
 ('USR018', 'sustainablesolutions', 'Sustainable Future', 'hello@sustainablefut.com', 'partner3', 'Partner', '2024-08-31'),
 ('USR019', 'cleanplanetpartners', 'Clean Planet Partners', 'support@cleanplanet.org', 'partner4', 'Partner', '2024-08-31'),
-('USR020', 'treematesfoundation', 'TreeMates Foundation', 'contact@treemates.org', 'partner5', 'Partner', '2024-08-31');
+('USR020', 'treematesfoundation', 'TreeMates Foundation', 'contact@treemates.org', 'partner5', 'Partner', '2024-08-31'),
+('USR021', 'jungle_jim', 'Jim Morris', 'jim.morris@testmail.com', 'password123', 'Player', '2025-10-12'),
+('USR022', 'river_song', 'River Song', 'river.song@testmail.com', 'password123', 'Player', '2025-11-05'),
+('USR023', 'clara_oswald', 'Clara Oswald', 'clara.o@testmail.com', 'password123', 'Player', '2025-12-01'),
+('USR024', 'rwilliams', 'Rory Williams', 'rory.w@testmail.com', 'password123', 'Player', '2026-01-04'),
+('USR025', 'amy_pond', 'Amy Pond', 'amy.p@testmail.com', 'password123', 'Player', '2026-01-08'),
+('USR026', 'sarah_j', 'Sarah Jenkins', 'sarah.j@testmail.com', 'password123', 'Player', '2026-01-02'),
+('USR027', 'mike_ross', 'Mike Ross', 'mike.ross@testmail.com', 'password123', 'Player', '2026-01-03'),
+('USR028', 'harvey_spec', 'Harvey Specter', 'harvey.s@testmail.com', 'password123', 'Player', '2026-01-05'),
+('USR029', 'louis_litt', 'Louis Litt', 'louis.l@testmail.com', 'password123', 'Player', '2026-01-07'),
+('USR030', 'donna_paul', 'Donna Paulsen', 'donna.p@testmail.com', 'password123', 'Player', '2026-01-09');
 
 -- --------------------------------------------------------
 
@@ -402,20 +437,30 @@ CREATE TABLE IF NOT EXISTS `user_player` (
 --
 
 INSERT INTO `user_player` (`user_player_id`, `user_id`, `player_tier`, `eco_coins`, `drops_progress`, `total_quests_completed`, `tree_planted_irl`, `growvie_plants_planted`, `player_status`) VALUES
-('UP001', 'USR002', 1, 12365, 1273, 52, 0, 5, 'Active'),
+('UP001', 'USR002', 1, 12435, 1280, 59, 0, 5, 'Active'),
 ('UP002', 'USR003', 2, 678, 200, 100, 0, 10, 'Active'),
 ('UP003', 'USR004', 3, 90, 300, 150, 0, 20, 'Active'),
 ('UP004', 'USR005', 1, 120, 8, 5, 0, 6, 'Active'),
 ('UP005', 'USR006', 2, 355, 16, 19, 0, 14, 'Active'),
 ('UP006', 'USR007', 1, 90, 4, 3, 0, 4, 'Active'),
-('UP007', 'USR008', 3, 680, 25, 32, 0, 20, 'Active'),
-('UP008', 'USR009', 2, 410, 18, 21, 0, 14, 'Active'),
+('UP007', 'USR008', 3, 680, 25, 32, 1, 20, 'Active'),
+('UP008', 'USR009', 2, 410, 18, 21, 2, 14, 'Active'),
 ('UP009', 'USR010', 1, 150, 6, 7, 1, 9, 'Active'),
 ('UP010', 'USR011', 3, 720, 30, 40, 0, 23, 'Active'),
-('UP011', 'USR012', 2, 390, 16, 19, 0, 12, 'Active'),
+('UP011', 'USR012', 2, 390, 16, 19, 4, 12, 'Active'),
 ('UP012', 'USR013', 1, 110, 5, 6, 1, 2, 'Active'),
 ('UP013', 'USR014', 2, 460, 20, 24, 0, 11, 'Active'),
-('UP014', 'USR015', 1, 0, 0, 0, 0, 0, 'Suspended');
+('UP014', 'USR015', 1, 0, 0, 0, 0, 0, 'Active'),
+('UP015', 'USR021', 1, 150, 20, 3, 0, 1, 'Active'),
+('UP016', 'USR022', 2, 450, 120, 12, 1, 5, 'Active'),
+('UP017', 'USR023', 1, 200, 45, 5, 0, 2, 'Active'),
+('UP018', 'USR024', 1, 50, 10, 1, 0, 0, 'Active'),
+('UP019', 'USR025', 2, 600, 200, 15, 3, 6, 'Active'),
+('UP020', 'USR026', 1, 110, 11, 3, 0, 1, 'Active'),
+('UP021', 'USR027', 1, 50, 5, 1, 0, 0, 'Active'),
+('UP022', 'USR028', 2, 300, 50, 5, 0, 3, 'Active'),
+('UP023', 'USR029', 1, 20, 0, 0, 0, 0, 'Active'),
+('UP024', 'USR030', 2, 500, 100, 10, 0, 4, 'Active');
 
 -- --------------------------------------------------------
 
@@ -442,7 +487,13 @@ INSERT INTO `user_purchase` (`purchase_id`, `user_id`, `item_id`, `purchase_at`)
 ('PUR001', 'USR002', 'ITM001', '2025-12-14'),
 ('PUR002', 'USR004', 'ITM003', '2025-12-14'),
 ('PUR003', 'USR002', 'ITM005', '2025-12-14'),
-('PUR004', 'USR005', 'ITM003', '2025-12-14');
+('PUR004', 'USR005', 'ITM003', '2025-12-14'),
+('PUR005', 'USR021', 'ITM006', '2025-10-20'),
+('PUR006', 'USR022', 'ITM001', '2025-11-15'),
+('PUR007', 'USR023', 'ITM005', '2025-12-10'),
+('PUR008', 'USR024', 'ITM005', '2026-01-05'),
+('PUR009', 'USR022', 'ITM006', '2025-11-20'),
+('PUR010', 'USR025', 'ITM004', '2026-01-08');
 
 -- --------------------------------------------------------
 
@@ -471,15 +522,26 @@ CREATE TABLE IF NOT EXISTS `virtual_plant` (
 INSERT INTO `virtual_plant` (`virtual_plant_id`, `user_id`, `plant_id`, `current_stage`, `drops_used`, `date_planted`, `is_completed`) VALUES
 ('VP001', 'USR002', 'P001', 5, 2012, '2025-12-14', 0),
 ('VP002', 'USR002', 'P001', 4, 1780, '2025-11-15', 0),
-('VP003', 'USR004', 'P002', 2, 1300, '2025-12-14', 0),
+('VP003', 'USR004', 'P002', 5, 2500, '2025-12-14', 1),
 ('VP004', 'USR005', 'P005', 1, 800, '2025-12-14', 0),
-('VP005', 'USR006', 'P001', 2, 900, '2025-12-13', 0),
+('VP005', 'USR006', 'P001', 5, 2000, '2025-12-13', 1),
 ('VP006', 'USR007', 'P003', 3, 1850, '2025-12-12', 0),
-('VP007', 'USR008', 'P004', 4, 4000, '2025-12-10', 0),
+('VP007', 'USR008', 'P004', 5, 5000, '2025-12-10', 1),
 ('VP008', 'USR009', 'P002', 5, 2500, '2025-11-20', 1),
 ('VP009', 'USR010', 'P001', 1, 600, '2025-12-14', 0),
-('VP010', 'USR011', 'P005', 3, 2800, '2025-12-11', 0),
-('VP011', 'USR012', 'P004', 5, 4100, '2025-11-18', 1);
+('VP010', 'USR011', 'P005', 5, 4000, '2025-12-11', 1),
+('VP011', 'USR012', 'P004', 5, 4100, '2025-11-18', 1),
+('VP012', 'USR021', 'P001', 3, 1500, '2025-10-15', 0),
+('VP013', 'USR022', 'P002', 5, 2500, '2025-11-10', 1),
+('VP014', 'USR023', 'P003', 2, 1000, '2025-12-05', 0),
+('VP015', 'USR025', 'P004', 5, 5000, '2026-01-05', 1),
+('VP016', 'USR004', 'P005', 2, 1200, '2026-01-02', 0),
+('VP017', 'USR008', 'P003', 1, 500, '2026-01-05', 0),
+('VP018', 'USR011', 'P004', 3, 2500, '2026-01-01', 0),
+('VP019', 'USR003', 'P001', 5, 2000, '2025-12-20', 1),
+('VP020', 'USR030', 'P002', 5, 2500, '2026-01-08', 1),
+('VP021', 'USR028', 'P004', 2, 1000, '2026-01-06', 0),
+('VP022', 'USR026', 'P001', 1, 100, '2026-01-09', 0);
 
 --
 -- Constraints for dumped tables

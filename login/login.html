@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growvie Login Page</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+
+<body>
+    <section class="hero-section">
+        <div class="brand-content">
+            <div class="logo-placeholder">
+                <img src="../assets/Logo.png" alt="Growvie Logo"> 
+            </div>
+            
+            <h1 class="hero-title">Growvie</h1>
+            <p class="hero-subtitle">
+                Cultivate your habits, grow your impact. Log in to nurture your virtual garden and continue your journey toward a greener world. 
+            </p>
+        </div>
+    </section>
+
+    <section class="login-section">
+        <div class="login-card">
+            
+            <div class="welcome-text">
+                <h2>Welcome Back!</h2>
+                <p id ="welcome-subtext">Please login to your Growvie account to access today's daily quests and keep planting.</p>
+            </div>
+
+            <div class="role-tabs">
+                <button class="tab-btn active" onclick="switchTab('player')">Player</button>
+                <button class="tab-btn" onclick="switchTab('partner')">Partner</button>
+                <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
+            </div>
+
+            <form action="login.php" method="POST">
+                <input type="hidden" name="role" id="role-input" value="player">
+
+                <div class="form-group">
+                    <label for="identifier">Email or Username</label>
+                    <input type="text" id="identifier" name="identifier" class="input-box" placeholder="Email or Username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="input-box" placeholder="••••••••" required>
+                </div>
+
+                <div style="margin-bottom: 20px;"></div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+
+                <div class="switch-page" id="login-footer">
+                    Don't have an account? <a href="register.html">Sign Up</a>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+    <script>
+        // Logic to switch tabs between roles
+        function switchTab(role) {
+            document.getElementById('role-input').value = role;
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Visual updates for tabs
+            if(role === 'player') tabs[0].classList.add('active');
+            if(role === 'partner') tabs[1].classList.add('active');
+            if(role === 'admin') tabs[2].classList.add('active');
+
+            // Change subtext and footer message depending on user role
+            const subtext = document.getElementById('welcome-subtext');
+            const footer = document.getElementById('login-footer');
+
+            if(role === 'player') {
+                subtext.innerText = "Please login to your Growvie account to access today's daily quests and keep planting."
+                // Players can sign up
+                footer.innerHTML = 'Don\'t have an account? <a href="register.html">Sign Up</a>';
+            } 
+            else if(role === 'partner') {
+                subtext.innerText = "Please login to your organization's Growvie account to access the Partner Hub.";
+                // Partners cannot sign up
+                footer.innerHTML = 'New Partner? Please contact an administrator.';
+            } 
+            else if(role === 'admin') {
+                subtext.innerText = "Please login to the your administrator account to access the Admin Portal.";
+                // Admins cannot sign up
+                footer.innerHTML = 'Restricted Access. Authorized personnel only.';
+            }
+        }
+    </script>
+
+</body>
+</html>

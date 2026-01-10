@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Encode Sans Expanded", sans-serif;
+    font-family: "Encode Sans", sans-serif;
 }
 
 /* 1) lock the page height and prevent body scroll */
@@ -44,8 +44,6 @@ body {
   padding: 20px;
 }
 
-/*sidebar*/
-
 .sidebar {
     width: 220px;
     background: #ffffff;
@@ -71,7 +69,7 @@ body {
     height: auto;
 }
         
-/*sidebar-menu*/
+
 .menu {
     display: flex;
     flex-direction: column;
@@ -93,10 +91,10 @@ body {
 }
 
 .menu-item img.menu-icon {
-    width: 30px;        
-    height: 30px;
+    width: 18px;        
+    height: 18px;
     object-fit: contain;
-    opacity: 0.7;
+    opacity: 0.3;
 }
 
 .menu-item.active {
@@ -108,10 +106,6 @@ body {
 .menu-item.active img.menu-icon {
     filter: brightness(1) invert(0);
     opacity: 1;
-}
-
-.hidden {
-    display: none;
 }
 
 .menu-item:hover {
@@ -140,31 +134,30 @@ body {
 }
 
 .logout-icon {
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
     object-fit: contain;
-    opacity: 0.6;
+    opacity: 0.3;
 }
 
 .logout:hover .logout-icon {
-    opacity: 0.9;
+    opacity: 0.7;
 }
 
-/*main content*/
+/* Hide unactive tabs */
+.hidden {
+    display: none !important;
+}
+
+/* Main content */
 .main {
     padding: 35px 40px;
     overflow-y: auto;
     background: #d4e3d0;
 }
 
-/* maincontentcss.css */
 
-.hidden {
-    display: none !important; /* Forces the element to stay hidden regardless of ID rules */
-}
-
-/* THE FIX: Remove specific rows so they don't stretch to match the leaderboard */
-#content1, #content2 {
+#content1, #content2, #content6 {
     display: grid;
     grid-template-columns: 5fr 2fr; 
     align-items: start;
@@ -172,38 +165,10 @@ body {
     width: 100%;
 }
 
-/* Container to stack everything on the left tightly */
 .main-content-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-
-/* Keep leaderboard in column 2 */
-#content1 .leaderboard {
-    grid-column: 2 / 3;
-}
-
-#content1 h2 {
-    grid-column: 1 / 2;
-}
-
-#content1 .subtext {
-    grid-column: 1 / 2;
-}
-
-#content1 .create-btn {
-    grid-column: 1 / 2;
-}
-
-#content1 .quests {
-    grid-column: 1 / 2;
-}
-
-#content1 .leaderboard {
-    grid-column: 2 / 3;
-    grid-row: 1 / -1;
 }
 
 h1 {
@@ -225,29 +190,52 @@ h3 {
     color: #000;
 }
 
-.subtitle {
-    margin-top: 6px;
-    color: #6f6f6f;
-    margin-bottom: 25px;
-}
-
 .subtext {
     color: #888;
     font-size: 14px;
-    margin-bottom: 25px; /* Consistent gap after subtitle across all tabs */
+    margin-bottom: 25px;
 }
 
-/* GLOBAL TAB STYLES (Moved from User Management) */
+aside .subtext {
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.date-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a0a0a0;
+    text-transform: none;
+}
+
+.top-right-info {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+.bottom-right-info {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+}
+
+.card, .user-card, .announcement-card, .partner-card, .review-card, .quest-card {
+    position: relative;
+}
+
 .tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
 }
 
 .tab {
-    height: 40px; /* Standardized height */
+    height: 35px;
     padding: 0 26px;
     border: none;
-    border-radius: 8px; /* Square/slightly rounded as per request to match user mgmt */
+    border-radius: 8px;
     background: #d0d8c7;
     color: #444;
     font-weight: 600;
@@ -267,9 +255,8 @@ h3 {
     color: white;
 }
 
-/* GLOBAL BUTTON STYLES (Standardized Edit/Action Buttons) */
 .action-btn {
-    height: 40px;
+    height: 35px;
     padding: 0 20px;
     border: none;
     border-radius: 8px;
@@ -282,25 +269,6 @@ h3 {
     justify-content: center;
 }
 
-/* Standard Edit Button Style */
-.edit-btn {
-    padding: 6px 16px;
-    background: #d7dfd1;
-    color: #444;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.2s;
-    height: 36px; /* Slightly smaller for card contexts */
-}
-
-.edit-btn:hover {
-    background: #c1ccb5;
-}
-
-/* Generalized Info Grid Classes */
 .info-label {
     font-size: 12px;
     font-weight: 700;
@@ -311,4 +279,276 @@ h3 {
     font-size: 12px;
     color: #777;
     word-break: break-all;
+}
+
+.item-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.item-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.section-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 15px 0;
+}
+
+.info-panel {
+    background: #ffffff;
+    border: 1px solid #eef2ed;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+}
+
+.content-section-gap {
+    margin-top: 20px;
+}
+
+.card, .user-card, .announcement-card, .partner-card, .request-card, .quest-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #d8e3d5;
+    margin-bottom: 15px;
+}
+
+.list-container {
+    display: block;
+}
+
+.item-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.item-actions.align-right {
+    justify-content: flex-end;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.review-actions .action-btn {
+    flex: 1;
+}
+
+/* Button styling */
+.action-btn {
+    height: 35px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-transform: capitalize;
+}
+
+.action-btn.create {
+    background: #85C668;
+    color: white;
+    padding: 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.action-btn.review { 
+    background: #d1f2c4; 
+    color: #2e4d1c; 
+    border: 1px solid #2e4d1c3e;
+}
+
+.action-btn.edit { 
+    background: #e0e0e0; 
+    color: #424242; 
+    border: 1px solid #4242423c;
+}
+
+.action-btn.deactivate { 
+    background: #fef3c7; 
+    color: #92400e; 
+    border: 1px solid #92400e3d;
+}
+
+.action-btn.activate {
+    background: #eef6ea;
+    color: #3b5a2b;
+    border: 1px solid #d6e6cf;
+}
+
+.action-btn.delete { 
+    background: #ffdada; 
+    color: #b71c1c; 
+    border: 1px solid #b71c1c3b;
+}
+
+.action-btn.cfmdelete { 
+    background:#d9534f;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.action-btn.submit {
+    background: #85C668;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.action-btn.large {
+    height: 44px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Right sidebar for quest submission/user management */
+.leaderboard {
+  background: #ffffff;
+  margin-left: 30px;
+  padding: 15px;
+  border: 1px solid #d8e3d5;
+  border-radius: 14px;
+  height: fit-content;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.leaderboard h3 {
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 5px 0 15px 0;
+}
+
+.lb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lb-row.is-me {
+  background: #eaf6e4;
+  border-color: #cfe6c2;
+}
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #edf2ec;
+  margin-bottom: 5px;
+}
+
+.lb-rank {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 50%;
+}
+
+.lb-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f3df5b;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  flex: 0 0 34px;
+}
+
+.lb-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.lb-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.lb-sub {
+  font-size: 11px;
+  color: #252525;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-score {
+  font-size: 12px;
+  font-weight: 800;
+  color: #2c4a1f;
+  flex: 0 0 auto;
+}
+
+/* Coin/Drop Icon "Badge" */
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 130px;
+    justify-content: flex-start;
 }

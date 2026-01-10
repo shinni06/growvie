@@ -1,41 +1,28 @@
 <?php
-// backend/usermanagement.php
 
-/**
- * Renders the JavaScript required for User Management interactions.
- */
+// Render JS for user management functions
 function renderUserManagementScripts() {
     ?>
     <script>
-        /**
-         * Switches between User and Partner sub-tabs.
-         */
+        // Render JS for Tab Switching Logic in User Management
         function userTab(role) {
-            // UI Update: Toggle 'active' class
             document.querySelectorAll('#content5 .tab').forEach(btn => btn.classList.remove('active'));
             if (event && event.target) event.target.classList.add('active');
 
-            // Redirect with current search value to maintain context
             const searchVal = document.getElementById('userSearchInput')?.value || '';
-            window.location.href = `final.php?role=${role}&search=${searchVal}`;
+            window.location.href = `admin.php?role=${role}&search=${searchVal}`;
         }
 
-        /**
-         * Triggered by the search bar input.
-         */
+        // Logic for search bar
         function handleUserSearch() {
-            // Get current role from URL or default to 'Player'
             const urlParams = new URLSearchParams(window.location.search);
             const currentRole = urlParams.get('role') || 'Player';
             
             const searchVal = document.getElementById('userSearchInput').value;
-            window.location.href = `final.php?role=${currentRole}&search=${searchVal}`;
+            window.location.href = `admin.php?role=${currentRole}&search=${searchVal}`;
         }   
 
-        /**
-         * Opens the Delete Confirmation Modal.
-         * Only used for Players now.
-         */
+        // Modal for deleting users
         function openUserDeleteModal(id, name) {
             const modal = document.getElementById('deleteModal');
             const inputId = document.getElementById('delete_quest_id'); // Reusing existing modal hidden input
@@ -44,14 +31,12 @@ function renderUserManagementScripts() {
 
             if (!modal) return;
 
-            // 1. Inject Data
             if(inputId) {
                 inputId.value = id;
-                inputId.name = "user_id"; // Change name so PHP 'handleUserActions' catches it
+                inputId.name = "user_id";
             }
             if(title) title.innerText = name;
             
-            // 2. Switch Button Action
             if(submitBtn) {
                 submitBtn.name = "confirmDeleteUser"; 
             }
@@ -62,14 +47,12 @@ function renderUserManagementScripts() {
     <?php
 }
 
-/**
- * Renders the content based on the active role.
- */
+// Render content for users depending on the tab
 function renderUserManagement($con, $role = 'Player', $search = '') {
     $search = mysqli_real_escape_string($con, $search);
     $role = mysqli_real_escape_string($con, $role);
 
-    // --- PLAYER TAB LOGIC ---
+    // Logic for player tab
     if ($role === 'Player') {
         $sql = "SELECT u.*, up.total_quests_completed, up.player_tier, 
                        up.tree_planted_irl, up.growvie_plants_planted,
@@ -90,65 +73,71 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             return;
         }
 
+        echo '<div class="list-container">';
         while ($u = mysqli_fetch_assoc($res)) {
             $isSuspended = (($u['player_status'] ?? 'Active') === 'Suspended');
-            $cardClass = $isSuspended ? "user-card suspended" : "user-card";
+            $suspendedClass = $isSuspended ? "suspended" : "";
             
-            // Image Fallback
-            $userPfp = "images/pfp/" . $u['username'] . ".jpg";
-            $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.jpg";
-            ?>
-            <div class="<?php echo $cardClass; ?>">
-                <div class="left-section">
-                    <img src="<?php echo $displayPfp; ?>" alt="Profile" class="user-card-pfp">
-                    <div class="info">
-                        <div class="user-header">
-                            <h3><?php echo htmlspecialchars($u['name']); ?> <span>@<?php echo htmlspecialchars($u['username']); ?></span></h3>
-                            <span class="tier-badge">Tier <?php echo (int)($u['player_tier'] ?? 1); ?></span>
-                        </div>
-                        
-                        <div class="user-meta-info">
-                            <span class="meta-item"><strong>ID:</strong> <?php echo htmlspecialchars($u['user_id']); ?></span>
-                            <span class="meta-item"><strong>Email:</strong> <?php echo htmlspecialchars($u['email']); ?></span>
-                        </div>
+            $tier = (int)($u['player_tier'] ?? 1);
+            $tierBadgeClass = 'tier-' . $tier;
+            $tierLabel = 'TIER ' . $tier;
 
-                        <div class="user-stats-row">
-                            <div class="stat"><span class="stat-icon">🎯</span> <?php echo (int)($u['total_quests_completed'] ?? 0); ?> Quests</div>
-                            <div class="stat"><span class="stat-icon">🌳</span> <?php echo (int)($u['tree_planted_irl'] ?? 0); ?> IRL Trees</div>
-                            <div class="stat"><span class="stat-icon">🌱</span> <?php echo (int)($u['growvie_plants_planted'] ?? 0); ?> Virtual Plants</div>
+            // Attempt to find user pfp from user ID, if cannot be found use default pfp
+            $userPfp = "images/pfp/" . $u['username'] . ".png";
+            $displayPfp = (file_exists(__DIR__ . "/../" . $userPfp)) ? $userPfp : "images/pfp/default_profile_picture.png";
+
+            $username = htmlspecialchars($u['username']);
+            $name = htmlspecialchars($u['name']);
+            $userId = htmlspecialchars($u['user_id']);
+            $email = htmlspecialchars($u['email']);
+            $questsCompleted = (int)($u['total_quests_completed'] ?? 0);
+            $irlTrees = (int)($u['tree_planted_irl'] ?? 0);
+            $virtualPlants = (int)($u['growvie_plants_planted'] ?? 0);
+            $dateJoined = date("d M Y", strtotime($u['date_joined']));
+
+            // Display user card for each user
+            echo "
+            <div class='user-card $suspendedClass' id='card-$userId'>
+                <div class='left-section'>
+                    <img src='$displayPfp' alt='PFP' class='user-card-pfp tier-border-$tier'>
+                    <div class='info'>
+                        <div class='user-header'>
+                            <h3 class='item-title'>$name <span>@$username</span></h3>
+                            <span class='tier-badge $tierBadgeClass'>$tierLabel</span>
+                        </div>
+                        <div class='user-meta-info'>
+                            <span class='meta-item'><strong>ID:</strong> $userId</span>
+                            <span class='meta-item'><strong>Email:</strong> $email</span>
+                        </div>
+                        <div class='user-stats-row'>
+                            <span class='stat'>🎯 $questsCompleted Quests</span>
+                            <span class='stat'>🌳 $irlTrees IRL Trees</span>
+                            <span class='stat'>🌱 $virtualPlants Plants</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="right-section">
-                    <?php if ($isSuspended): ?>
-                        <div class="status-tag suspended">Suspended</div>
-                    <?php else: ?>
-                        <p class="last-active">Joined <?php echo date("d M Y", strtotime($u['date_joined'])); ?></p>
-                    <?php endif; ?>
+                <div class='right-section'>
+                    " . ($isSuspended ? "<div class='status-tag suspended top-right-info'>Suspended</div>" : "<p class='date-text top-right-info'>Joined $dateJoined</p>") . "
 
-                    <div class="actions">
-                        <form method="POST" action="final.php?role=Player">
-                            <input type="hidden" name="user_id" value="<?php echo $u['user_id']; ?>">
-                            <?php if ($isSuspended): ?>
-                                <button type="submit" name="suspendUser" class="action-btn activate">Unsuspend</button>
-                            <?php else: ?>
-                                <button type="submit" name="suspendUser" class="action-btn deactivate">Suspend</button>
-                            <?php endif; ?>
+                    <div class='item-actions bottom-right-info'>
+                        <form method='POST' action='admin.php?role=Player'>
+                            <input type='hidden' name='user_id' value='$userId'>
+                            " . ($isSuspended ? "<button type='submit' name='suspendUser' class='action-btn activate'>Unsuspend</button>" : "<button type='submit' name='suspendUser' class='action-btn deactivate'>Suspend</button>") . "
                         </form>
 
-                        <button type="button" class="action-btn delete" 
-                            onclick="openUserDeleteModal('<?php echo $u['user_id']; ?>', '<?php echo addslashes($u['name']); ?>')">
+                        <button type='button' class='action-btn delete' 
+                            onclick=\"openUserDeleteModal('$userId', '" . addslashes($name) . "')\">
                             Delete
                         </button>
                     </div>
                 </div>
-            </div>
-            <?php
+            </div>";
         }
+        echo '</div>';
     } 
     
-    // --- PARTNER TAB LOGIC (UPDATED) ---
+    // Logic for partner tab
     elseif ($role === 'Partner') {
         $sql = "SELECT u.*, p.description, p.partner_status 
                 FROM user u 
@@ -166,129 +155,101 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
             return;
         }
 
-        echo '<div class="partner-grid">'; // Grid Container start
+        echo '<div class="partner-grid">';
         while ($p = mysqli_fetch_assoc($res)) {
-            // Profile Picture Logic
-            $pfpPath = "images/pfp/" . $p['username'] . ".jpg";
-            $displayPfp = (file_exists(__DIR__ . "/../" . $pfpPath)) ? $pfpPath : "images/pfp/default_profile_picture.jpg";
+            // Attempt to find user pfp from user ID, if cannot be found use default pfp
+            $pfpPath = "images/pfp/" . $p['username'] . ".png";
+            $displayPfp = (file_exists(__DIR__ . "/../" . $pfpPath)) ? $pfpPath : "images/pfp/default_profile_picture.png";
             
-            // Description Fallback
+            // Attempt to get description for partner, if cannot be found print corresponding message
             $description = !empty($p['description']) ? $p['description'] : "No description available.";
-            $status = !empty($p['status']) ? $p['status'] : "Active";
+            $status = !empty($p['partner_status']) ? $p['partner_status'] : "Active";
             ?>
             <div class="card-panel partner-card">
                 <div class="partner-header-row">
                     <img src="<?php echo $displayPfp; ?>" alt="Avatar" class="partner-pfp">
                     
                     <div class="partner-info">
-                        <h3 class="p-name"><?php echo htmlspecialchars($p['name']); ?></h3>
+                        <h3 class="item-title"><?php echo htmlspecialchars($p['name']); ?></h3>
                         <p class="p-username">@<?php echo htmlspecialchars($p['username']); ?></p>
-
-                        <div class="partner-info-grid">
-                            <span class="info-label">ID:</span>
-                            <span class="info-value"><?php echo htmlspecialchars($p['user_id']); ?></span>
-                            <span class="info-label">Email:</span>
-                            <span class="info-value"><?php echo htmlspecialchars($p['email']); ?></span>
-                        </div>
+                        <p class="p-email"><?php echo htmlspecialchars($p['email']); ?></p>
                     </div>
                     
                     <span class="status-tag <?php echo strtolower($status); ?>"><?php echo htmlspecialchars($status); ?></span>
                 </div>
 
-                <div class="partner-divider"></div>
-
                 <div class="partner-body">
-                    <p class="partner-desc"><?php echo htmlspecialchars($description); ?></p>
+                    <p class="item-description"><?php echo htmlspecialchars($description); ?></p>
                 </div>
             </div>
             <?php
         }
-        echo '</div>'; // Grid Container end
+        echo '</div>';
     }
 }
 
-/**
- * Handles the POST logic for Suspending and Deleting.
- * Only applies to Players.
- */
+// Function to handle suspension/deletion of player and adding new partner
 function handleUserActions($con) {
+    // Suspend user, change status to "Suspended"
     if (isset($_POST['suspendUser'])) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = IF(player_status='Active', 'Suspended', 'Active') WHERE user_id = '$id'";
         mysqli_query($con, $query);
-        header("Location: final.php?role=Player&action=status_updated");
+        header("Location: admin.php?role=Player&action=status_updated");
         exit();
     }
 
+    // Delete user, change status to "Deleted"
     if (isset($_POST['confirmDeleteUser'])) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = 'Deleted' WHERE user_id = '$id'";
         mysqli_query($con, $query);
-        header("Location: final.php?role=Player&action=user_deleted");
+        header("Location: admin.php?role=Player&action=user_deleted");
         exit();
     }
 
-    if (isset($_POST['togglePartnerStatus'])) {
-        $id = mysqli_real_escape_string($con, $_POST['user_id']);
-        
-        // Update partner table by joining with user table on email
-        $query = "UPDATE partner p
-                  INNER JOIN user u ON p.contact_email = u.email
-                  SET p.status = IF(p.status='Active', 'Inactive', 'Active')
-                  WHERE u.user_id = '$id'";
-                  
-        mysqli_query($con, $query);
-        
-        header("Location: final.php?role=Partner&action=partner_updated");
-        exit();
-    }
-
+    // Add new partner
     if (isset($_POST['addNewPartner'])) {
-        // 1. Generate new User ID (e.g., USR005)
+        // Generate new user ID
         $lastSql = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1";
         $lastRes = mysqli_query($con, $lastSql);
         
-        $newId = "USR001"; // Default if table is empty
+        $newId = "USR001";
         if ($row = mysqli_fetch_assoc($lastRes)) {
-            // Extract number, increment, and pad back to USR00X
             $num = (int)substr($row['user_id'], 3) + 1;
             $newId = "USR" . str_pad($num, 3, "0", STR_PAD_LEFT);
         }
 
-        // 1.1 Generate new Partner ID (e.g., PO006)
+        // Generate new partner ID
         $lastPartnerSql = "SELECT partner_id FROM partner ORDER BY partner_id DESC LIMIT 1";
         $lastPartnerRes = mysqli_query($con, $lastPartnerSql);
         
-        $newPartnerId = "PO001"; // Default if table is empty
+        $newPartnerId = "PO001";
         if ($pRow = mysqli_fetch_assoc($lastPartnerRes)) {
-            // Extract number, increment, and pad back to PO00X
             $pNum = (int)substr($pRow['partner_id'], 2) + 1;
             $newPartnerId = "PO" . str_pad($pNum, 3, "0", STR_PAD_LEFT);
         }
 
-        // 2. Sanitize Inputs
+        // Validate inputs
         $name = mysqli_real_escape_string($con, $_POST['partner_name']);
         $username = mysqli_real_escape_string($con, $_POST['partner_username']);
         $email = mysqli_real_escape_string($con, $_POST['partner_email']);
-        // Hash password for security
-        $pass = password_hash($_POST['partner_password'], PASSWORD_DEFAULT); 
+        $pass = mysqli_real_escape_string($con, $_POST['partner_password']); 
         $desc = mysqli_real_escape_string($con, $_POST['partner_desc']);
         $date = date('Y-m-d H:i:s');
 
-        // 3. Insert into USER table first
+        // Insert row into user table
         $sqlUser = "INSERT INTO user (user_id, username, password, email, name, role, date_joined) 
                     VALUES ('$newId', '$username', '$pass', '$email', '$name', 'Partner', '$date')";
         
-        // 4. Insert into PARTNER table
-        // Correctly including partner_id (POxxx) and organization_name
-        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, status) 
+        // Insert row into partner table
+        $sqlPartner = "INSERT INTO partner (partner_id, organization_name, contact_email, description, partner_status) 
                        VALUES ('$newPartnerId', '$name', '$email', '$desc', 'Active')";
 
         if (mysqli_query($con, $sqlUser) && mysqli_query($con, $sqlPartner)) {
-            header("Location: final.php?role=Partner&action=partner_added");
+            header("Location: admin.php?role=Partner&action=partner_added");
             exit();
         } else {
-            // Simple error handling
             echo "<script>alert('Error adding partner: " . mysqli_error($con) . "'); window.history.back();</script>";
             exit();
         }

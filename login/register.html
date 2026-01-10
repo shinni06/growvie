@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growvie - Sign Up</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section class="hero-section">
+        <div class="brand-content">
+            <div class="logo-placeholder">
+                <img src="../assets/Logo.png" alt="Growvie Logo"> 
+            </div>
+            
+            <h1 class="hero-title">Join Growvie</h1>
+            <p class="hero-subtitle">
+                Create an account to begin tracking habits and growing your garden. Start your eco-journey today. 
+            </p>
+        </div>
+    </section>
+
+    <section class="login-section">
+        <div class="login-card">
+            
+            <div class="welcome-text">
+                <h2>Create Account</h2>
+                <p>Fill in your details to get started.</p>
+            </div>
+
+            <form action="register.php" method="POST">
+                <input type="hidden" name="role" value="Player">
+
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" class="input-box" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="input-box" placeholder="johndoe123" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="input-box" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="input-box" placeholder="Create a password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Sign Up</button>
+
+                <div class="switch-page">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+</body>
+</html>

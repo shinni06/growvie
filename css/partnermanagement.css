@@ -1,24 +1,42 @@
-/*Partener Orgainzer tab*/
-.partner-wrapper {
-    background: #dfe9d8;
-    margin: 20px;
-    padding: 40px;
-    border-radius: 16px;
-}
-
-/* Request Card */
 .request-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Image */
+.partner-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.partner-submitter-gap {
+    margin-top: 8px;
+}
+
+.partner-avatar-square {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f8faf7;
+    border: 1px solid #eef2ed;
+    flex-shrink: 0;
+}
+
+.no-margin {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.review-card .partner-info-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    row-gap: 8px;
+    font-size: 13px;
+}
+
 .request-card img {
     width: 150px;
     height: 150px;
@@ -27,39 +45,77 @@
     flex-shrink: 0;
 }
 
-/* Info Section */
-.request-info {
-    flex: 1;
+.partner-history-row {
+    padding: 12px 15px;
 }
 
-/* Info grid */
-.info-grid {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    row-gap: 8px;
-    column-gap: 20px;
+.history-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+    min-height: 20px;
+}
+
+.partner-history-row .lb-name {
+    margin-bottom: 0;
     font-size: 14px;
 }
 
-/* History Status Badges */
+.history-info-grid {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    row-gap: 4px;
+}
+
 .status-badge {
-    padding: 6px 12px;
+    padding: 4px 10px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    text-align: center;
-    width: 100%;
+    display: inline-block;
+    border: 1px solid transparent;
+    line-height: 1;
 }
 
-.status-approved {
+.status-badge.approved {
     background: #eef6ea;
     color: #3b5a2b;
-    border: 1px solid #c1ccb5;
+    border-color: #d6e6cf;
 }
 
-.status-rejected {
-    background: #ffebeb;
-    color: #d32f2f;
-    border: 1px solid #ffcdd2;
+.status-badge.rejected {
+    background: #fff1f1;
+    color: #c9302c;
+    border-color: #f5c6cb;
+}
+
+.status-badge.suspended {
+    background: #fff9eb;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+#content6 .leaderboard {
+    max-height: 615px;
+    display: flex;
+    flex-direction: column;
+}
+
+#content6 .leaderboard .lb-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: none;
+}
+
+#content6 .leaderboard .lb-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+#content6 .leaderboard .lb-list::-webkit-scrollbar-thumb {
+    background: #d8e3d5;
+    border-radius: 10px;
 }
