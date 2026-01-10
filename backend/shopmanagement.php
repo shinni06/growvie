@@ -1,46 +1,33 @@
 <?php
 require_once __DIR__ . '/db.php';
 
-/**
- * Renders the JavaScript required for Shop Management interactions.
- */
+// Render JS for Tab Switching Logic in Shop Management
 function renderShopScripts() {
     ?>
     <script>
-        // Tab Switcher Logic
         function shopTab(category) {
             localStorage.setItem('activeTab', 4);
             window.location.href = "?shop_category=" + category;
         }
 
-        // Search Logic
-        function handleShopSearch() {
-            const query = document.getElementById('shopSearchInput').value;
-            const urlParams = new URLSearchParams(window.location.search);
-            const currentCat = urlParams.get('shop_category') || 'seeds';
-            
-            localStorage.setItem('activeTab', 4);
-            window.location.href = `?shop_category=${currentCat}&search=${encodeURIComponent(query)}`;
-        }
-
-        // Modal Logic
+        // Modal for editing/creating shop items
         function openShopItemModal(mode, itemId = null, name = '', desc = '', price = '', category = '') {
             const modal = document.getElementById('shopItemModal');
             const title = document.getElementById('shopModalTitle');
             const btn = document.getElementById('shopSubmitBtn');
             const form = document.getElementById('shopForm');
 
-            // Reset error
+            // Reset if image provided is invalid
             const errorMsg = document.getElementById('shop-image-error');
             if(errorMsg) errorMsg.classList.add('hidden');
             btn.disabled = false;
 
-            // Set Redirect Category
             const urlParams = new URLSearchParams(window.location.search);
             const currentCat = urlParams.get('shop_category') || 'seeds';
             const redirectInput = document.getElementById('shop_redirect_category');
             if(redirectInput) redirectInput.value = currentCat;
 
+            // Create new shop item
             if (mode === 'add') {
                 title.innerText = 'Add New Item';
                 btn.innerText = 'Add Item';
@@ -48,7 +35,7 @@ function renderShopScripts() {
                 form.reset();
                 document.getElementById('edit_item_id').value = '';
                 
-                // Pre-select category based on current tab if possible
+                // Dynamic category for new shop item based on what tab is active
                 const urlParams = new URLSearchParams(window.location.search);
                 const currentCat = urlParams.get('shop_category');
                 const catMap = {
@@ -61,7 +48,7 @@ function renderShopScripts() {
                 }
 
             } else {
-                // Edit Mode
+                // Edit current shop item
                 title.innerText = 'Edit Item';
                 btn.innerText = 'Save Changes';
                 btn.name = 'editShopItem';
@@ -79,10 +66,12 @@ function renderShopScripts() {
             modal.style.display = 'block';
         }
 
+        // Close shop item modal
         function closeShopItemModal() {
             document.getElementById('shopItemModal').style.display = 'none';
         }
 
+        // Check if image uploaded for for new shop item is valid (PNG)
         function validateShopImage(input) {
             const errorMsg = document.getElementById('shop-image-error');
             const btn = document.getElementById('shopSubmitBtn');
@@ -112,10 +101,7 @@ function renderShopScripts() {
     <?php
 }
 
-/**
- * Renders the Grid of Shop Items
- * UPDATED: Uses .grid/.card layout and implements image fallback logic
- */
+// Render content for shop items depending on the tab
 function renderShopManagement($con, $currentTab, $searchQuery = '') {
     $categoryMap = [
         'seeds'    => 'Plant Seeds',
@@ -137,7 +123,6 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
 
     echo '<div class="shop-grid">';
 
-    // 2. Render Items
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $itemId = htmlspecialchars($row['item_id']);
@@ -145,16 +130,13 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
             $desc = htmlspecialchars($row['item_desc']);
             $price = $row['item_price'];
             
-            // Image Logic with Fallback
             $baseDir = __DIR__ . "/../assets/shop_items/"; // File system path for checking
-            $webDir = "assets/shop_items/";                // Web path for <img> src
-            
-            // Default attempt: [ItemID].png
+            $webDir = "assets/shop_items/"; 
             $targetImage = $itemId . ".png";
             
-            // Check if exists
+            // Check if specific image for that Item ID exists
             if (!file_exists($baseDir . $targetImage)) {
-                // Fallback based on category
+                // Default images for each shop category
                 if ($dbCategory === 'Plant Seeds') {
                     $targetImage = "plant_seeds.png";
                 } elseif ($dbCategory === 'Power Ups') {
@@ -162,13 +144,13 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
                 } elseif ($dbCategory === 'In App Purchases') {
                     $targetImage = "in_app_purchases.png";
                 } else {
-                    $targetImage = "plant_seeds.png"; // Final safety net
+                    $targetImage = "plant_seeds.png";
                 }
             }
+            
+            $imgSrc = $webDir . $targetImage; 
 
-            $imgSrc = $webDir . $targetImage;
-
-            // Price formatting
+            // Change price display from coins to RMX.00 for In-App Purchases
             if ($dbCategory == 'In App Purchases') {
                 $displayPrice = 'RM ' . number_format($price, 2); 
             } else {
@@ -176,7 +158,6 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
                 $displayPrice = $icon . ' ' . number_format($price);
             }
 
-            // Escape for JS params
             $jsName = addslashes($row['item_name']);
             $jsDesc = addslashes($row['item_desc']);
             $jsCat  = addslashes($dbCategory);
@@ -184,7 +165,7 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
             echo "
             <div class='shop-card' id='card-{$itemId}'>
                 <img src='{$imgSrc}' alt='{$name}'>
-                <h3 class='item-title title-spaced'>{$name}</h3>
+                <h3 class='item-title'>{$name}</h3>
                 <p class='item-description'>{$desc}</p>
                 <div class='shop-bottom-row'>
                     <span class='price'>{$displayPrice}</span>
@@ -197,12 +178,10 @@ function renderShopManagement($con, $currentTab, $searchQuery = '') {
         }
     } 
     
-    echo '</div>'; // End .shop-grid
+    echo '</div>';
 }
 
-/**
- * Handles Form Submissions for Shop Items
- */
+// Handle creating, editing/deleting shop items
 function handleShopActions($con) {
     if (isset($_POST['addShopItem']) || isset($_POST['editShopItem'])) {
         $name = mysqli_real_escape_string($con, $_POST['item_name']);
@@ -216,7 +195,7 @@ function handleShopActions($con) {
             mkdir($targetDir, 0777, true);
         }
 
-        // Validate Image (PNG Only)
+        // Validate uploaded image for new shop item (PNG)
         if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
             $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
             if ($ext !== 'png') {
@@ -225,8 +204,9 @@ function handleShopActions($con) {
             }
         }
 
+        // Creation of new shop item
         if (isset($_POST['addShopItem'])) {
-            // Generate ID
+            // Generate ID for new shop item
             $sqlId = "SELECT item_id FROM shop_item ORDER BY item_id DESC LIMIT 1";
             $resId = mysqli_query($con, $sqlId);
             $newId = "ITM001";
@@ -235,7 +215,7 @@ function handleShopActions($con) {
                 $newId = "ITM" . str_pad($num, 3, "0", STR_PAD_LEFT);
             }
 
-            // Handle Image Upload (PNG Only)
+            // Handle image upload (PNG)
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
                 $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
                 if ($ext === 'png') {
@@ -254,7 +234,7 @@ function handleShopActions($con) {
         } elseif (isset($_POST['editShopItem'])) {
             $id = mysqli_real_escape_string($con, $_POST['item_id']);
             
-            // Handle Image Update (PNG Only)
+            // Handle image update (PNG Only)
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
                 $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
                 if ($ext === 'png') {
@@ -272,16 +252,16 @@ function handleShopActions($con) {
             }
         }
     } elseif (isset($_POST['deleteShopItem'])) {
+        // Deletion of shop item
         $id = mysqli_real_escape_string($con, $_POST['item_id']);
         $redirectCat = $_POST['redirect_category'] ?? 'seeds';
         
-        // 1. Delete the image file to save space
+        // Delete the image file
         $target_file = __DIR__ . '/../assets/shop_items/' . $id . '.png';
         if (file_exists($target_file)) {
             unlink($target_file);
         }
 
-        // 2. Delete from DB
         $sql = "DELETE FROM shop_item WHERE item_id = '$id'";
         
         if (mysqli_query($con, $sql)) {
