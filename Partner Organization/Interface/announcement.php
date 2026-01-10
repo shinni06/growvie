@@ -52,11 +52,48 @@
 </head>
 <body>
     <?php include("createAnnouncement.php"); ?> 
-    <!-- This define when the modal for creatign new announcement should be shown or closed -->
+    <!-- This define when the modal for creating new announcement should be shown or closed -->
    <script>
-        function openModal() {
+        // MODIFIED: Added parameters for edit mode
+        function openModal(mode = 'create', announcementId = null, title = '', body = '', date = '') {
             document.getElementById("overlay").style.display = "block";
             document.getElementById("modal").style.display = "block";
+            
+            if (mode === 'edit') {
+                // Parse the date (format: YYYY-MM-DD)
+                const dateObj = new Date(date);
+                const day = dateObj.getDate();
+                const month = dateObj.getMonth(); // 0-indexed
+                const year = dateObj.getFullYear();
+                
+                // Pre-fill form fields for editing
+                document.getElementById("announcementTitle").value = title;
+                document.getElementById("announcementContent").value = body;
+                document.getElementById("day").value = day;
+                document.getElementById("month").selectedIndex = month;
+                document.getElementById("year").value = year;
+                document.getElementById("announcement_id").value = announcementId;
+                document.getElementById("mode").value = 'edit';
+                
+                // Change UI for edit mode
+                document.getElementById("modalTitle").textContent = "Edit Announcement";
+                document.getElementById("submitBtn").textContent = "Re-upload";
+                document.getElementById("deleteBtn").style.display = "block";
+                document.getElementById("deleteBtn").setAttribute('data-id', announcementId);
+                document.getElementById("deleteBtn").setAttribute('data-title', title);
+            } else {
+                // Reset for create mode
+                document.getElementById("announcementForm").reset();
+                const today = new Date();
+                document.getElementById("day").value = today.getDate();
+                document.getElementById("month").selectedIndex = today.getMonth();
+                document.getElementById("year").value = today.getFullYear();
+                document.getElementById("announcement_id").value = '';
+                document.getElementById("mode").value = 'create';
+                document.getElementById("modalTitle").textContent = "Create New Announcement";
+                document.getElementById("submitBtn").textContent = "Post";
+                document.getElementById("deleteBtn").style.display = "none";
+            }
         }
 
         function closeModal() {
@@ -65,6 +102,27 @@
         }
 
         document.getElementById("overlay").addEventListener("click", closeModal);
+        
+        function deleteFromModal() {
+            const deleteBtn = document.getElementById("deleteBtn");
+            const id = deleteBtn.getAttribute('data-id');
+            const title = deleteBtn.getAttribute('data-title');
+            
+            if (confirm("Are you sure you want to delete the announcement: '" + title + "'?")) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'delete_announcement_id';
+                input.value = id;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
     </script>
 
     <?php
@@ -94,11 +152,19 @@
                         <div class="announcement">
                             <?= $rowAnnouncementDetails['announce_body'] ?>
                         </div>
-                        <!-- This is to delete announcement that is on display -->
-                        <form method="POST" action="" onsubmit="return confirmDelete('<?= htmlspecialchars($rowAnnouncementDetails['announce_title']) ?>')">
-                            <input type="hidden" name="delete_announcement_id" value="<?= $rowAnnouncementDetails['announcement_id'] ?>">
-                            <button type="submit" class="delete-btn">Delete</button>
-                        </form>
+                       
+                        <button 
+                            type="button" 
+                            class="edit-btn"
+                            onclick="openModal(
+                                'edit', 
+                                '<?= $rowAnnouncementDetails['announcement_id'] ?>', 
+                                '<?= addslashes($rowAnnouncementDetails['announce_title']) ?>', 
+                                '<?= addslashes($rowAnnouncementDetails['announce_body']) ?>', 
+                                '<?= $rowAnnouncementDetails['announce_schedule_date'] ?>'
+                            )">
+                            Edit
+                        </button>
                     </div>
                 </div>
             <?php } ?>
@@ -109,10 +175,6 @@
         // This function is to get and format the date for displaying purpose
         const formattedDate = new Date().toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'});
         document.getElementById("date").innerHTML = formattedDate;
-        // To confirm annoucement selected to be deleted
-        function confirmDelete(title) {
-            return confirm("Are you sure you want to delete the announcement: '" + title + "'?");
-        }
     </script>
 </body>
 </html>
