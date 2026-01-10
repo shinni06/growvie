@@ -60,7 +60,7 @@ function renderPartnerRequests($con) {
     $res = mysqli_query($con, $sql);
 
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<div class='empty-state'>🎉 No pending tree planting requests!</div>";
+        echo "<div class='empty-state'>No pending tree planting requests!</div>";
         return;
     }
 

@@ -47,7 +47,7 @@ function renderReviewTab(mysqli $con) {
     
     $res = mysqli_query($con, $sql);
     if (!$res || mysqli_num_rows($res) === 0) {
-        echo "<div class='empty-submission-msg'>🎉 No submissions pending approval!</div>";
+        echo "<div class='empty-submission-msg'>No submissions pending approval!</div>";
         return;
     }
 
