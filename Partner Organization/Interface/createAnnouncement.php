@@ -17,6 +17,13 @@
         <div id="modal" class="modal">
             <form method="POST" action="" id="announcementForm">
                 <div class="modal-content announcementModal">
+                    <!-- NEW: Hidden fields for edit functionality -->
+                    <input type="hidden" id="announcement_id" name="announcement_id" value="">
+                    <input type="hidden" id="mode" name="mode" value="create">
+                    
+                    <!-- NEW: Modal title that changes -->
+                    <h3 id="modalTitle" style="margin-bottom: 15px;">Create New Announcement</h3>
+                    
                     <h5 class="scheduleHeading" style="margin-bottom: 20px; font-size: 15px;">Schedule Date</h5>
                     <div class="dateSelector">
                         <!-- Day -->
@@ -34,7 +41,7 @@
                             <option value="7">August</option>
                             <option value="8">September</option>
                             <option value="9">October</option>
-                            <option value="10" selected>November</option>
+                            <option value="10">November</option>
                             <option value="11">December</option>
                         </select>
 
@@ -44,13 +51,18 @@
                     
                     <!-- For users to enter announcemnt title -->
                     <h5 class="scheduleHeading">Announcement Title</h5>
-                    <input type="text" name="announcementTitle" required>
+                    <input type="text" id="announcementTitle" name="announcementTitle" required>
 
                     <!-- For users to enter announcement content -->
                     <h5 class="scheduleHeading">Announcement Content</h5>
-                    <textarea class="announcementContent" name="announcementContent" required></textarea>
+                    <textarea class="announcementContent" id="announcementContent" name="announcementContent" required></textarea>
                 </div>
-                <button type="submit" class="reqUpload-btn">Post</button>
+                <div class="modal-button-container">
+                    <button type="button" id="deleteBtn" onclick="deleteFromModal()" class="modal-delete-btn">
+                        Delete Announcement
+                    </button>
+                    <button type="submit" id="submitBtn" class="reqUpload-btn">Post</button>
+                </div>
             </form>
         </div>
     </div>
@@ -120,8 +132,10 @@
             return $createNewAnnouncementID;
         }
 
-        // Runs when form is submit
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // MODIFIED: Runs when form is submit - now handles both create and edit
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mode'])) {
+            $mode = $_POST['mode'];
+            
             // This is to get the data from user input
             $announcementTitle = mysqli_real_escape_string($con, $_POST['announcementTitle']);
             $announceBody = mysqli_real_escape_string($con, $_POST['announcementContent']);
@@ -134,9 +148,6 @@
             // Formats the date
             $scheduleDate = sprintf("%04d-%02d-%02d", $year, $month, $day);
 
-            // to get the date announcement is created
-            $createAt = date('Y-m-d');
-
             // checks if the schedule date is the same as local date to set annouce status
             $today = date('Y-m-d');
             if ($scheduleDate == $today) {
@@ -145,35 +156,74 @@
                 $status = "Scheduled";
             }
 
-            // To generate new announcement id
-            $announcement_Id = generateAnnouncementID($con);
-
-            // The following is to insert the data into announcement table in database
-            $stmt = mysqli_prepare($con, "INSERT INTO announcement 
-                    (announcement_id, announce_title, announce_body, announce_created_at, announce_status, announce_schedule_date) 
-                    VALUES (?, ?, ?, ?, ?, ?)");
-
-            if ($stmt) {
-                mysqli_stmt_bind_param($stmt, "ssssss", 
-                    $announcement_Id, 
-                    $announcementTitle, 
-                    $announceBody, 
-                    $createAt, 
-                    $status, 
-                    $scheduleDate
-                );
-
-                if (mysqli_stmt_execute($stmt)) {
-                    echo '<script>alert("Announcement created successfully!");
-                    window.location.href = "announcement.php";
-                    </script>';
+            // NEW: Check if we're editing or creating
+            if ($mode === 'edit' && isset($_POST['announcement_id']) && !empty($_POST['announcement_id'])) {
+                // UPDATE existing announcement
+                $announcementId = mysqli_real_escape_string($con, $_POST['announcement_id']);
+                
+                $stmt = mysqli_prepare($con, "UPDATE announcement 
+                                              SET announce_title = ?,
+                                                  announce_body = ?,
+                                                  announce_status = ?,
+                                                  announce_schedule_date = ?
+                                              WHERE announcement_id = ?");
+                
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "sssss", 
+                        $announcementTitle,
+                        $announceBody,
+                        $status,
+                        $scheduleDate,
+                        $announcementId
+                    );
+                    
+                    if (mysqli_stmt_execute($stmt)) {
+                        echo '<script>alert("Announcement updated successfully!");
+                        window.location.href = "announcement.php";
+                        </script>';
+                    } else {
+                        echo '<script>alert("Error: ' . mysqli_stmt_error($stmt) . '");</script>';
+                    }
+                    
+                    mysqli_stmt_close($stmt);
                 } else {
-                    echo '<script>alert("Error: ' . mysqli_stmt_error($stmt) . '");</script>';
+                    echo '<script>alert("Error preparing update statement: ' . mysqli_error($con) . '");</script>';
                 }
-
-                mysqli_stmt_close($stmt);
             } else {
-                echo '<script>alert("Error preparing statement: ' . mysqli_error($con) . '");</script>';
+                // CREATE new announcement (original code)
+                // to get the date announcement is created
+                $createAt = date('Y-m-d');
+
+                // To generate new announcement id
+                $announcement_Id = generateAnnouncementID($con);
+
+                // The following is to insert the data into announcement table in database
+                $stmt = mysqli_prepare($con, "INSERT INTO announcement 
+                        (announcement_id, announce_title, announce_body, announce_created_at, announce_status, announce_schedule_date) 
+                        VALUES (?, ?, ?, ?, ?, ?)");
+
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "ssssss", 
+                        $announcement_Id, 
+                        $announcementTitle, 
+                        $announceBody, 
+                        $createAt, 
+                        $status, 
+                        $scheduleDate
+                    );
+
+                    if (mysqli_stmt_execute($stmt)) {
+                        echo '<script>alert("Announcement created successfully!");
+                        window.location.href = "announcement.php";
+                        </script>';
+                    } else {
+                        echo '<script>alert("Error: ' . mysqli_stmt_error($stmt) . '");</script>';
+                    }
+
+                    mysqli_stmt_close($stmt);
+                } else {
+                    echo '<script>alert("Error preparing statement: ' . mysqli_error($con) . '");</script>';
+                }
             }
 
             mysqli_close($con);
