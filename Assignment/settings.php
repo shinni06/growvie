@@ -35,7 +35,7 @@ if ($conn->connect_error) {
     display: flex;
     min-height: 100vh;
     }
-    .sidebar {
+    .sidepanel {
     width: 220px;
     background: #ffffff;
     padding: 20px;
@@ -118,25 +118,9 @@ if ($conn->connect_error) {
 </head>
 
 <body>
-
 <div class="container">
 
-    <aside class="sidebar">
-        <h2 class="logo">
-        <img src="Logo.png" alt="Logo.png" style="height: 28px; vertical-align: middle; margin-right: 8px;">
-        Growvie
-        </h2>
-        <ul class="menu">
-            <li>Dashboard</li>
-            <li>Shop</li>
-            <li>Notifications</li>
-            <li>Friends</li>
-            <li>Profile</li>
-            <li class="active">Settings</li>
-        </ul>
-
-        <div class="logout" onclick="logout()">Log Out</div>
-    </aside>
+    <?php include "growvie/sidepanel.php"; ?>
     <main class="content">
 
         <section class="header">

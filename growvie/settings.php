@@ -1,5 +1,18 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "growvie";
 
+$conn = new mysqli($servername, $username, $password, $database);
 
+session_start();
+include 'doubleecocoins.php';
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,6 +99,33 @@ html {
         font-weight:600;
     }
 
+    .date {
+    margin: 20px 0 10px;
+    font-size: 14px;
+    color: #010101ff;
+    }
+    .card {
+    background: #ffffffff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    }
+    .card-header span {
+    font-size: 12px;
+    color: #a1a1a1ff;
+    }
+    .card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    }
+
 
 
 </style>
@@ -94,15 +134,58 @@ html {
     <div class = "container-wrapper">
         <?php include "sidepanel.php"; ?>
 
-        <!--main dashboard-->
         <div class="settings-content">
             <div class="header-row">
                 <div class="header-text">
                     <h1>Settings</h1>
-                    <p class="tagline">Tagline!</p>
+                    <p class="tagline">Make it Yours!</p>
                 </div>
-
             </div>
+            <?php
+
+        $current_stage = 5;
+
+        $purchased_items = [
+            ['id'=>1,'name'=>'Sunflower Seed','type'=>'seed'],
+            ['id'=>2,'name'=>'Double Eco Coins','type'=>'powerup'],
+            ['id'=>3,'name'=>'Water Boost','type'=>'powerup']
+        ];
+        ?>
+
+        <div class="card">
+            <h3>Account Settings</h3>
+            <form action="update_account.php" method="POST">
+                <input type="text" name="name" placeholder="New Name" required><br><br>
+                <input type="password" name="password" placeholder="New Password" required><br><br>
+                <button type="submit">Update Account</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Purchased Items</h3>
+
+            <?php foreach ($purchased_items as $item): ?>
+                <p>
+                    <strong><?= $item['name'] ?></strong>
+
+                    <?php if ($item['type'] == 'seed'): ?>
+                        <?php if ($current_stage == 5): ?>
+                            <form action="use_item.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+                                <button>Plant</button>
+                            </form>
+                        <?php else: ?>
+                            <span style="color:red;">Finish current plant first 🌱</span>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <form action="use_item.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+                            <button>Use</button>
+                        </form>
+                    <?php endif; ?>
+                </p>
+            <?php endforeach; ?>
+        </div>
         </div>
     </div>
 </body>
