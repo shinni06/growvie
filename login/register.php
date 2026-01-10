@@ -1,80 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growvie - Sign Up</title>
+<?php
+session_start();
+include '../backend/db.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    // Get data entered in the form
+    $name = mysqli_real_escape_string($con, $_POST['fullname']);
+    $username = mysqli_real_escape_string($con, $_POST['username']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $password = $_POST['password']; 
+    $role = 'Player'; 
+
+    // Check if username or email already exists in the database
+    $checkQuery = "SELECT * FROM user WHERE email = '$email' OR username = '$username'";
+    $result = mysqli_query($con, $checkQuery);
     
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-    <section class="hero-section">
-        <div class="brand-content">
-            <div class="logo-placeholder">
-                <img src="assets/Logo.png" alt="Growvie Logo"> 
-            </div>
-            
-            <h1 class="hero-title">Join Growvie</h1>
-            <p class="hero-subtitle">
-                Start your eco-journey today. Create an account to begin tracking habits and growing your garden.
-            </p>
-        </div>
-    </section>
-
-    <section class="login-section">
-        <div class="login-card">
-            
-            <div class="welcome-text">
-                <h2>Create Account</h2>
-                <p>Fill in your details to get started.</p>
-            </div>
-
-            <div class="role-tabs">
-                <button class="tab-btn active" onclick="switchTab('user')">User</button>
-                <button class="tab-btn" onclick="switchTab('partner')">Partner</button>
-            </div>
-
-            <form action="backend/register.php" method="POST">
-                <input type="hidden" name="role" id="role-input" value="user">
-
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" class="input-box" placeholder="John Doe" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="input-box" placeholder="name@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="input-box" placeholder="Create a password" required>
-                </div>
-
-                <button type="submit" class="login-btn">Sign Up</button>
-
-                <div class="switch-page">
-                    Already have an account? <a href="index.php">Sign In</a>
-                </div>
-            </form>
-
-        </div>
-    </section>
-
-    <script>
-        function switchTab(role) {
-            document.getElementById('role-input').value = role;
-            const tabs = document.querySelectorAll('.tab-btn');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            if(role === 'user') tabs[0].classList.add('active');
-            if(role === 'partner') tabs[1].classList.add('active');
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        // Print appropriate error message
+        if ($row['email'] === $email) {
+            echo "<script>alert('Email already registered!'); window.location.href='register.html';</script>";
+        } else {
+            echo "<script>alert('Username already taken!'); window.location.href='register.html';</script>";
         }
-    </script>
+        // Stop the remaining code from running
+        exit();
+    }
 
-</body>
-</html>
+    // Generate new user ID (USRXXX)
+    $idQuery = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1";
+    $idResult = mysqli_query($con, $idQuery);
+    
+    if (mysqli_num_rows($idResult) > 0) {
+        $row = mysqli_fetch_assoc($idResult);
+        $lastId = $row['user_id'];
+        // Get the number from the last ID and +1
+        $number = intval(substr($lastId, 3)) + 1;
+        // Get the number and fill in the rest with 0s to ensure number is 3 characters
+        $newUserId = "USR" . str_pad($number, 3, "0", STR_PAD_LEFT);
+    } else {
+        // Default user ID is USR001
+        $newUserId = "USR001";
+    }
+
+    // Generate new player ID (UPXXX)
+    $pidQuery = "SELECT user_player_id FROM user_player ORDER BY user_player_id DESC LIMIT 1";
+    $pidResult = mysqli_query($con, $pidQuery);
+    
+    if (mysqli_num_rows($pidResult) > 0) {
+        $pRow = mysqli_fetch_assoc($pidResult);
+        // Get the number from the last ID and +1
+        $lastPid = $pRow['user_player_id'];
+        // Get the number and fill in the rest with 0s to ensure number is 3 characters
+        $pNumber = intval(substr($lastPid, 2)) + 1;
+        $newUserPlayerId = "UP" . str_pad($pNumber, 3, "0", STR_PAD_LEFT);
+    } else {
+        // Default user ID is UP001
+        $newUserPlayerId = "UP001";
+    }
+
+    // Insert new data row into user table
+    $insertUser = "INSERT INTO user (user_id, username, name, email, password, role, date_joined) 
+                   VALUES ('$newUserId', '$username', '$name', '$email', '$hashedPassword', '$role', NOW())";
+
+    // Insert new data row into user_player table
+    $insertPlayer = "INSERT INTO user_player (user_player_id, user_id, player_tier, eco_coins, drops_progress, total_quests_completed, tree_planted_irl, growvie_plants_planted, player_status) 
+                     VALUES ('$newUserPlayerId', '$newUserId', 1, 0, 0, 0, 0, 0, 'Active')";
+
+    // Print success message if the database is updated successfully
+    if (mysqli_query($con, $insertUser) && mysqli_query($con, $insertPlayer)) {
+        echo "<script>alert('Account created successfully! Please login.'); window.location.href='login.html';</script>";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+?>

@@ -7,7 +7,7 @@ function renderQuestModal() {
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('questModal').style.display='none'">&times;</span>
             <h3 id="modalTitle">Add New Quest</h3>
-            <form method="POST" action="final.php">
+            <form method="POST" action="admin.php">
                 <input type="hidden" name="quest_id" id="edit_quest_id">
 
                 <div class="modal-form-row modal-spacer-small">
@@ -75,7 +75,7 @@ function renderDeactivateModal() {
                 Are you sure you want to deactivate <strong id="deactivateQuestTitle"></strong>? <br>
                 It will be moved to the inactive list and hidden from players.
             </p>
-            <form method="POST" action="final.php">
+            <form method="POST" action="admin.php">
                 <input type="hidden" name="deactivate_id" id="deactivate_quest_id">
                 <div class="modal-footer">
                     <button type="button" class="action-btn gray" onclick="document.getElementById('deactivateModal').style.display='none'">Cancel</button>
@@ -96,7 +96,7 @@ function renderDeleteModal() {
             <p class="modal-subtext">
                 Are you sure you want to delete <strong id="deleteQuestTitle"></strong>? This cannot be undone.
             </p>
-            <form method="POST" action="final.php">
+            <form method="POST" action="admin.php">
                 <input type="hidden" name="delete_id" id="delete_quest_id">
                 <div class="modal-footer">
                     <button type="button" class="action-btn gray" onclick="document.getElementById('deleteModal').style.display='none'">Cancel</button>
@@ -117,7 +117,7 @@ function renderShopModals() {
             <span class="close" onclick="closeShopItemModal()">&times;</span>
             <h3 id="shopModalTitle">Add New Item</h3>
             
-            <form id="shopForm" method="POST" action="final.php" enctype="multipart/form-data">
+            <form id="shopForm" method="POST" action="admin.php" enctype="multipart/form-data">
                 <input type="hidden" name="item_id" id="edit_item_id">
                 <input type="hidden" name="redirect_category" id="shop_redirect_category">
                 
@@ -156,7 +156,7 @@ function renderShopModals() {
             <p class="modal-subtext">
                 Are you sure you want to delete <strong id="del_shop_item_name"></strong>? This cannot be undone.
             </p>
-            <form method="POST" action="final.php">
+            <form method="POST" action="admin.php">
                 <input type="hidden" name="item_id" id="del_shop_item_id">
                 <input type="hidden" name="redirect_category" id="del_redirect_category">
                 <div class="modal-footer">
@@ -191,7 +191,7 @@ function renderAddPartnerModal() {
             <span class="close" onclick="document.getElementById('addPartnerModal').style.display='none'">&times;</span>
             <h3>Add New Partner Organization</h3>
             
-            <form method="POST" action="final.php">
+            <form method="POST" action="admin.php">
                 <label>Organization Name</label>
                 <input type="text" name="partner_name" required placeholder="e.g. Green Earth NGO">
 

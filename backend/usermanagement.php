@@ -10,7 +10,7 @@ function renderUserManagementScripts() {
             if (event && event.target) event.target.classList.add('active');
 
             const searchVal = document.getElementById('userSearchInput')?.value || '';
-            window.location.href = `final.php?role=${role}&search=${searchVal}`;
+            window.location.href = `admin.php?role=${role}&search=${searchVal}`;
         }
 
         // Logic for search bar
@@ -19,7 +19,7 @@ function renderUserManagementScripts() {
             const currentRole = urlParams.get('role') || 'Player';
             
             const searchVal = document.getElementById('userSearchInput').value;
-            window.location.href = `final.php?role=${currentRole}&search=${searchVal}`;
+            window.location.href = `admin.php?role=${currentRole}&search=${searchVal}`;
         }   
 
         // Modal for deleting users
@@ -121,7 +121,7 @@ function renderUserManagement($con, $role = 'Player', $search = '') {
                     " . ($isSuspended ? "<div class='status-tag suspended top-right-info'>Suspended</div>" : "<p class='date-text top-right-info'>Joined $dateJoined</p>") . "
 
                     <div class='item-actions bottom-right-info'>
-                        <form method='POST' action='final.php?role=Player'>
+                        <form method='POST' action='admin.php?role=Player'>
                             <input type='hidden' name='user_id' value='$userId'>
                             " . ($isSuspended ? "<button type='submit' name='suspendUser' class='action-btn activate'>Unsuspend</button>" : "<button type='submit' name='suspendUser' class='action-btn deactivate'>Suspend</button>") . "
                         </form>
@@ -195,7 +195,7 @@ function handleUserActions($con) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = IF(player_status='Active', 'Suspended', 'Active') WHERE user_id = '$id'";
         mysqli_query($con, $query);
-        header("Location: final.php?role=Player&action=status_updated");
+        header("Location: admin.php?role=Player&action=status_updated");
         exit();
     }
 
@@ -204,7 +204,7 @@ function handleUserActions($con) {
         $id = mysqli_real_escape_string($con, $_POST['user_id']);
         $query = "UPDATE user_player SET player_status = 'Deleted' WHERE user_id = '$id'";
         mysqli_query($con, $query);
-        header("Location: final.php?role=Player&action=user_deleted");
+        header("Location: admin.php?role=Player&action=user_deleted");
         exit();
     }
 
@@ -247,7 +247,7 @@ function handleUserActions($con) {
                        VALUES ('$newPartnerId', '$name', '$email', '$desc', 'Active')";
 
         if (mysqli_query($con, $sqlUser) && mysqli_query($con, $sqlPartner)) {
-            header("Location: final.php?role=Partner&action=partner_added");
+            header("Location: admin.php?role=Partner&action=partner_added");
             exit();
         } else {
             echo "<script>alert('Error adding partner: " . mysqli_error($con) . "'); window.history.back();</script>";

@@ -227,7 +227,7 @@ function handleShopActions($con) {
                     VALUES ('$newId', '$name', '$desc', '$price', '$category', 1)";
             
             if (mysqli_query($con, $sql)) {
-                header("Location: final.php?action=shop_item_added&shop_category=$redirectCat");
+                header("Location: admin.php?action=shop_item_added&shop_category=$redirectCat");
                 exit();
             }
 
@@ -247,7 +247,7 @@ function handleShopActions($con) {
             $sql = "UPDATE shop_item SET item_name = '$name', item_desc = '$desc', item_price = '$price', item_category = '$category' WHERE item_id = '$id'";
 
             if (mysqli_query($con, $sql)) {
-                header("Location: final.php?action=shop_item_updated&shop_category=$redirectCat");
+                header("Location: admin.php?action=shop_item_updated&shop_category=$redirectCat");
                 exit();
             }
         }
@@ -265,7 +265,7 @@ function handleShopActions($con) {
         $sql = "DELETE FROM shop_item WHERE item_id = '$id'";
         
         if (mysqli_query($con, $sql)) {
-            header("Location: final.php?action=shop_item_deleted&shop_category=$redirectCat");
+            header("Location: admin.php?action=shop_item_deleted&shop_category=$redirectCat");
             exit();
         } else {
             echo "<script>alert('Error deleting item: " . mysqli_error($con) . "');</script>";

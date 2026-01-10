@@ -32,7 +32,7 @@ function handlePartnerActions($con) {
             mysqli_query($con, $updateSql);
         }
 
-        header("Location: final.php?action=partner_updated");
+        header("Location: admin.php?action=partner_updated");
         exit();
     }
 }
@@ -139,7 +139,7 @@ function renderPartnerRequests($con) {
                             <button type="button" class="nav-btn-alt" onclick="navigatePartner(<?php echo $index+1; ?>)" <?php if($index==$total-1) echo 'disabled'; ?>>Next</button>
                         </div>
                     </div>
-                    <form method="POST" action="final.php" class="review-actions">
+                    <form method="POST" action="admin.php" class="review-actions">
                         <input type="hidden" name="real_tree_id" value="<?php echo $row['real_tree_id']; ?>">
                         <button type="submit" name="partnerAction" value="Reject" class="action-btn large cfmdelete">Reject</button>
                         <button type="submit" name="partnerAction" value="Approve" class="action-btn large submit">Approve</button>

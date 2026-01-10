@@ -27,7 +27,7 @@ function handleReviewAction(mysqli $con) {
 
         // Update status of quest submission to "Approved"
         mysqli_query($con, "UPDATE quest_submission SET approval_status = '$status' WHERE submission_id = '$submission_id'");
-        header("Location: final.php?review_success=" . strtolower($status));
+        header("Location: admin.php?review_success=" . strtolower($status));
         exit();
     }
 }
@@ -97,7 +97,7 @@ function renderReviewTab(mysqli $con) {
                             <button type="button" class="nav-btn-alt" onclick="navigateReview(<?php echo $index+1; ?>)" <?php if($index==mysqli_num_rows($res)-1) echo 'disabled'; ?>>Next</button>
                         </div>
                     </div>
-                    <form method="POST" action="final.php" class="review-actions">
+                    <form method="POST" action="admin.php" class="review-actions">
                         <input type="hidden" name="submission_id" value="<?php echo $row['submission_id']; ?>">
                         <button type="submit" name="actionReview" value="Rejected" class="action-btn large cfmdelete">Reject</button>
                         <button type="submit" name="actionReview" value="Approved" class="action-btn large submit">Approve</button>

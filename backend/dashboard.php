@@ -73,7 +73,7 @@ function renderInactiveQuestCards(mysqli $con) {
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
                     <div class="quest-meta-row"><span class="quest-category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
-                        <form method="POST" action="final.php">
+                        <form method="POST" action="admin.php">
                             <input type="hidden" name="activate_id" value="<?php echo $q['quest_id']; ?>">
                             <button type="submit" name="activateQuest" class="action-btn activate">Activate</button>
                         </form>
@@ -128,7 +128,7 @@ function handleCreateQuest(mysqli $con) {
     if (isset($_POST['activateQuest'])) {
         $id = mysqli_real_escape_string($con, $_POST['activate_id']);
         mysqli_query($con, "UPDATE quest SET status = 'Active' WHERE quest_id = '$id'");
-        header("Location: final.php?quest_success=activated");
+        header("Location: admin.php?quest_success=activated");
         exit();
     }
 
@@ -138,7 +138,7 @@ function handleCreateQuest(mysqli $con) {
         $sql = "UPDATE quest SET status = 'Inactive' WHERE quest_id = '$id'";
         
         if (mysqli_query($con, $sql)) {
-            header("Location: final.php?quest_success=deactivated");
+            header("Location: admin.php?quest_success=deactivated");
             exit();
         } else {
             die("Database Error: " . mysqli_error($con));
@@ -149,7 +149,7 @@ function handleCreateQuest(mysqli $con) {
     if (isset($_POST['confirmDelete'])) {
         $id = mysqli_real_escape_string($con, $_POST['delete_id']);
         mysqli_query($con, "DELETE FROM quest WHERE quest_id = '$id'");
-        header("Location: final.php?quest_success=deleted");
+        header("Location: admin.php?quest_success=deleted");
         exit();
     }
 
@@ -184,7 +184,7 @@ function handleCreateQuest(mysqli $con) {
         }
 
         if (mysqli_query($con, $sql)) {
-            header("Location: final.php?quest_success=true");
+            header("Location: admin.php?quest_success=true");
             exit();
         }
     }

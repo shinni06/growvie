@@ -46,14 +46,14 @@ function handleAnnouncementActions(mysqli $con) {
         }
 
         mysqli_query($con, $sql);
-        header("Location: final.php?announcement_success=true");
+        header("Location: admin.php?announcement_success=true");
         exit();
     }
 
     if (isset($_POST['deleteAnnouncement'])) {
         $id = mysqli_real_escape_string($con, $_POST['delete_announcement_id']);
         mysqli_query($con, "DELETE FROM announcement WHERE announcement_id = '$id'");
-        header("Location: final.php?announcement_success=deleted");
+        header("Location: admin.php?announcement_success=deleted");
         exit();
     }
 }
