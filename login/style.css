@@ -1,0 +1,263 @@
+:root {
+    /* Growvie Inspired Palette */
+    --primary-green: #4CAF50; /* Base vibrant green */
+    --dark-green: #2E7D32;    /* Hover state */
+    --soft-bg: #F0F7F4;       /* Minty white background */
+    --text-dark: #333333;
+    --text-light: #777777;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(46, 125, 50, 0.15); /* Green-tinted shadow */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Custom Font */
+    font-family: "Encode Sans Expanded", sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    background-color: var(--soft-bg);
+    overflow: hidden; /* Keeps the split screen fixed */
+}
+
+/* --- LEFT SIDE: BRANDING (Shared) --- */
+.hero-section {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary-green) 0%, #81C784 100%);
+    /* background-image: url("background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    padding: 40px;
+    position: relative;
+}
+
+/* Decorative background circle */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.brand-content {
+    text-align: center;
+    max-width: 450px;
+    z-index: 2;
+}
+
+.logo-placeholder {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.logo-placeholder img {
+    max-width: 80%;
+    height: auto;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* --- RIGHT SIDE: FORMS (Shared) --- */
+.login-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--white);
+    overflow-y: auto; /* Allows scrolling on small screens if form is tall */
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    background: var(--white); /* Ensures clean background */
+}
+
+.welcome-text {
+    margin-bottom: 30px;
+}
+
+.welcome-text h2 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.welcome-text p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* --- FORM ELEMENTS --- */
+
+/* Tabs (User/Partner/Admin) */
+.role-tabs {
+    display: flex;
+    background: #f1f1f1;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: var(--white);
+    color: var(--primary-green);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    font-weight: 600;
+}
+
+/* Inputs */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.input-box {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: #fafafa;
+    transition: 0.3s;
+}
+
+.input-box:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    background: var(--white);
+}
+
+/* Action Row (Remember Me / Forgot Password) - Specific to Login */
+.action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 0.85rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.forgot-pass {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Buttons */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.login-btn:hover {
+    background: var(--dark-green);
+}
+
+/* Switch Page Link (Bottom Text) */
+.switch-page {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.switch-page a {
+    color: var(--primary-green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.switch-page a:hover {
+    text-decoration: underline;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    body { 
+        flex-direction: column; 
+        height: auto; 
+        overflow-y: auto; /* Allow scrolling on mobile */
+    }
+    
+    .hero-section { 
+        padding: 60px 20px; 
+        min-height: 250px; 
+        flex: none; /* Hero takes natural height */
+    }
+    
+    .login-section { 
+        padding: 40px 20px; 
+        flex: none; /* Login takes natural height */
+    }
+}

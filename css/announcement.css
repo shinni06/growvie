@@ -1,4 +1,3 @@
-/* Announcement Tab Styles */
 .announcement-date {
     font-size: 14px;
     font-weight: 700;
@@ -27,7 +26,6 @@
     font-weight: 500;
 }
 
-/* Modal specific overrides/additions for Announcement */
 .announcement-date-container {
     display: flex;
     gap: 10px;
@@ -38,7 +36,6 @@
     flex: 1;
 }
 
-/* Base input styles for the announcement modal */
 .announcement-date-input input, 
 .announcement-date-input select,
 .announcement-form-input,
@@ -48,12 +45,10 @@
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 14px;
-    box-sizing: border-box; /* Important for padding not to overflow width */
+    box-sizing: border-box;
 }
 
 .announcement-textarea {
     min-height: 120px;
     resize: vertical;
 }
-
-

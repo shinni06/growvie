@@ -22,11 +22,11 @@ function renderQuestCards(mysqli $con, int $limit = 20) {
         ?>
         <div class="quest-card">
             <div class="quest-left">
-                <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
+                <div class="quest-icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
                     <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
-                    <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
+                    <div class="quest-meta-row"><span class="quest-category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
                         <button type="button" class="action-btn edit" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($q)); ?>)">Edit</button>
                         <button type="button" class="action-btn deactivate" onclick="openDeactivateModal('<?php echo $q['quest_id']; ?>', '<?php echo addslashes($q['quest_title']); ?>')">Deactivate</button>
@@ -67,11 +67,11 @@ function renderInactiveQuestCards(mysqli $con) {
         ?>
         <div class="quest-card quest-card-inactive">
             <div class="quest-left">
-                <div class="icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
+                <div class="quest-icon"><?php echo htmlspecialchars($q["quest_emoji"]); ?></div>
                 <div class="quest-content">
                     <div class="item-title"><?php echo htmlspecialchars($q["quest_title"]); ?></div>
                     <div class="item-description"><?php echo htmlspecialchars($q["quest_description"]); ?></div>
-                    <div class="quest-meta-row"><span class="category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
+                    <div class="quest-meta-row"><span class="quest-category"><?php echo htmlspecialchars($q["category"]); ?></span></div>
                     <div class="item-actions">
                         <form method="POST" action="final.php">
                             <input type="hidden" name="activate_id" value="<?php echo $q['quest_id']; ?>">

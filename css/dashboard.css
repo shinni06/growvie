@@ -1,51 +1,45 @@
-/*Dashboard*/
-/*quest*/
 .quest-card {
     background: #ffffff;
-    padding: 20px 20px; /* Restores internal breathing room */
+    padding: 20px 20px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #d8e3d5; /* Restores the subtle green border */
+    border: 1px solid #d8e3d5;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .quest-left {
     display: flex;
     gap: 12px;
-    align-items: flex-start; /* important */
+    align-items: flex-start;
     flex: 1;
 }
 
-.icon {
+.quest-icon {
     font-size: 20px;
 }
 
-/* Styling the 'universal' classes specifically for Quest Cards */
 .quest-card .quest-content {
     display: flex;
     flex-direction: column;
-    gap: 2px; /* Tighter gap for the list view */
+    gap: 2px;
 }
 
-/* Override global .item-title (18px) to be smaller for dashboard */
 .quest-card .item-title {
     font-size: 16px;
     font-weight: 600;
     color: #000;
-    margin-bottom: 5px; /* Remove default margins to let flex-gap handle spacing */
+    margin-bottom: 5px;
 }
 
-/* Override global .item-description margin (15px) to be tighter */
 .quest-card .item-description {
     font-size: 14px;
     color: #000;
-    margin-bottom: 8px; /* Only 5px bottom margin instead of global 15px */
+    margin-bottom: 8px;
     line-height: 1.4;
 }
 
-/* Ensure the category row sits correctly */
 .quest-meta-row {
     display: flex;
     align-items: center;
@@ -53,7 +47,7 @@
     margin-bottom: 10px;
 }
 
-.category {
+.quest-category {
   display: inline-block;
   font-size: 11px;
   font-weight: 600;
@@ -76,139 +70,19 @@
     align-items: flex-end;
 }
 
-.edit-btn {
-    background: #e8ede7;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    font-size: 12px;
-    font-weight: 500;
-    color: #666;
-}
-
-.edit-btn:hover {
-    background: #d0dccf;
-}
-
-/* ===== Leaderboard (clean UI) ===== */
-.leaderboard {
-  background: #ffffff;
-  margin-left: 30px;
-  padding: 15px;
-  border: 1px solid #d8e3d5;
-  border-radius: 14px;
-  height: fit-content;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-.leaderboard h3 {
-  color: #000;
-  font-size: 14px;
-  font-weight: 700;
-  margin: 5px 0 15px 0;
-}
-
-.lb-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.lb-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.lb-row.is-me {
-  background: #eaf6e4;          /* highlight "You" */
-  border-color: #cfe6c2;
-}
-
-/* Base Row (Rank 4+) */
-.lb-row {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #edf2ec;
-  margin-bottom: 5px;
-}
-
-/* Base Rank Style (Rank 4+) */
-.lb-rank {
-  font-size: 20px;
-  font-weight: 700;
-  color: #000000; /* Gray/Green for lower ranks */
-  width: 20px;
-  text-align: center;
-  flex-shrink: 0;
-  opacity: 50%;
-}
-
-/* Tiered Backgrounds based on attached color (#85C668) */
 .rank-top-1 { 
-    background-color: #85C668; /* Full strength */
+    background-color: #85C668;
     border-color: #74b358;
 }
 .rank-top-2 { 
-    background-color: rgba(133, 198, 104, 0.7); /* 70% opacity */
+    background-color: rgba(133, 198, 104, 0.7);
     border-color: rgba(133, 198, 104, 0.8);
 }
 .rank-top-3 { 
-    background-color: rgba(133, 198, 104, 0.35); /* 35% opacity */
+    background-color: rgba(133, 198, 104, 0.35);
     border-color: rgba(133, 198, 104, 0.4);
 }
 
-.lb-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #f3df5b; /* Default/Tier 1 */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-  flex: 0 0 34px;
-}
-
-.lb-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0; /* enables ellipsis */
-  flex: 1;
-}
-
-.lb-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: #000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-}
-
-.lb-sub {
-  font-size: 11px;
-  color: #252525;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.lb-score {
-  font-size: 12px;
-  font-weight: 800;
-  color: #2c4a1f;
-  flex: 0 0 auto;
-}
-
-/* Rewards Aesthetic Badges */
 .reward-badges {
     display: flex;
     flex-direction: column;
@@ -216,19 +90,6 @@
     margin-bottom: 5px;
 }
 
-.badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    min-width: 130px;
-    justify-content: flex-start;
-}
-
-/* Specific Badge Colors */
 .drop-badge {
     background: #eef7ff;
     color: #2b5a8e;
@@ -241,7 +102,6 @@
     border: 1px solid #f9e9cf;
 }
 
-/* Adjust the right section to align badges better */
 .quest-right {
     display: flex;
     flex-direction: column;
@@ -249,108 +109,10 @@
     align-items: flex-end;
 }
 
-/* Container for Category and User Count */
 .quest-meta-row {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-/* STAND-OUT PILL BUTTONS (High Visibility Shades) */
-.action-btn {
-    height: 35px;
-    padding: 0 20px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-    text-transform: capitalize;
-}
-
-.action-btn.create {
-    background: #85C668;
-    color: white;
-    padding: 25px;    /* was: 14px 20px (optional tighter) */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-/* Green: Review (Growvie Green Tint) */
-.action-btn.review { 
-    background: #d1f2c4; 
-    color: #2e4d1c; 
-    border: 1px solid #2e4d1c3e;
-}
-
-/* Gray: Edit (Solid Gray) */
-.action-btn.edit { 
-    background: #e0e0e0; 
-    color: #424242; 
-    border: 1px solid #4242423c;
-}
-
-/* Yellow: Deactivate (Warning shade) */
-.action-btn.deactivate { 
-    background: #fef3c7; 
-    color: #92400e; 
-    border: 1px solid #92400e3d;
-}
-
-.action-btn.activate {
-    background: #eef6ea; /* Light green tint */
-    color: #3b5a2b;      /* Dark green text */
-    border: 1px solid #d6e6cf;
-}
-
-/* Pink-Red: Delete (Visible Alert Red) */
-.action-btn.delete { 
-    background: #ffdada; 
-    color: #b71c1c; 
-    border: 1px solid #b71c1c3b;
-}
-
-.action-btn.cfmdelete { 
-    background:#d9534f;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* Solid Button Style to match "Yes, Delete" */
-.action-btn.submit {
-    background: #85C668; /* Solid Growvie Green */
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.action-btn.large {
-    height: 44px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    width: 100%;
-}
-
-.action-btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.05);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 #inactive-section-title {

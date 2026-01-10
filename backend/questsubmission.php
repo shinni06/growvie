@@ -66,7 +66,7 @@ function renderReviewTab(mysqli $con) {
                             <?php echo htmlspecialchars($row['quest_title']); ?>
                         </h3>
                         <p class="item-description"><?php echo htmlspecialchars($row['quest_description']); ?></p>
-                        <span class="category-pill"><?php echo htmlspecialchars($row['category']); ?></span>
+                        <span class="quest-sub-category"><?php echo htmlspecialchars($row['category']); ?></span>
                     </div>
 
                     <div class="content-section-gap">

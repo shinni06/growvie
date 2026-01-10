@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growvie - Login</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <section class="hero-section">
+        <div class="brand-content">
+            <div class="logo-placeholder">
+                <img src="../assets/Logo.png" alt="Growvie Logo"> 
+            </div>
+            
+            <h1 class="hero-title">Grow Your Habits</h1>
+            <p class="hero-subtitle">
+                Join the eco-friendly journey. Track your progress, earn coins, and watch your virtual garden flourish.
+            </p>
+        </div>
+    </section>
+
+    <section class="login-section">
+        <div class="login-card">
+            
+            <div class="welcome-text">
+                <h2 id="welcome-title">Welcome Back!</h2>
+                <p>Please enter your details to sign in.</p>
+            </div>
+
+            <div class="role-tabs">
+                <button class="tab-btn active" onclick="switchTab('user')">User</button>
+                <button class="tab-btn" onclick="switchTab('partner')">Partner</button>
+                <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
+            </div>
+
+            <form action="backend/login.php" method="POST">
+                <input type="hidden" name="role" id="role-input" value="user">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="input-box" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="input-box" placeholder="••••••••" required>
+                </div>
+
+                <div class="action-row">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-pass">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+
+                <div class="switch-page">
+                    Don't have an account? <a href="register.html">Sign Up</a>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+    <script>
+        function switchTab(role) {
+            document.getElementById('role-input').value = role;
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            if(role === 'user') tabs[0].classList.add('active');
+            if(role === 'partner') tabs[1].classList.add('active');
+            if(role === 'admin') tabs[2].classList.add('active');
+
+            const title = document.getElementById('welcome-title');
+            if(role === 'admin') title.innerText = "Admin Portal";
+            else if(role === 'partner') title.innerText = "Partner Hub";
+            else title.innerText = "Welcome Back!";
+        }
+    </script>
+
+</body>
+</html>
