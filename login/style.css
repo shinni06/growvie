@@ -25,10 +25,10 @@ body {
 .hero-section {
     flex: 1;
     background: linear-gradient(135deg, var(--primary-green) 0%, #81C784 100%);
-    background-image: url("background.png");
+    /* background-image: url("background.jpg");
     background-size: cover;
-    background-position: left;
-    background-repeat: no-repeat;
+    background-position: center;
+    background-repeat: no-repeat; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,43 +54,35 @@ body {
     text-align: center;
     max-width: 450px;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.3);
-    padding: 40px;
-    border-radius: 24px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 .logo-placeholder {
-    margin-bottom: 20px;
-    background-color: #ffffff;
     width: 120px;
     height: 120px;
-    border-radius: 50%;
-    display: inline-flex;
+    background: rgba(255, 255, 255, 0.205);
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
 }
 
 .logo-placeholder img {
-    width: 100px;
+    max-width: 80%;
     height: auto;
 }
 
 .hero-title {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
 }
 
 .hero-subtitle {
     font-size: 1rem;
     opacity: 0.9;
-    line-height: 2;
+    line-height: 1.6;
     font-weight: 300;
 }
 
@@ -243,9 +235,5 @@ body {
     .login-section { 
         padding: 40px 20px; 
         flex: none;
-    }
-    
-    .brand-content {
-        padding: 30px 20px;
     }
 }
