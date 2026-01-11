@@ -1,50 +1,50 @@
 .quest-card {
-    background: #ffffff;
-    padding: 20px 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #d8e3d5;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  background: #ffffff;
+  padding: 20px 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #d8e3d5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .quest-left {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    flex: 1;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
 }
 
 .quest-icon {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .quest-card .quest-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .quest-card .item-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #000;
-    margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 5px;
 }
 
 .quest-card .item-description {
-    font-size: 14px;
-    color: #000;
-    margin-bottom: 8px;
-    line-height: 1.4;
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
 
 .quest-meta-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .quest-category {
@@ -63,63 +63,63 @@
 }
 
 .quest-right {
-    min-width: 150px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-end;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
 }
 
-.rank-top-1 { 
-    background-color: #85C668;
-    border-color: #74b358;
+.rank-top-1 {
+  background-color: #85c668;
+  border-color: #74b358;
 }
-.rank-top-2 { 
-    background-color: rgba(133, 198, 104, 0.7);
-    border-color: rgba(133, 198, 104, 0.8);
+.rank-top-2 {
+  background-color: rgba(133, 198, 104, 0.7);
+  border-color: rgba(133, 198, 104, 0.8);
 }
-.rank-top-3 { 
-    background-color: rgba(133, 198, 104, 0.35);
-    border-color: rgba(133, 198, 104, 0.4);
+.rank-top-3 {
+  background-color: rgba(133, 198, 104, 0.35);
+  border-color: rgba(133, 198, 104, 0.4);
 }
 
 .reward-badges {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 5px;
 }
 
 .drop-badge {
-    background: #eef7ff;
-    color: #2b5a8e;
-    border: 1px solid #cfe6f9;
+  background: #eef7ff;
+  color: #2b5a8e;
+  border: 1px solid #cfe6f9;
 }
 
 .coin-badge {
-    background: #fff9eb;
-    color: #8c6d1f;
-    border: 1px solid #f9e9cf;
+  background: #fff9eb;
+  color: #8c6d1f;
+  border: 1px solid #f9e9cf;
 }
 
 .quest-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .item-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 #inactive-section-title {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .quest-card-inactive {
-    background-color: #ffffffc1 !important; 
-    opacity: 1;
+  background-color: #ffffffc1 !important;
+  opacity: 1;
 }
