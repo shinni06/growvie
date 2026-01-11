@@ -34,10 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../admin.php");
                 } elseif ($formRole === 'partner') {
                     // Replace with partner file
-                    header("Location: ../partner.php");
+                    header("Location: ../Partner%20Organization/Interface/dashboard.php");
                 } else {
                     // Replace with user file
-                    header("Location: ../user.php");
+                    header("Location: ../growvie/dashboard.php");
                 }
                 exit();
 
