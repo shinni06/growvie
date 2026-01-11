@@ -1,649 +1,1087 @@
-/* ============================================
-   RESPONSIVE MEDIA QUERIES
-   ============================================ */
-
-/* Tablet (768px - 1024px) */
+/* Tablet */
 @media screen and (max-width: 1024px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: sticky;
-        top: 0;
-        padding: 0;
-        flex-direction: column;
-        align-items: stretch;
-        border-right: none;
-        border-bottom: 1px solid #e3e3e3;
-        z-index: 100;
-        background: #ffffff;
-    }
-    
-    /* Top bar with logo and logout */
-    .sidebar::before {
-        content: '';
-        display: block;
-    }
-    
-    .logo {
-        padding: 15px 30px;
-        margin-bottom: 0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
-    .logout {
-        position: absolute;
-        top: 15px;
-        right: 30px;
-        margin: 0;
-    }
-    
-    .menu {
-        flex-direction: row;
-        gap: 10px;
-        padding: 12px 30px;
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
-    
-    .menu::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .menu-item {
-        padding: 8px 12px;
-        font-size: 12px;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    
-    .menu-item img.menu-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .main {
-        margin-left: 0;
-        margin-top: 0;
-        padding: 25px 30px;
-    }
-    
-    /* Dashboard grid adjustments */
-    #content1 {
-        grid-template-columns: 1fr 240px;
-        gap: 20px;
-    }
-    
-    /* Shop Management - 3 columns */
-    .shop-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-    
-    /* Analytics - 2 columns */
-    .dashboard .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .large {
-        grid-column: span 2;
-    }
-    
-    /* User Management */
-    .search-filter input {
-        width: 200px;
-    }
-    
-    /* Partner Management */
-    .request-card img {
-        width: 120px;
-        height: 90px;
-    }
+  /* Layout & Sidebar */
+  .layout {
+    grid-template-columns: 80px 1fr;
+  }
+  .sidebar {
+    width: 80px;
+    padding: 25px 10px;
+    align-items: center;
+  }
+  .logo {
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 30px;
+  }
+  .logo span {
+    display: none;
+  }
+  .menu-item {
+    justify-content: center;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+  }
+  .menu-item span {
+    display: none;
+  }
+  .menu-item img.menu-icon {
+    margin: 0;
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+  .logout {
+    justify-content: center;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+  }
+  .logout span {
+    display: none;
+  }
+  .logout-icon {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+  }
+  .main {
+    padding: 20px;
+    margin: 15px 10px 0 0;
+    scrollbar-gutter: auto;
+  }
+
+  /* General */
+  #content1,
+  #content2,
+  #content6 {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  .leaderboard {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  /* Dashboard */
+  .review-card {
+    height: auto;
+    min-height: 300px;
+  }
+  .review-image-side {
+    width: 300px;
+    height: 100%;
+  }
+  .review-details-side {
+    flex: 1;
+    width: auto;
+  }
+  .review-card .item-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  .review-card .item-description {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .quest-sub-category {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  .message-bubble {
+    padding: 8px;
+  }
+  .submitter-row .lb-avatar {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+  }
+  .user-handle {
+    font-size: 12px;
+  }
+  .submit-date {
+    font-size: 10px;
+  }
+  .action-btn.large {
+    height: 38px;
+    font-size: 12px;
+  }
+  .action-btn,
+  .nav-btn-alt {
+    height: 32px;
+    font-size: 12px;
+  }
+
+  /* Shop Management */
+  .shop-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .shop-card,
+  .add-card {
+    height: auto;
+    min-height: 300px;
+    padding: 20px;
+  }
+  .shop-card img {
+    width: 100px;
+    height: 100px;
+  }
+  .shop-card .item-title {
+    font-size: 16px;
+  }
+  .add-card .plus {
+    font-size: 40px;
+  }
+
+  /* App Analytics */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  .span-2 {
+    grid-column: span 1;
+  }
+  .span-3,
+  .span-4,
+  .span-5,
+  .span-11 {
+    grid-column: span 3;
+  }
+  .card h2 {
+    font-size: 28px;
+  }
+  .short-card {
+    height: auto;
+    min-height: 140px;
+  }
+  .trend-period {
+    display: none;
+  }
+
+  /* Partners Management */
+  .request-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .request-card img {
+    width: 100%;
+    height: 200px;
+  }
+  .partner-info-grid {
+    width: 100%;
+  }
 }
 
-/* Tablet Portrait and below (max-width: 768px) */
+/* Mobile */
 @media screen and (max-width: 768px) {
-    body {
-        padding: 0;
-        background: #ffffff;
-    }
-    
-    /* Sidebar on top with stacked layout */
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: sticky;
-        top: 0;
-        padding: 0;
-        flex-direction: column;
-        align-items: stretch;
-        border-right: none;
-        border-bottom: 1px solid #e3e3e3;
-        z-index: 100;
-        background: #ffffff;
-    }
-    
-    /* Logo and logout in top bar */
-    .logo {
-        padding: 12px 20px;
-        margin-bottom: 0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
-    .logout {
-        position: absolute;
-        top: 12px;
-        right: 20px;
-        margin: 0;
-        padding: 8px 12px;
-    }
-    
-    /* Menu bar below logo */
-    .menu {
-        flex-direction: row;
-        gap: 8px;
-        padding: 10px 20px;
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
-    
-    .menu::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .menu-item {
-        padding: 8px 12px;
-        font-size: 12px;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    
-    /* Main content adjusts */
-    .main {
-        margin-left: 0;
-        margin-top: 0;
-        padding: 20px 15px;
-        border-radius: 0;
-        min-width: 100%;
-    }
-    
-    /* Dashboard stacks vertically */
-    #content1 {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    #content1 .leaderboard {
-        grid-column: 1;
-        grid-row: auto;
-    }
-    
-    /* Typography adjustments */
-    h1 {
-        font-size: 28px;
-    }
-    
-    h2 {
-        font-size: 24px;
-    }
-    
-    /* Quest cards stack better */
-    .quest-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-    
-    .quest-right {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    /* Shop Management - 2 columns */
-    .shop-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .shop-card,
-    .add-card {
-        height: 280px;
-    }
-    
-    /* User Management */
-    .top-row {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .search-filter {
-        width: 100%;
-        flex-direction: column;
-    }
-    
-    .search-filter input {
-        width: 100%;
-    }
-    
-    .user-card {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .left-section {
-        width: 100%;
-    }
-    
-    .right-section {
-        width: 100%;
-        text-align: left;
-    }
-    
-    /* Partner Management */
-    .request-card {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .request-card img {
-        width: 100%;
-        height: 180px;
-    }
-    
-    .info-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    .actions {
-        width: 100%;
-        flex-direction: column;
-    }
-    
-    .actions button {
-        width: 100%;
-    }
-    
-    /* Analytics */
-    .dashboard {
-        padding: 20px;
-        margin: 0;
-        border-radius: 12px;
-    }
-    
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .dashboard .grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
+  /* Layout & Sidebar */
+  .layout {
+    grid-template-columns: 60px 1fr;
+  }
+  .sidebar {
+    width: 60px;
+    padding: 15px 5px;
+  }
+  .menu-item,
+  .logout {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+  .menu-item img.menu-icon,
+  .logout-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .main {
+    margin: 10px 5px 0 0;
+    padding: 20px;
+  }
 
-    .card {
-        height: auto;
-        min-height: auto;
-        width: auto;
-        min-width: auto;
-    }
-    
-    .card.small {
-        height: auto;
-        width: auto;
-        min-width: 200;
-        min-height: 130px;
-    }
-    
-    .card.medium {
-        height: auto;
-        min-height: 200px;
-    }
-    
-    .large {
-        grid-column: span 1;
-        height: auto;
-        min-height: 240px;
-    }
-    
-    /* Announcement Actions */
-    .announcement-actions {
-        flex-direction: column;
-    }
-    
-    .announcement-actions button {
-        width: 100%;
-    }
-    
-    .tab {
-        padding: 10px 18px;
-        font-size: 14px;
-    }
-    
-    /* Tab Navigation */
-    .tab-navigation {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-    }
-    
-    .tab-btn {
-        padding: 10px 18px;
-        font-size: 14px;
-        white-space: nowrap;
-    }
+  /* General */
+  h1 {
+    font-size: 26px;
+  }
+  h2 {
+    font-size: 22px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  .item-description,
+  p {
+    font-size: 13px;
+  }
+  .subtext {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+
+  /* Dashboard */
+  .quest-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+  }
+  .quest-left {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+  }
+  .quest-card .quest-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .quest-card .item-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  .quest-card .item-description {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .quest-right {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .quest-card .quest-icon {
+    font-size: 24px;
+    margin: 0;
+  }
+  .quest-meta-row {
+    flex-wrap: wrap;
+  }
+  .badge {
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .quest-right .reward-badges {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+  .quest-right .bottom-right-info {
+    width: auto;
+    margin-top: 0;
+  }
+  .date-text {
+    font-size: 11px;
+  }
+  .action-btn {
+    height: 35px;
+    padding: 0 15px;
+    font-size: 12px;
+  }
+  #content1,
+  #content2,
+  #content6 {
+    gap: 15px;
+  }
+
+  #content1 > div:first-child,
+  .quest-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  .quest-card {
+    padding: 10px 12px;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background: #ffffff;
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 8px;
+    align-items: start;
+    margin-bottom: 8px;
+    min-height: auto;
+  }
+
+  .quest-left {
+    display: contents;
+  }
+
+  .quest-icon {
+    font-size: 18px;
+    background: #f5f5f5;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .quest-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .quest-content .item-title {
+    order: 1;
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+    line-height: 1.3;
+  }
+
+  .quest-content .quest-meta-row {
+    order: 2;
+    margin-bottom: 2px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .quest-content .item-description {
+    order: 3;
+    font-size: 11px;
+    color: #666;
+    line-height: 1.2em;
+    max-height: 2.4em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 2px;
+  }
+
+  .quest-content .item-actions {
+    order: 4;
+    margin-top: 2px;
+    display: flex;
+    gap: 4px;
+  }
+
+  .quest-category {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    line-height: 1.4;
+    display: inline-block;
+    background: #eef6ea;
+    color: #3b5a2b;
+    border: 1px solid #d6e6cf;
+  }
+
+  .quest-card .action-btn {
+    padding: 2px 6px;
+    font-size: 10px;
+    height: 22px;
+    line-height: 1;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .action-btn.create {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  .action-btn.large {
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .quest-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4px;
+    min-width: auto;
+    height: 100%;
+  }
+
+  .quest-right .top-right-info,
+  .quest-right .bottom-right-info {
+    position: static;
+  }
+
+  .reward-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-end;
+  }
+  .badge {
+    font-size: 10px;
+    padding: 2px 5px;
+    min-width: 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 3px;
+  }
+  .badge-unit {
+    display: none;
+  }
+  .date-text {
+    font-size: 9px;
+    color: #999;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .quest-sub-category {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* Leaderboard */
+  .leaderboard {
+    padding: 15px;
+  }
+  .leaderboard h3 {
+    margin-bottom: 10px;
+    padding: 10px 10px 0 10px;
+    font-size: 13px;
+  }
+  .lb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .lb-row {
+    padding: 4px 8px;
+    height: 36px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+  }
+  .lb-row:last-child {
+    border-bottom: none;
+  }
+  .lb-avatar {
+    width: 24px;
+    height: 24px;
+    border-width: 1px;
+    flex-shrink: 0;
+    box-shadow: none;
+  }
+  .lb-rank {
+    font-size: 11px;
+    width: 15px;
+    text-align: center;
+    opacity: 0.6;
+    font-weight: 600;
+  }
+  .lb-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    min-width: 0;
+  }
+  .lb-name {
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+  .lb-sub {
+    font-size: 10px;
+    line-height: 1.2;
+    color: #888;
+  }
+
+  /* Shop Management */
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .shop-card,
+  .add-card {
+    height: auto;
+    min-height: 240px;
+    padding: 12px;
+  }
+  .add-card .plus {
+    font-size: 30px;
+  }
+  .shop-card img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 8px;
+  }
+  .shop-card .item-title {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .shop-card .item-description {
+    font-size: 10px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .shop-card .item-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .shop-card .item-description {
+    font-size: 11px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .shop-bottom-row {
+    margin-top: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .shop-bottom-row .price {
+    font-size: 12px;
+  }
+  .shop-bottom-row .item-actions {
+    width: 100%;
+    gap: 5px;
+    flex-wrap: nowrap;
+  }
+  .shop-bottom-row .item-actions .action-btn {
+    flex: 1;
+    padding: 0;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  /* User Management */
+  .top-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .top-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .search-filter {
+    width: 100%;
+    flex-direction: row;
+    gap: 5px;
+  }
+  .search-filter input {
+    width: auto;
+    flex: 1;
+    margin-left: 0 !important;
+    height: 34px;
+    font-size: 12px;
+  }
+  .filter-btn {
+    height: 34px;
+    padding: 0 15px;
+    font-size: 12px !important;
+  }
+  .action-btn.green {
+    width: 100%;
+    height: 34px;
+    font-size: 12px !important;
+  }
+  .filter-btn {
+    height: 34px;
+    padding: 0 15px;
+    font-size: 12px !important;
+  }
+  .action-btn.green {
+    width: 100%;
+    height: 34px;
+    font-size: 12px !important;
+  }
+  .tab {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+  .user-card {
+    gap: 10px;
+    padding: 12px;
+    height: auto;
+    min-height: 0;
+  }
+  .left-section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .user-card-pfp {
+    width: 45px;
+    height: 45px;
+    border-width: 2px;
+  }
+  .info {
+    width: 100%;
+  }
+  .user-header {
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .user-card .item-title {
+    font-size: 13px;
+  }
+  .user-card .item-title span {
+    font-size: 11px;
+  }
+  .tier-badge {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  .user-meta-info {
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 6px;
+    font-size: 10px;
+  }
+  .user-stats-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .stat {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  .right-section {
+    align-items: flex-end;
+    width: auto;
+    margin-top: 0;
+    border-top: none;
+    padding-top: 0;
+    min-width: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    align-self: stretch;
+  }
+  .top-right-info {
+    position: static;
+    margin-bottom: 0;
+    font-size: 10px;
+  }
+  .bottom-right-info {
+    position: static;
+    width: auto;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+  .bottom-right-info form {
+    flex: 0 0 auto;
+  }
+  .bottom-right-info button {
+    width: auto;
+    padding: 0 10px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  /* General */
+  .card,
+  .user-card,
+  .announcement-card,
+  .partner-card,
+  .request-card,
+  .quest-card,
+  .review-card {
+    padding: 20px;
+  }
+  .modal-content {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    max-height: 85vh;
+  }
+
+  /* Announcements */
+  .announcement-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .announcement-header .time {
+    position: static;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .announcement-date-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .announcement-card .item-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  .announcement-date {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  /* App Analytics */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .span-2 {
+    grid-column: span 1;
+  }
+  .span-3,
+  .span-4,
+  .span-5,
+  .span-11 {
+    grid-column: span 3;
+  }
+  .card {
+    padding: 12px;
+  }
+  .card h2 {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  .short-card {
+    height: auto;
+    min-height: 0;
+  }
+  .donut-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Partner Management */
+  .partner-grid {
+    grid-template-columns: 1fr;
+  }
+  .review-card {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: auto;
+  }
+  .review-image-side {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 0;
+    flex: none;
+  }
+  .review-details-side {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+  }
+  .review-content-scrollable {
+    display: block;
+  }
+  .submitter-row .lb-avatar {
+    display: none;
+  }
+  .review-card .item-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .submit-date {
+    font-size: 8px;
+  }
+  .nav-btn-alt {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .submission-count {
+    font-size: 9px;
+  }
+  .submission-date {
+    font-size: 9px;
+    margin-top: 5px;
+  }
+  .review-card .item-description {
+    font-size: 10px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .quest-sub-category {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .user-handle {
+    font-size: 10px;
+  }
+  .message-bubble {
+    padding: 5px;
+  }
+  .content-section-gap {
+    margin-top: 5px;
+  }
+  .partner-card {
+    padding: 12px;
+    height: auto;
+    min-height: 0;
+  }
+  .partner-header-row {
+    gap: 10px;
+  }
+  .partner-pfp {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+  }
+  .partner-info {
+    height: auto;
+    justify-content: center;
+    gap: 2px;
+  }
+  .partner-card .item-title {
+    font-size: 13px;
+  }
+  .p-username,
+  .p-email {
+    font-size: 10px;
+  }
+  .status-tag {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  .partner-body {
+    margin-top: 8px;
+  }
+  .partner-body .item-description {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .request-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    height: auto;
+  }
+  .request-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0;
+    border-radius: 0;
+  }
+  .request-card > div:last-child {
+    padding: 15px;
+  }
+  .partner-avatar-square {
+    display: none;
+  }
+  .request-card .item-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .partner-info-grid {
+    font-size: 10px;
+    row-gap: 2px;
+    grid-template-columns: 80px 1fr;
+  }
+  .partner-info-grid .info-label,
+  .partner-info-grid .info-value {
+    font-size: 10px;
+  }
+  .info-panel {
+    padding: 8px 10px;
+  }
+  .partner-submitter-gap {
+    margin-top: 5px;
+  }
 }
 
-/* Mobile (max-width: 480px) */
+/* Small Mobile */
+@media screen and (max-width: 600px) {
+  .review-card {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: auto;
+  }
+  .review-image-side {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 0;
+    flex: none;
+  }
+  .review-details-side {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+  }
+  .review-content-scrollable {
+    display: block;
+  }
+  .submitter-row .lb-avatar {
+    display: none;
+  }
+  .review-card .item-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .submit-date {
+    font-size: 8px;
+  }
+  .nav-btn-alt {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .submission-count {
+    font-size: 9px;
+  }
+  .submission-date {
+    font-size: 9px;
+    margin-top: 5px;
+  }
+  .review-card .item-description {
+    font-size: 10px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .quest-sub-category {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .user-handle {
+    font-size: 10px;
+  }
+  .message-bubble {
+    padding: 5px;
+  }
+  .content-section-gap {
+    margin-top: 5px;
+  }
+}
+
+/* Smaller Mobile */
 @media screen and (max-width: 480px) {
-    body {
-        padding: 0;
-        background: #ffffff;
-        overflow-x: hidden;
-        max-width: 100vw;
-    }
-    
-    * {
-        box-sizing: border-box;
-    }
-    
-    /* Sidebar as stacked layout: logo/logout top, menu below */
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: sticky;
-        top: 0;
-        padding: 0;
-        flex-direction: column;
-        align-items: stretch;
-        border-right: none;
-        border-bottom: 1px solid #e3e3e3;
-        z-index: 100;
-        background: #ffffff;
-    }
-    
-    /* Logo and logout in top bar */
-    .logo {
-        padding: 10px 15px;
-        margin-bottom: 0;
-        font-size: 16px;
-        border-bottom: 1px solid #f0f0f0;
-        position: relative;
-    }
-    
-    .logo img {
-        width: 30px;
-    }
-    
-    .logout {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        margin: 0;
-        padding: 6px 10px;
-        font-size: 11px;
-    }
-    
-    /* Menu bar below logo */
-    .menu {
-        flex-direction: row;
-        gap: 5px;
-        padding: 8px 15px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    
-    .menu::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .menu-item {
-        padding: 8px 12px;
-        font-size: 11px;
-        white-space: nowrap;
-        flex-shrink: 0;
-        gap: 6px;
-    }
-    
-    .menu-item img.menu-icon {
-        display: none; /* Hide icons on mobile to save space */
-    }
-    
-    .main {
-        margin-left: 0;
-        margin-top: 0;
-        padding: 15px 10px;
-        border-radius: 0;
-        min-width: 100%;
-    }
-    
-    
-    /* Typography */
-    h1 {
-        font-size: 24px;
-    }
-    
-    h2 {
-        font-size: 20px;
-    }
-    
-    h3 {
-        font-size: 16px;
-    }
-    
-    /* Shop Management - 1 column */
-    .shop-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    /* Popup adjustments */
-    .popup-content {
-        padding: 20px;
-        width: 95%;
-    }
-    
-    .date-inputs {
-        flex-direction: column;
-    }
-    
-    .popup-buttons {
-        flex-direction: column;
-    }
-    
-    /* Quest cards fully stacked */
-    .quest-card {
-        padding: 14px 16px;
-    }
-    
-    .quest-left {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .quest-right {
-        min-width: auto;
-    }
-    
-    /* User card avatars smaller */
-    .left-section img {
-        width: 50px;
-        height: 50px;
-        border-width: 3px;
-    }
-    
-    /* Leaderboard */
-    .leader-item {
-        padding: 8px 10px;
-    }
-    
-    .avatar {
-        width: 30px;
-        height: 30px;
-    }
-    
-    /* Analytics cards */
-    .dashboard {
-        margin: 0;
-        padding: 15px 10px;
-    }
-    
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-    
-    .header h1 {
-        font-size: 20px;
-    }
-    
-    .header p {
-        font-size: 12px;
-    }
-    
-    .generate-btn {
-        padding: 8px 16px;
-        font-size: 13px;
-    }
-    
-    .dashboard .grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .card {
-        height: auto ;
-        min-height: auto;
-        padding: 15px;
-    }
-    
-    .card.small {
-        height: auto ;
-        min-height: auto;
-        padding: 12px;
-    }
-    
-    .card.medium {
-        height: auto ;
-        min-height: auto;
-        padding: 15px;
-    }
-    
-    .card.large {
-        height: auto;
-        min-height: auto;
-        padding: 15px;
-    }
-    
-    .card h2 {
-        font-size: 18px;
-        margin: 6px 0;
-    }
-    
-    .card h2 small {
-        font-size: 11px;
-        display: block;
-        margin-left: 0;
-        margin-top: 4px;
-    }
-    
-    .label {
-        font-size: 11px;
-        margin-bottom: 4px;
-    }
-    
-    .trend {
-        font-size: 10px;
-        margin-top: 4px;
-    }
-    
-    /* Chart adjustments */
-    .chart {
-        height: 80px;
-        margin-top: 8px;
-    }
-    
-    .months {
-        font-size: 9px;
-        margin-top: 4px;
-    }
-    
-    /* Progress bar */
-    .progress-bar {
-        height: 20px;
-        margin: 10px 0;
-        font-size: 11px;
-    }
-    
-    .progress {
-        font-size: 11px;
-    }
-    
-    .progress-info {
-        font-size: 11px;
-        gap: 4px;
-    }
-    
-    /* Donut chart */
-    .donut-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-    
-    .donut {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .legend {
-        font-size: 11px;
-        padding: 0;
-    }
-    
-    .legend li {
-        margin-bottom: 4px;
-    }
-    
-    .legend span {
-        width: 8px;
-        height: 8px;
-    }
-    
-    /* Info grid full width */
-    .info h3 {
-        font-size: 16px;
-    }
-    
-    .info h3 span {
-        display: block;
-        margin-top: 4px;
-    }
-    
-    /* Request cards for partner management */
-    .request-card {
-        padding: 16px;
-    }
-    
-    .request-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-}
+  .main {
+    padding: 20px;
+  }
 
-/* Landscape tablet specific adjustments */
-@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
-    .main {
-        padding: 20px 25px;
-    }
-    
-    #content1 {
-        grid-template-columns: 1fr 220px;
-    }
+  .layout {
+    grid-template-columns: 50px 1fr;
+  }
+
+  .sidebar {
+    width: 50px;
+  }
+
+  .shop-grid {
+    grid-template-columns: 1fr;
+  }
+  .shop-card {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 15px;
+    align-items: start;
+    min-height: auto;
+  }
+  .shop-card img {
+    width: 80px;
+    height: 80px;
+    margin: 0;
+    grid-row: 1 / 3;
+  }
+  .shop-card .item-title {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .shop-card .item-description {
+    margin-bottom: 0;
+    -webkit-line-clamp: 3;
+  }
+  .shop-bottom-row {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .shop-bottom-row .item-actions {
+    width: auto;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .shop-bottom-row .item-actions .action-btn {
+    width: auto;
+    padding: 0 15px;
+    flex: none;
+  }
+
+  .review-card .item-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .review-card .item-description {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+
+  .user-card {
+    flex-direction: column;
+  }
+  .right-section {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .bottom-right-info {
+    justify-content: flex-start;
+  }
+
+  .partner-header-row {
+    flex-wrap: wrap;
+  }
+  .partner-info {
+    min-width: 120px;
+  }
+  .status-tag {
+    margin-left: auto;
+  }
+
+  .card h2 {
+    font-size: 18px;
+  }
+  .trend-detail {
+    display: none;
+  }
 }
