@@ -39,7 +39,11 @@
     .action-btn, .nav-btn-alt { height: 32px; font-size: 12px; }
 
     /* --- Shop --- */
-    .shop-grid { grid-template-columns: repeat(3, 1fr); }
+    .shop-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .shop-card, .add-card { height: auto; min-height: 300px; padding: 20px; }
+    .shop-card img { width: 100px; height: 100px; }
+    .shop-card .item-title { font-size: 16px; }
+    .add-card .plus { font-size: 40px; }
 
     /* --- Analytics --- */
     .grid { grid-template-columns: repeat(2, 1fr); }
@@ -95,9 +99,12 @@
     .shop-card img { width: 70px; height: 70px; margin-bottom: 8px; }
     .shop-card .item-title { font-size: 12px; margin-bottom: 4px; }
     .shop-card .item-description { font-size: 10px; margin-bottom: 8px; line-height: 1.3; }
+    .shop-card .item-title { font-size: 13px; margin-bottom: 4px; line-height: 1.3; }
+    .shop-card .item-description { font-size: 11px; margin-bottom: 8px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .shop-bottom-row { margin-top: auto; flex-direction: column; align-items: flex-start; gap: 8px; }
     .shop-bottom-row .price { font-size: 12px; }
-    .shop-bottom-row .item-actions { width: 100%; gap: 5px; }
+    .shop-bottom-row .item-actions { width: 100%; gap: 5px; flex-wrap: nowrap; }
+    .shop-bottom-row .item-actions .action-btn { flex: 1; padding: 0; height: 30px; font-size: 11px; }
 
     /* --- User Management --- */
     .top-row { flex-direction: column; align-items: stretch; gap: 10px; }
@@ -231,6 +238,13 @@
     .shop-grid {
         grid-template-columns: 1fr;
     }
+    .shop-card { display: grid; grid-template-columns: 80px 1fr; gap: 15px; align-items: start; min-height: auto; }
+    .shop-card img { width: 80px; height: 80px; margin: 0; grid-row: 1 / 3; }
+    .shop-card .item-title { font-size: 15px; margin-bottom: 2px; }
+    .shop-card .item-description { margin-bottom: 0; -webkit-line-clamp: 3; }
+    .shop-bottom-row { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .shop-bottom-row .item-actions { width: auto; gap: 8px; flex-wrap: nowrap; }
+    .shop-bottom-row .item-actions .action-btn { width: auto; padding: 0 15px; flex: none; }
 
     .review-card .item-title {
         font-size: 12px;
