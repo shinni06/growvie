@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert new data row into user table
     $insertUser = "INSERT INTO user (user_id, username, name, email, password, role, date_joined) 
-                   VALUES ('$newUserId', '$username', '$name', '$email', '$hashedPassword', '$role', NOW())";
+                   VALUES ('$newUserId', '$username', '$name', '$email', '$password', '$role', NOW())";
 
     // Insert new data row into user_player table
     $insertPlayer = "INSERT INTO user_player (user_player_id, user_id, player_tier, eco_coins, drops_progress, total_quests_completed, tree_planted_irl, growvie_plants_planted, player_status) 

@@ -217,10 +217,7 @@ function handleShopActions($con) {
 
             // Handle image upload (PNG)
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
-                $ext = strtolower(pathinfo($_FILES['item_image']['name'], PATHINFO_EXTENSION));
-                if ($ext === 'png') {
-                    move_uploaded_file($_FILES['item_image']['tmp_name'], $targetDir . $newId . ".png");
-                }
+                move_uploaded_file($_FILES['item_image']['tmp_name'], $targetDir . $newId . ".png");
             }
 
             $sql = "INSERT INTO shop_item (item_id, item_name, item_desc, item_price, item_category, item_availability) 
