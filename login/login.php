@@ -16,17 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($result) === 1) {
         $user = mysqli_fetch_assoc($result);
 
-        // Verify Password
-        $passwordMatch = false;
-        
-        // Unhash password for checking if it was hashed
-        if (password_verify($password, $user['password'])) {
-            $passwordMatch = true;
-        } elseif ($password === $user['password']) {
-            $passwordMatch = true;
-        }
-
-        if ($passwordMatch) {
+        // Verify password
+        if ($password === $user['password']) {
             
             // Make sure user is logging in as the correct role
             $dbRole = strtolower($user['role']);
