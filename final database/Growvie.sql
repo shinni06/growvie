@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 10, 2026 at 05:36 PM
+-- Generation Time: Jan 11, 2026 at 12:56 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -86,6 +86,7 @@ INSERT INTO `friend` (`friendship_id`, `user_id`, `friend_id`, `friendship_statu
 
 CREATE TABLE `partner` (
   `partner_id` varchar(6) NOT NULL,
+  `user_id` varchar(6) NOT NULL,
   `organization_name` varchar(255) NOT NULL,
   `contact_email` varchar(100) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -96,12 +97,12 @@ CREATE TABLE `partner` (
 -- Dumping data for table `partner`
 --
 
-INSERT INTO `partner` (`partner_id`, `organization_name`, `contact_email`, `description`, `partner_status`) VALUES
-('PO001', 'Green Earth Org', 'contact@greenearth.org', 'NGO focused on environmental awareness', 'Active'),
-('PO002', 'EcoTech Solutions', 'info@ecotech.com', 'Company providing eco-friendly tech', 'Active'),
-('PO003', 'Sustainable Future', 'hello@sustainablefut.com', 'Promotes sustainable living initiatives', 'Active'),
-('PO004', 'Clean Planet Partners', 'support@cleanplanet.org', 'Partners with schools for green projects', 'Active'),
-('PO005', 'TreeMates Foundation', 'contact@treemates.org', 'Focused on tree planting and reforestation', 'Active');
+INSERT INTO `partner` (`partner_id`, `user_id`, `organization_name`, `contact_email`, `description`, `partner_status`) VALUES
+('PO001', 'USR016', 'Green Earth Org', 'contact@greenearth.org', 'NGO focused on environmental awareness', 'Active'),
+('PO002', 'USR017', 'EcoTech Solutions', 'info@ecotech.com', 'Company providing eco-friendly tech', 'Active'),
+('PO003', 'USR018', 'Sustainable Future', 'hello@sustainablefut.com', 'Promotes sustainable living initiatives', 'Active'),
+('PO004', 'USR019', 'Clean Planet Partners', 'support@cleanplanet.org', 'Partners with schools for green projects', 'Active'),
+('PO005', 'USR020', 'TreeMates Foundation', 'contact@treemates.org', 'Focused on tree planting and reforestation', 'Active');
 
 -- --------------------------------------------------------
 
@@ -540,7 +541,8 @@ ALTER TABLE `friend`
 -- Indexes for table `partner`
 --
 ALTER TABLE `partner`
-  ADD PRIMARY KEY (`partner_id`);
+  ADD PRIMARY KEY (`partner_id`),
+  ADD KEY `partner_ibfk_1` (`user_id`);
 
 --
 -- Indexes for table `plant`
@@ -631,6 +633,12 @@ ALTER TABLE `virtual_plant`
 ALTER TABLE `friend`
   ADD CONSTRAINT `friend_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `friend_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `partner`
+--
+ALTER TABLE `partner`
+  ADD CONSTRAINT `partner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `plant_request`

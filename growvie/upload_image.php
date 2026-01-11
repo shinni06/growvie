@@ -23,9 +23,10 @@ if ($description === '') {
 
 // Upload error check
 if ($file['error'] !== UPLOAD_ERR_OK) {
-    echo "File upload error!";
+    echo "File upload error: " . $file['error'];
     exit;
 }
+
 
 /* genrate NEW submission_id */
 $lastQuery = "SELECT submission_id FROM quest_submission 
@@ -47,11 +48,24 @@ $newSubmissionId = 'QS' . str_pad($newNum, 3, '0', STR_PAD_LEFT);
 // Force PNG naming 
 $filename =  $newSubmissionId . ".png";
 
-$uploadDir = __DIR__ . "growvie/uploads/";
+$uploadDir = __DIR__ . "/../uploads/"; 
+$testFile = $uploadDir . "test.txt";
 
-// safety check
+if (is_writable($uploadDir)) {
+    if (file_put_contents($testFile, "Hello") !== false) {
+        echo "Upload folder is writable!";
+        unlink($testFile); // cleanup
+    } else {
+        echo "Cannot write file!";
+    }
+} else {
+    echo "Folder not writable!";
+}
+
+
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+    echo "Upload directory does not exist!";
+    exit;
 }
 
 $destination = $uploadDir . $filename;
