@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/db.php';
 
+// Calculate the growth percentage for user count, virtual planting and request handling
+function calcGrowth($current, $last) {
+    if ($last > 0) return round((($current - $last) / $last) * 100);
+    return ($current > 0) ? 100 : 0;
+}
+
 // Get data for analytics from database
 function getAnalyticsData($con) {
     $data = [];
@@ -61,8 +67,6 @@ function getAnalyticsData($con) {
     $months = [];
     $userCounts = [];
     $questCounts = [];
-    $plantCounts = [];
-    $requestCounts = [];
 
     // Display data for 3 months before and 2 months after the current month
     for ($i = -3; $i <= 2; $i++) {
@@ -77,14 +81,6 @@ function getAnalyticsData($con) {
         // Quests Completed
         $sqlQ = "SELECT COUNT(*) as c FROM quest_submission WHERE submitted_at LIKE '$date%' AND approval_status='Approved'";
         $questCounts[] = mysqli_fetch_assoc(mysqli_query($con, $sqlQ))['c'];
-
-        // Virtual Plants Planted
-        $sqlP = "SELECT COUNT(*) as c FROM virtual_plant WHERE date_planted LIKE '$date%'";
-        $plantCounts[] = mysqli_fetch_assoc(mysqli_query($con, $sqlP))['c'];
-
-        // Real Trees Handled (Approved)
-        $sqlR = "SELECT COUNT(*) as c FROM real_tree_record WHERE date_reported LIKE '$date%' AND request_status='Approved'";
-        $requestCounts[] = mysqli_fetch_assoc(mysqli_query($con, $sqlR))['c'];
     }
 
     $data['chart_labels'] = json_encode($months);
@@ -93,15 +89,19 @@ function getAnalyticsData($con) {
     $data['quests_this_month'] = $questCounts[3]; 
     $data['users_this_month'] = $userCounts[3];  
 
-    // Calculate the growth percentage for user count, virtual planting and request handling
-    function calcGrowth($current, $last) {
-        if ($last > 0) return round((($current - $last) / $last) * 100);
-        return ($current > 0) ? 100 : 0;
-    }
+    // Get data for growth percentage (Current Month vs Last Month)
+    $currDate = date('Y-m');
+    $lastDate = date('Y-m', strtotime("-1 month"));
+
+    $plantCurr = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) as c FROM virtual_plant WHERE date_planted LIKE '$currDate%'"))['c'];
+    $plantLast = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) as c FROM virtual_plant WHERE date_planted LIKE '$lastDate%'"))['c'];
+
+    $reqCurr = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) as c FROM real_tree_record WHERE date_reported LIKE '$currDate%' AND request_status='Approved'"))['c'];
+    $reqLast = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) as c FROM real_tree_record WHERE date_reported LIKE '$lastDate%' AND request_status='Approved'"))['c'];
 
     $data['user_growth_percent'] = calcGrowth($userCounts[3], $userCounts[2]);
-    $data['plant_growth_percent'] = calcGrowth($plantCounts[3], $plantCounts[2]);
-    $data['request_growth_percent'] = calcGrowth($requestCounts[3], $requestCounts[2]);
+    $data['plant_growth_percent'] = calcGrowth($plantCurr, $plantLast);
+    $data['request_growth_percent'] = calcGrowth($reqCurr, $reqLast);
 
     // Define colours for pie chart
     $data['colors'] = ['#8ecf73', '#5fb85f', '#2d6a4f'];
