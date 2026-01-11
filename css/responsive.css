@@ -111,10 +111,12 @@
     .top-actions { flex-direction: column; align-items: stretch; gap: 8px; }
     .search-filter { width: 100%; flex-direction: row; gap: 5px; }
     .search-filter input { width: auto; flex: 1; margin-left: 0 !important; height: 34px; font-size: 12px; }
-    .filter-btn { height: 34px; padding: 0 15px; }
-    .action-btn.green { width: 100%; height: 34px; }
+    .filter-btn { height: 34px; padding: 0 15px; font-size: 12px !important; }
+    .action-btn.green { width: 100%; height: 34px; font-size: 12px !important; }
+    .filter-btn { height: 34px; padding: 0 15px; font-size: 12px !important; }
+    .action-btn.green { width: 100%; height: 34px; font-size: 12px !important; }
     .tab { height: 30px; padding: 0 10px; font-size: 11px; }
-    .user-card { flex-direction: column; gap: 10px; padding: 12px; height: auto; }
+    .user-card { gap: 10px; padding: 12px; height: auto; min-height: 0; }
     .left-section { flex-direction: row; align-items: flex-start; gap: 10px; }
     .user-card-pfp { width: 45px; height: 45px; border-width: 2px; }
     .info { width: 100%; }
@@ -125,9 +127,9 @@
     .user-meta-info { flex-direction: column; gap: 2px; margin-bottom: 6px; font-size: 10px; }
     .user-stats-row { flex-wrap: wrap; gap: 4px; }
     .stat { font-size: 9px; padding: 3px 6px; }
-    .right-section { align-items: center; width: 100%; margin-top: 8px; border-top: 1px solid #f0f0f0; padding-top: 8px; min-width: auto; flex-direction: row; justify-content: space-between; }
+    .right-section { align-items: flex-end; width: auto; margin-top: 0; border-top: none; padding-top: 0; min-width: auto; flex-direction: column; justify-content: space-between; gap: 5px; align-self: stretch; }
     .top-right-info { position: static; margin-bottom: 0; font-size: 10px; }
-    .bottom-right-info { position: static; width: auto; display: flex; gap: 5px; }
+    .bottom-right-info { position: static; width: auto; display: flex; gap: 5px; justify-content: flex-end; }
     .bottom-right-info form { flex: 0 0 auto; }
     .bottom-right-info button { width: auto; padding: 0 10px; height: 26px; font-size: 10px; }
 
@@ -255,6 +257,11 @@
         font-size: 10px;
         margin-bottom: 4px;
     }
+
+    /* --- User Management Stack --- */
+    .user-card { flex-direction: column; }
+    .right-section { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; margin-top: 8px; }
+    .bottom-right-info { justify-content: flex-start; }
 }
 
     /* ============================================
