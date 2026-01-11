@@ -37,7 +37,11 @@
             </a>
         </nav>
 
-        <div class="logout"><img src="..\PNGS\LogoutLogo.PNG">Logout</div>         
+        <div class="logout">
+            <a href="/growvie-1/logout.php" class ="sidepanel-item <?=$currentpage==='/growvie-1/logout.php' ? 'active' : ''?>">
+            <img src="..\PNGS\LogoutLogo.PNG">Logout
+            </a>
+        </div>         
     </div>
 
     <script>
