@@ -251,11 +251,11 @@ aside .subtext {
 }
 
 .tab:hover {
-  background: #c1ccb5;
+  background: #d0d0d0;
 }
 
 .tab.active {
-  background: #8ccf73;
+ ckground: #8ccf73;
   color: white;
 }
 
