@@ -25,7 +25,7 @@ function handleReviewAction(mysqli $con) {
                                 WHERE user_id = '$uid'");
         }
 
-        // Update status of quest submission to "Approved"
+        // Update status of quest submission
         mysqli_query($con, "UPDATE quest_submission SET approval_status = '$status' WHERE submission_id = '$submission_id'");
         header("Location: admin.php?review_success=" . strtolower($status));
         exit();

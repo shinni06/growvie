@@ -1,4 +1,6 @@
 <?php
+session_start(); 
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -10,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$test_user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 $user_query = "SELECT u.*, up.player_tier, up.eco_coins, up.drops_progress, up.total_quests_completed, 
                up.tree_planted_irl, up.growvie_plants_planted 
@@ -398,80 +400,74 @@ html {
             </div>
 
             <div class="friend-code-section">
-                <span class="friend-code-label">Friend Code</span>
-                <div class="friend-code-box">
-                    <span><?php echo $friend_code; ?></span>
-                    <button class="copy-btn" onclick="copyFriendCode()" title="Copy to clipboard">📋</button>
+                    <span class="friend-code-label">Friend Code</span>
+                    <div class="friend-code-box">
+                        <span><?php echo htmlspecialchars($friend_code); ?></span>
+                        <button class="copy-btn" onclick="copyFriendCode()" title="Copy to clipboard">📋</button>
+                    </div>
                 </div>
-            </div>
         </section>
 
         <div class="card">
-            <div class="profile-header">
-                <img src="jamalchong.png" alt="<?php echo htmlspecialchars($user['name']); ?>" class="profile-image">
-                
-                <div class="profile-info">
-                    <h2 class="profile-name"><?php echo htmlspecialchars($user['name']); ?></h2>
-                    <p class="profile-handle">@<?php echo htmlspecialchars($user['username']); ?></p>
+                <div class="profile-header">
+                    <img src="jamalchong.png" alt="<?php echo htmlspecialchars($user['name']); ?>" class="profile-image">
                     
-                    <div class="level-container">
-                        <div class="level-badge">Lv.<?php echo $current_tier; ?></div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo min($progress_percentage, 100); ?>%;"></div>
-                        </div>
-                        <div class="progress-labels">
-                            <span>0</span>
-                            <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.25)); ?></span>
-                            <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.5)); ?></span>
-                            <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.75)); ?></span>
-                            <span><?php echo number_format($next_tier_drops); ?></span>
+                    <div class="profile-info">
+                        <h2 class="profile-name"><?php echo htmlspecialchars($user['name']); ?></h2>
+                        <p class="profile-handle">@<?php echo htmlspecialchars($user['username']); ?></p>
+                        
+                        <div class="level-container">
+                            <div class="level-badge">Lv.<?php echo $current_tier; ?></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: <?php echo min($progress_percentage, 100); ?>%;"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span>0</span>
+                                <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.25)); ?></span>
+                                <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.5)); ?></span>
+                                <span><?php echo number_format($prev_tier_drops + ($drops_needed * 0.75)); ?></span>
+                                <span><?php echo number_format($next_tier_drops); ?></span>
+                            </div>
                         </div>
                     </div>
                 </div>
+</div>
+
+       <div class="card">
+                <h3 class="history-title">Growvie Plants History</h3>
+                <div class="history-scroll">
+                    <?php if ($history_result->num_rows > 0): ?>
+                        <?php while ($plant = $history_result->fetch_assoc()): ?>
+                            <?php
+                                if ($plant['is_completed'] == 1) {
+                                    $status = 'Completed';
+                                    $status_class = 'completed';
+                                    $plant_img = 'Full plant.png';
+                                } elseif ($plant['current_stage'] >= 3) {
+                                    $status = 'Germinated';
+                                    $status_class = 'germinated';
+                                    $plant_img = 'Germinated.png';
+                                } else {
+                                    $status = 'Planted';
+                                    $status_class = 'planted';
+                                    $plant_img = 'Wilted.png';
+                                }
+                            ?>
+
+                            <div class="plant-card">
+                                <img src="<?php echo htmlspecialchars($plant_img); ?>" class="plant-icon" alt="<?php echo htmlspecialchars($status); ?>">
+                                <div class="plant-status <?php echo $status_class; ?>">
+                                    <?php echo htmlspecialchars($status); ?>
+                                </div>
+                                <div class="plant-type"><?php echo htmlspecialchars($plant['plant_name']); ?></div>
+                                <div class="plant-date"><?php echo date('m/d/Y', strtotime($plant['date_planted'])); ?></div>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p style="color: #888;">No plants yet. Start your journey!</p>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
-
-        <div class="card">
-            <h3 class="history-title">Growvie Plants History</h3>
-            <div class="history-scroll">
-
-                <?php if ($history_result->num_rows > 0): ?>
-                <?php while ($plant = $history_result->fetch_assoc()): ?>
-
-                    <?php
-                        if ($plant['is_completed'] == 1) {
-                            $status = 'Completed';
-                            $status_class = 'completed';
-                            $plant_img = 'Full plant.png';
-                        } elseif ($plant['current_stage'] >= 3) {
-                            $status = 'Germinated';
-                            $status_class = 'germinated';
-                            $plant_img = 'Germinated.png';
-                        } else {
-                            $status = 'Planted';
-                            $status_class = 'planted';
-                            $plant_img = 'Wilted.png';
-                        }
-                    ?>
-
-                    <div class="plant-card">
-                        <img src="<?php echo $plant_img; ?>" class="plant-icon" alt="">
-                        <div class="plant-status <?php echo $status_class; ?>">
-                            <?php echo $status; ?>
-                        </div>
-                        <div class="plant-type"><?php echo htmlspecialchars($plant['plant_name']); ?></div>
-                        <div class="plant-date"><?php echo date('m/d/Y', strtotime($plant['date_planted'])); ?></div>
-                    </div>
-
-                <?php endwhile; ?>
-                <?php else: ?>
-
-                    <p style="color: #888;">No plants yet. Start your journey!</p>
-
-                <?php endif; ?>
-
-            </div>
-        </div>
 
         <div class="card nav-buttons-container">
             <a href="history.php" class="nav-btn-link">

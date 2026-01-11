@@ -2,7 +2,7 @@
 include "conn.php";
 session_start();
 
-$test_user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 // Get friend code from POST
 if (!isset($_POST['friend_code']) || empty(trim($_POST['friend_code']))) {
