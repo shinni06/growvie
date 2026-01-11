@@ -25,10 +25,18 @@
     .leaderboard { margin-left: 0; width: 100%; margin-top: 0; }
 
     /* --- Quest Submission --- */
-    .review-card { flex-direction: column; height: auto; min-height: auto; }
-    .review-image-side { width: 100%; height: 350px; min-height: auto; }
-    .review-details-side { height: auto; min-height: auto; overflow: visible; }
-    .review-content-scrollable { overflow: visible; }
+    .review-card { height: auto; min-height: 300px; }
+    .review-image-side { width: 300px; height: 100%; }
+    .review-details-side { flex: 1; width: auto; }
+    .review-card .item-title { font-size: 14px; margin-bottom: 5px; }
+    .review-card .item-description { font-size: 12px; line-height: 1.4; }
+    .quest-sub-category { font-size: 10px; padding: 3px 8px; }
+    .message-bubble { padding: 8px; }
+    .submitter-row .lb-avatar { width: 32px; height: 32px; flex: 0 0 32px; }
+    .user-handle { font-size: 12px; }
+    .submit-date { font-size: 10px; }
+    .action-btn.large { height: 38px; font-size: 12px; }
+    .action-btn, .nav-btn-alt { height: 32px; font-size: 12px; }
 
     /* --- Shop --- */
     .shop-grid { grid-template-columns: repeat(3, 1fr); }
@@ -128,7 +136,7 @@
     /* --- Partners & Quests --- */
     .partner-grid { grid-template-columns: 1fr; }
     .review-card { padding: 0; display: flex; flex-direction: column; gap: 0; height: auto; }
-    .review-image-side { width: 180px; height: 180px; margin: 15px 15px 0 15px; overflow: hidden; border-radius: 12px; flex: none; }
+    .review-image-side { width: 100%; height: auto; aspect-ratio: 1 / 1; margin: 0; overflow: hidden; border-radius: 0; flex: none; }
     .review-details-side { display: flex; flex-direction: column; padding: 15px; }
     .review-content-scrollable { display: block; }
     .submitter-row .lb-avatar { display: none; }
@@ -163,6 +171,27 @@
     .lb-rank { font-size: 12px; width: 15px; }
     .lb-name { font-size: 12px; }
     .lb-sub { font-size: 10px; }
+}
+
+/* --------------------------------------------
+   SMALLER MOBILE (Max-Width: 600px)
+   -------------------------------------------- */
+@media screen and (max-width: 600px) {
+    .review-card { padding: 0; display: flex; flex-direction: column; gap: 0; height: auto; }
+    .review-image-side { width: 100%; max-width: 450px; height: auto; aspect-ratio: 1 / 1; margin: 0 auto; overflow: hidden; border-radius: 0; flex: none; }
+    .review-details-side { display: flex; flex-direction: column; padding: 15px; }
+    .review-content-scrollable { display: block; }
+    .submitter-row .lb-avatar { display: none; }
+    .review-card .item-title { font-size: 12px; margin-bottom: 2px; }
+    .submit-date { font-size: 8px; }
+    .nav-btn-alt { padding: 4px 10px; font-size: 10px; }
+    .submission-count { font-size: 9px; }
+    .submission-date { font-size: 9px; margin-top: 5px; }
+    .review-card .item-description { font-size: 10px; margin-bottom: 4px; line-height: 1.2; }
+    .quest-sub-category { font-size: 9px; padding: 2px 6px; }
+    .user-handle { font-size: 10px; }
+    .message-bubble { padding: 5px; }
+    .content-section-gap { margin-top: 5px; }
 }
 
 /* --------------------------------------------
