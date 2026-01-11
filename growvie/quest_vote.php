@@ -495,9 +495,9 @@ while ($row = mysqli_fetch_assoc($quest_voteResult)) {
                                 <p><strong><?php echo $name; ?></strong></p>
                                 <p><?php echo $username; ?></p> 
                             </div>
-                        </div>
+                        </div> 
                         <div class="proof-image">
-                            <img src="uploads/<?php echo htmlspecialchars($proof_code); ?>" alt="Proof Image" class = "proof-zoom">
+                            <img src="/growvie-1/uploads/<?php echo htmlspecialchars($proof_code); ?>"  alt="Proof Image" class="proof-zoom">
                         </div>
                         <div class ="quest-deets">
                             <p  ><strong><?php echo $title; ?></strong></p>
