@@ -4,9 +4,19 @@
   gap: 20px;
   width: 100%;
   max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  position: relative;
+  margin-bottom: 0;
   background: white;
   border-radius: 14px;
   padding: 20px;
@@ -16,8 +26,24 @@
 
 .short-card {
   height: 160px;
+  height: 160px;
 }
 
+.span-2 {
+  grid-column: span 2;
+}
+.span-3 {
+  grid-column: span 3;
+}
+.span-4 {
+  grid-column: span 4;
+}
+.span-5 {
+  grid-column: span 5;
+}
+.span-11 {
+  grid-column: span 11;
+}
 .span-2 {
   grid-column: span 2;
 }
@@ -40,14 +66,24 @@
   margin-bottom: 5px;
   display: block;
   font-weight: 700;
+  color: #777;
+  font-size: 12px;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: 700;
 }
 
 .card h2 {
   font-size: 40px;
   margin: 8px 0;
+  font-size: 40px;
+  margin: 8px 0;
 }
 
 .card h2 small {
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 6px;
   font-size: 12px;
   font-weight: 500;
   margin-left: 6px;

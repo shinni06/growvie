@@ -1,0 +1,940 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body, html, label{
+    font-family: Encode Sans Expanded;
+    font-size: 13px;
+    height: 100%;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    min-height: 100vh;
+    
+}
+
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    min-height: 100vh;
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.logo {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.logo span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000200;
+}
+
+.menu{
+    margin-top: 30px;
+    width: 100%;
+}
+
+.menu img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.menu a {
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    color: #7E7E7E;
+}
+
+.menu a.active {
+    background: #A7EF89;
+    color: black;
+}
+
+.logout{
+    margin-top: auto;
+    padding: 12px 15px;
+    border-radius:8px;
+    color: #7E7E7E;
+}
+
+.logout img{
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.content {
+    flex: 1;
+    background: #DAE5D7;
+    padding: 30px;
+    border-radius: 20px;
+    margin: 25px;
+    margin-right: 35px;
+    margin-left: 220px;
+    overflow-x: hidden;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.content h1{
+    font-size: clamp(24px, 5vw, 32px);
+    font-weight: 550;
+    margin-top: -2px;
+}
+
+.content h2{
+    font-size: clamp(18px, 3vw, 20px);
+    font-weight: 650;    
+}
+
+.content h3{
+    font-weight: 550;
+    color: #767676;
+    margin-top: -10px;
+}
+
+.box{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.tpr {
+    min-width: 280px;
+    width: 60%;
+    height: 130px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 20px; 
+    font-size: 16px;
+    font-weight: 600;
+    color: #767676;
+    box-sizing: border-box;
+}
+
+.tpr-title {
+    margin-bottom: 10px;
+}
+
+.tpr-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.plantProgressBar {
+    flex: 1;
+    background-color: #E6E6E6;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 40px;
+}
+
+.plantProgressBarFill {
+    background-color: #85C668;
+    height: 100%;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    line-height: 40px;
+    white-space: nowrap;
+}
+
+.tpr-total {
+    text-align: center;
+    min-width: 60px;
+}
+
+.tpr-total span {
+    font-size: 12px;
+    color: #999;
+    
+}
+
+.tpr-total h3 {
+    margin: 0;
+    font-size: 22px;
+    color: black;
+}
+
+.tp {   
+    flex: 1;
+    min-width: 200px;
+    width: 20%;
+    height: 130px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 20px; 
+    font-size: 16px;
+    font-weight: 600;
+    color: #767676;
+    box-sizing: border-box;
+}
+
+.pr {   
+    flex: 1;
+    min-width: 200px;
+    width: 20%;
+    height: 130px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 20px; 
+    font-size: 16px;
+    font-weight: 600;
+    color: #767676;
+    box-sizing: border-box;
+}
+
+.tp h3, .pr h3{
+    font-size: 40px;
+    text-align: center;
+    margin-top: 10px;
+    color: black;
+}
+
+#pRequestContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.requests{
+    width: 100%;
+    min-height: 110px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    gap: 5px;
+}
+
+.virtualPlantID{
+    font-weight: 800;
+    color: black;
+    font-size: 14px;
+}
+
+.requestRows{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 2px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.requestRows .label{
+    width: 10%;
+
+}
+
+.completeBtn {
+    background-color: #85C668;
+    color: #FFFFFF;
+    width: 120px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+    align-self: flex-end; 
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none; 
+    z-index: 10;
+}
+
+.modal-wrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+}
+
+.modal {
+    position: relative;
+    background: white;
+    width: 75vw;
+    max-width: 1000px;
+    height: 80vh;
+    padding: 35px;
+    border-radius: 15px;
+    padding: 30px;
+    display: none;
+    z-index: 12;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    height: 100%;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.right .row {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.left {
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-box {
+    flex: 1;            
+    width: 100%;
+    background: #eef5e6;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    gap: 20px;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.upload-btn {
+    margin-top: 0;
+    padding: 10px 30px;
+    border: none;
+    background-color: #D5DAD4;
+    border-radius: 10px;
+    color: #7E7E7E;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #cfcfcf;
+    margin-bottom: 0;
+    background-color: #EDF2EB;
+    box-sizing: border-box;
+}
+
+.reqUpload-btn {
+    position: absolute;
+    bottom:  -55px;
+    right: 30px;
+    padding: 10px 30px;
+    border: none;
+    background-color: #85C668;
+    border-radius: 10px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.history h3{
+    margin-top: -10px;
+}
+
+.plantHistoryWrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.realTreeID{
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.plantContainer{
+    background-color: white;
+    width: 100%;
+    min-height: fit-content;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.plantImg {
+    flex-shrink: 0;
+}
+
+.plantImg img{
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.plantDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 250px;
+}
+
+.reqInfoWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.reqInfoWrapper .label{
+    width: 20%;
+}
+
+.reqInforWrapper .requestRows {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.requestRows .label{
+    width: 150px;
+    font-weight: 600;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.newAnnouncement{
+    background-color: #C3D0BE;
+    width: 100%;
+    height: 45px;
+    border: none;
+    margin-top: 15px;
+    border-radius: 15px;
+    color: #7E7E7E;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#date{
+    margin-top: 25px;
+    color: black;
+    font-weight: 700;
+}
+
+.announcementBoxWrapper{
+    width: 100%;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.announcementBox{
+    width: 100%;
+    border-radius: 15px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.announcementBox form {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+
+.edit-btn {
+    background-color: #85C668;
+    color: white;
+    width: 10%;
+    align-self: flex-end;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+.modal-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 10px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 10px;
+}
+
+.modal-delete-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.upperAnnouncementBox{
+    display: flex;
+    flex-direction: row;
+    font-weight: 600;
+    margin-top: 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.announcementDate{
+    color: #7E7E7E;
+}
+
+.dateSelector{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.scheduleHeading{
+    margin-top: -10px;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.announcementModal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+}
+
+.announcementContent{   
+    flex: 1; 
+    resize: none;
+    padding: 10px;
+    border-radius: 10px;
+    width: 98%;
+    background-color: #EDF2EB;
+    min-height: 200px;
+    box-sizing: border-box;
+}
+
+.date-box, .month-box, .year-box{
+    background-color: #DAE5D7;
+    color: black;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: 'Encode Sans Expanded', sans-serif;
+    height: 40px;
+    padding: 8px;
+    margin-bottom: 0;
+    margin-top: -30px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.date-box {
+    width: 70px;
+}
+
+.month-box{
+    width: 120px;
+    padding-right: 30px;
+    background-position: right 10px center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.year-box{
+    width: 80px;
+}
+
+/* Responsive Media Queries */
+
+/* Tablet - 768px and below */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 15px;
+    }
+    
+    .menu {
+        margin-top: 20px;
+    }
+    
+    .logout {
+        margin-top: 20px;
+    }
+    
+    .content {
+        margin: 15px;
+        margin-top: 350px;
+        padding: 20px;
+        border-radius: 15px;
+        overflow-y: auto;
+    }
+    
+    .box {
+        flex-direction: column;
+    }
+    
+    .tpr, .tp, .pr {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .modal {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 10px;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 12px;
+    }
+    
+    .modal-content {
+        gap: 20px;
+    }
+    
+    .img-box {
+        height: 300px;
+    }
+    
+    .reqUpload-btn {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    
+    .plantImg img {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .upperAnnouncementBox {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Mobile - 480px and below */
+@media (max-width: 480px) {
+    body, html, label {
+        font-size: 12px;
+    }
+    
+    .logo span {
+        font-size: 20px;
+    }
+    
+    .logo img {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .content {
+        margin: 10px;
+        margin-top: 350px;
+        padding: 15px;
+    }
+    
+    .content h1 {
+        font-size: 24px;
+    }
+    
+    .content h2 {
+        font-size: 18px;
+    }
+
+    .modal-wrapper {
+        position: fixed;
+        width: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        z-index: 11;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: 70vh;
+        margin: 0 auto;
+        border-radius: 14px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .reqUpload-btn {
+        position: fixed;
+        bottom: auto;
+        top: calc(50% + (70vh / 2) + 10px);
+        right: 50%;
+        transform: translateX(50%);
+        padding: 10px 30px;
+        border: none;
+        background-color: #85C668;
+        border-radius: 10px;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+    }
+    
+    .modal-content {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+    }
+
+    .left{
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .right{
+        gap: 10px;
+    }
+
+    .img-box {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        max-height: 320px;
+        min-height: 260px;
+        margin-bottom: 12px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+    
+    .right label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .completeBtn {
+        width: 100px;
+    }
+
+    .plantContainer {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+        min-height: auto;
+    }
+    
+    .plantImg {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .plantImg img {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+    
+    .plantDetails {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .realTreeID {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .reqInfoWrapper {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .requestRows {
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .requestRows .label {
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    
+    .requestRows span {
+        width: 100%;
+        font-size: 12px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .dateSelector {
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .date-box, .month-box, .year-box {
+        height: 35px;
+        font-size: 12px;
+        flex: 0 1 auto;
+    }
+    
+    .date-box {
+        width: 60px;
+    }
+    
+    .month-box {
+        width: 110px;
+    }
+    
+    .year-box {
+        width: 70px;
+    }
+
+    .scheduleHeading {
+        margin-top: 10px;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+    
+    #announcementTitle {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 12px;
+    }
+    
+    .announcementContent {
+        width: 100%;
+        min-height: 150px;
+        font-size: 12px;
+    }
+
+    .edit-btn {
+        width: auto;
+        min-width: 80px;
+        padding: 10px 20px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+}
