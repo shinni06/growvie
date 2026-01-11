@@ -127,7 +127,24 @@
     /* --- Global Components --- */
     .card, .user-card, .announcement-card, .partner-card, .request-card, .quest-card, .review-card { padding: 20px; }
     .modal-content { width: 90%; max-width: 400px; padding: 20px; max-height: 85vh; }
-    .announcement-date-container { flex-direction: column; }
+    
+    /* --- Announcement --- */
+    .announcement-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .announcement-header .time {
+        position: static;
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    .announcement-date-container { flex-direction: column; gap: 10px; }
+    .announcement-card .item-title { font-size: 16px; margin-bottom: 5px; }
+    .announcement-date { font-size: 13px; margin-bottom: 10px; }
 
     /* --- Analytics --- */
     .grid { grid-template-columns: 1fr; }
