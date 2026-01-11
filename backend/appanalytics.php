@@ -122,7 +122,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['user_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['user_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['user_growth_percent']); ?>% <?php echo ($analytics['user_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in player count since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['user_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['user_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in player count<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
@@ -134,7 +137,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['plant_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['plant_growth_percent']); ?>% <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in planting since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['plant_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in planting<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
@@ -146,7 +152,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['request_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['request_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['request_growth_percent']); ?>% <?php echo ($analytics['request_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in requests handled since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['request_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['request_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in requests handled<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
@@ -154,14 +163,14 @@ function renderAnalyticsTab($analytics) {
         <div class="card short-card span-5">
             <span class="label">Planting Requests</span>
             
-            <div style="display: flex; align-items: center; gap: 12px; margin: 15px 0;">
-                <div class="progress-bar" style="flex: 1; margin: 0; height: 12px;">
+            <div class="progress-wrapper">
+                <div class="progress-bar analytics-progress-track">
                     <div class="progress" style="width: <?php echo $analytics['req_percent']; ?>%"></div>
                 </div>
-                <span class="info-label" style="font-weight: 700; color: #8ecf73;"><?php echo $analytics['req_percent']; ?>%</span>
+                <span class="info-label progress-text"><?php echo $analytics['req_percent']; ?>%</span>
             </div>
             
-            <div style="display: grid; grid-template-columns: auto 1fr; row-gap: 6px; column-gap: 15px;">
+            <div class="analytics-stats-grid">
                 <span class="info-label">Completed</span>
                 <span class="info-value"><?php echo $analytics['req_completed']; ?></span>
                 
@@ -180,7 +189,7 @@ function renderAnalyticsTab($analytics) {
             <h2>RM<?php echo $analytics['revenue_total']; ?></h2>
 
             <div class="donut-row">
-                <div style="width: 140px; height: 140px;">
+                <div class="donut-chart-container">
                     <canvas id="revenueChart"></canvas>
                 </div>
 
@@ -196,7 +205,7 @@ function renderAnalyticsTab($analytics) {
         <div class="card span-4">
             <span class="label">New User Registration</span>
             <h2><?php echo $analytics['users_this_month']; ?> <small>new users this month</small></h2>
-            <div style="height: 180px; width: 100%;">
+            <div class="line-chart-container">
                 <canvas id="userChart"></canvas>
             </div>
         </div>
@@ -205,7 +214,7 @@ function renderAnalyticsTab($analytics) {
         <div class="card span-4">
             <span class="label">Quests Completed</span>
             <h2><?php echo $analytics['quests_this_month']; ?> <small>quests completed this month</small></h2>
-            <div style="height: 180px; width: 100%;">
+            <div class="line-chart-container">
                 <canvas id="questChart"></canvas>
             </div>
         </div>

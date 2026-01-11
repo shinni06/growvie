@@ -1,3 +1,4 @@
+
 function openPopup() {
     const announcementId = document.getElementById('announcement_id');
     if (announcementId) announcementId.value = '';
