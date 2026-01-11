@@ -46,9 +46,12 @@
     .add-card .plus { font-size: 40px; }
 
     /* --- Analytics --- */
-    .grid { grid-template-columns: repeat(2, 1fr); }
-    .span-2, .span-3, .span-4, .span-5, .span-11 { grid-column: span 1; }
-    .span-3, .span-4, .span-5 { grid-column: span 2; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .span-2 { grid-column: span 1; }
+    .span-3, .span-4, .span-5, .span-11 { grid-column: span 3; }
+    .card h2 { font-size: 28px; }
+    .short-card { height: auto; min-height: 140px; }
+    .trend-period { display: none; }
 
     /* --- Partners --- */
     .request-card { flex-direction: column; align-items: flex-start; }
@@ -156,8 +159,13 @@
     .announcement-date { font-size: 13px; margin-bottom: 10px; }
 
     /* --- Analytics --- */
-    .grid { grid-template-columns: 1fr; }
-    .span-2, .span-3, .span-4, .span-5, .span-11 { grid-column: span 1; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .span-2 { grid-column: span 1; }
+    .span-3, .span-4, .span-5, .span-11 { grid-column: span 3; }
+    .card { padding: 12px; }
+    .card h2 { font-size: 20px; margin: 5px 0; }
+    .short-card { height: auto; min-height: 0; }
+    .donut-row { flex-direction: column; gap: 15px; }
 
     /* --- Partners & Quests --- */
     .partner-grid { grid-template-columns: 1fr; }
@@ -268,6 +276,10 @@
     .partner-header-row { flex-wrap: wrap; }
     .partner-info { min-width: 120px; }
     .status-tag { margin-left: auto; }
+
+    /* --- Analytics --- */
+    .card h2 { font-size: 18px; }
+    .trend-detail { display: none; }
 }
 
     /* ============================================

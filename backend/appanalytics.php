@@ -122,7 +122,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['user_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['user_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['user_growth_percent']); ?>% <?php echo ($analytics['user_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in player count since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['user_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['user_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in player count<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
@@ -134,7 +137,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['plant_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['plant_growth_percent']); ?>% <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in planting since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['plant_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['plant_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in planting<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
@@ -146,7 +152,10 @@ function renderAnalyticsTab($analytics) {
                 <span class="trend <?php echo ($analytics['request_growth_percent'] >= 0) ? 'up' : 'down'; ?> trend-icon">
                     <?php echo ($analytics['request_growth_percent'] >= 0) ? '▲' : '▼'; ?>
                 </span>
-                <span><?php echo abs($analytics['request_growth_percent']); ?>% <?php echo ($analytics['request_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in requests handled since last month</span>
+                <span class="trend-content">
+                    <span class="trend-percent"><?php echo abs($analytics['request_growth_percent']); ?>%</span>
+                    <span class="trend-detail"> <?php echo ($analytics['request_growth_percent'] >= 0) ? 'increase' : 'decrease'; ?> in requests handled<span class="trend-period"> since last month</span></span>
+                </span>
             </div>
         </div>
 
