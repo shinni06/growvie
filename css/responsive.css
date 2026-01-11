@@ -176,14 +176,15 @@
     .user-handle { font-size: 10px; }
     .message-bubble { padding: 5px; }
     .content-section-gap { margin-top: 5px; }
-    .partner-card { padding: 12px; }
-    .partner-pfp { width: 40px; height: 40px; border-radius: 8px; }
+    .partner-card { padding: 12px; height: auto; min-height: 0; }
+    .partner-header-row { gap: 10px; }
+    .partner-pfp { width: 45px; height: 45px; border-radius: 8px; }
     .partner-info { height: auto; justify-content: center; gap: 2px; }
     .partner-card .item-title { font-size: 13px; }
     .p-username, .p-email { font-size: 10px; }
     .status-tag { padding: 2px 6px; font-size: 9px; }
     .partner-body { margin-top: 8px; }
-    .partner-body .item-description { font-size: 10px; }
+    .partner-body .item-description { font-size: 11px; line-height: 1.4; }
     .request-card { flex-direction: column; align-items: flex-start; padding: 0; height: auto; }
     .request-card img { width: 180px; height: 180px; margin: 15px 15px 0 15px; border-radius: 12px; }
     .request-card > div:last-child { padding: 15px; }
@@ -262,6 +263,11 @@
     .user-card { flex-direction: column; }
     .right-section { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; margin-top: 8px; }
     .bottom-right-info { justify-content: flex-start; }
+
+    /* --- Partner Stack --- */
+    .partner-header-row { flex-wrap: wrap; }
+    .partner-info { min-width: 120px; }
+    .status-tag { margin-left: auto; }
 }
 
     /* ============================================
@@ -296,7 +302,7 @@ h1 { font-size: 24px; }
 /* --- Partner Grid Compact --- */
 .partner-grid {
     gap: 15px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr;
 }
 
 /* --- User Management Compact --- */
